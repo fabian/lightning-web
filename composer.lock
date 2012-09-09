@@ -1,5 +1,5 @@
 {
-    "hash": "8761275326b9457af5a3f33746fb5a0f",
+    "hash": "6825c6fc66e0e741ced6046155cbaf2b",
     "packages": [
         {
             "package": "doctrine/common",
@@ -144,6 +144,12 @@
             "commit-date": "1346138171"
         },
         {
+            "package": "sonata-project/jquery-bundle",
+            "version": "dev-master",
+            "source-reference": "5f87a761302e6c78304e071416f75d41eb1fb3c2",
+            "commit-date": "1346283282"
+        },
+        {
             "package": "swiftmailer/swiftmailer",
             "version": "dev-master",
             "alias-pretty-version": "4.2.x-dev",
@@ -229,6 +235,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
-        "leafo/lessphp": 20
+        "leafo/lessphp": 20,
+        "sonata-project/jquery-bundle": 20
     }
 }

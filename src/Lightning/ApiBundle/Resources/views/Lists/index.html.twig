@@ -10,9 +10,10 @@
     </head>
     <body>
         <p>Lists</p>
-        <script src="barcode.js"></script>
-        <script>
-
-        </script>
+        {% javascripts
+            '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
+            '@LightningApiBundle/Resources/public/js/*' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </body>
 </html>
