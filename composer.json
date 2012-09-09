@@ -18,7 +18,8 @@
         "sensio/generator-bundle": "2.1.*",
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
-        "friendsofsymfony/rest-bundle": "dev-master"
+        "friendsofsymfony/rest-bundle": "dev-master",
+        "leafo/lessphp": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

@@ -1,5 +1,5 @@
 {
-    "hash": "682b29932e359a8704d5736187062cac",
+    "hash": "8761275326b9457af5a3f33746fb5a0f",
     "packages": [
         {
             "package": "doctrine/common",
@@ -88,6 +88,12 @@
             "version": "dev-master",
             "source-reference": "dfbb776288baf9319d1693195af2cb6e00729901",
             "commit-date": "1347039484"
+        },
+        {
+            "package": "leafo/lessphp",
+            "version": "dev-master",
+            "source-reference": "1241c5a2f1e4c66fc5d28f2af1af224c8e00edc6",
+            "commit-date": "1345396651"
         },
         {
             "package": "monolog/monolog",
@@ -222,6 +228,7 @@
     ],
     "minimum-stability": "dev",
     "stability-flags": {
-        "friendsofsymfony/rest-bundle": 20
+        "friendsofsymfony/rest-bundle": 20,
+        "leafo/lessphp": 20
     }
 }
