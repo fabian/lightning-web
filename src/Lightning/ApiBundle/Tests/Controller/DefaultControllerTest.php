@@ -10,8 +10,8 @@ class DefaultControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+        $crawler = $client->request('GET', '/lists', array(), array(), array('HTTP_ACCEPT' => 'application/json'));
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        $this->assertEquals('{"lists":[{"id":1,"title":"Example","created":"2012-09-09T17:06:11+0200","modified":"2012-09-09T17:06:11+0200"}]}', $client->getResponse()->getContent());
     }
 }

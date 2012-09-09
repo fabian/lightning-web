@@ -5,16 +5,18 @@ namespace Lightning\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\ItemList;
 
-class DefaultController extends Controller
+class DefaultController extends FOSRestController
 {
     /**
-     * @Route("/hello/{name}")
-     * @Template()
+     * @Route("/lists")
+     * @View()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
         /*
         $list = new ItemList();
@@ -26,11 +28,13 @@ class DefaultController extends Controller
         $em->persist($list);
         $em->flush();
         */
-        
+
         $lists = $product = $this->getDoctrine()
             ->getRepository('LightningApiBundle:ItemList')
             ->findAll();
 
-        return array('name' => $name, 'lists' => $lists);
+        $data = array('lists' => $lists);
+
+        return $data;
     }
 }
