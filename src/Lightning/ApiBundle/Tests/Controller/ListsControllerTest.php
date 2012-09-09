@@ -2,7 +2,7 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
-class DefaultControllerTest extends ApiControllerTest
+class ListsControllerTest extends ApiControllerTest
 {
     public function testIndex()
     {

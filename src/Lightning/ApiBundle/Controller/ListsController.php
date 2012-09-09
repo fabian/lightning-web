@@ -10,7 +10,7 @@ use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\ItemList;
 
-class DefaultController extends FOSRestController
+class ListsController extends FOSRestController
 {
     /**
      * @Route("/lists")
