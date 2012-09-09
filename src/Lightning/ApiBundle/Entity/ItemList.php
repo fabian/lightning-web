@@ -3,6 +3,7 @@
 namespace Lightning\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\SerializerBundle\Annotation\Exclude;
 
 /**
  * Lightning\ApiBundle\Entity\ItemList
@@ -32,6 +33,7 @@ class ItemList
      * @var \DateTime $created
      *
      * @ORM\Column(name="created", type="datetime")
+     * @Exclude
      */
     private $created;
 
@@ -39,6 +41,7 @@ class ItemList
      * @var \DateTime $modified
      *
      * @ORM\Column(name="modified", type="datetime")
+     * @Exclude
      */
     private $modified;
 

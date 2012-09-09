@@ -3,6 +3,7 @@ parameters:
     database_host: localhost
     database_port: null
     database_name: lightning
+    database_name_test: lightning_test
     database_user: root
     database_password: null
     mailer_transport: smtp

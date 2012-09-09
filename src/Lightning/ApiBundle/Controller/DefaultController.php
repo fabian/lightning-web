@@ -18,7 +18,6 @@ class DefaultController extends FOSRestController
      */
     public function indexAction()
     {
-        /*
         $list = new ItemList();
         $list->setTitle('Example');
         $list->setCreated(new \DateTime('now'));
@@ -27,7 +26,6 @@ class DefaultController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $em->persist($list);
         $em->flush();
-        */
 
         $lists = $product = $this->getDoctrine()
             ->getRepository('LightningApiBundle:ItemList')
