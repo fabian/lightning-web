@@ -1,7 +1,9 @@
+var Lightning = Lightning || {};
+
 $(function () {
 
     $.ajax({
-        url: '',
+        url: Lightning.URL_LISTS,
         dataType: 'json',
         headers: { 
             Accept: 'application/json; charset=utf-8'
@@ -12,11 +14,12 @@ $(function () {
 
             $(data.lists).each(function (i, list) {
                 var li = $(document.createElement('li'));
-                li.text(list.title);
+                var a = $(document.createElement('a')).attr('href', '').text(list.title);
+                li.append(a);
                 ul.append(li);
             });
 
-            $('p').append(ul);
+            $('#container').append(ul);
         }
     });
 

@@ -1,0 +1,48 @@
+@color-black: #0b1d26;
+@color-white: #fcfdfd;
+@padding-body-top: 4em;
+@padding-body-left: 3em;
+
+body {
+    background-color: @color-white;
+    color: @color-black;
+    font-size: 1em;
+    line-height: 1.4;
+    font-family: Helvetica, sans-serif;
+    padding: 4em @padding-body-left;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 2em;
+}
+
+a {
+    color: @color-black;
+    text-decoration: none;
+
+    &:hover {
+        color: #1393d5;
+    }
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 20em;
+
+    li {
+        border-bottom: 1px solid #eee;
+
+        a {
+            display: block;
+            padding: 1em 0 1.2em 0;
+        }
+    }
+}
+
+#user {
+    position: absolute;
+    top: @padding-body-top / 2;
+    right: @padding-body-left;
+}
