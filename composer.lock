@@ -1,5 +1,5 @@
 {
-    "hash": "6825c6fc66e0e741ced6046155cbaf2b",
+    "hash": "451cfb647b8dac14557da39f9e6459a5",
     "packages": [
         {
             "package": "doctrine/common",
@@ -24,6 +24,18 @@
             "version": "dev-master",
             "source-reference": "v1.0.0",
             "commit-date": "1347052701"
+        },
+        {
+            "package": "doctrine/doctrine-migrations-bundle",
+            "version": "dev-master",
+            "source-reference": "3792aa78445773387754c6853bbd7f4dcb31f486",
+            "commit-date": "1341472972"
+        },
+        {
+            "package": "doctrine/migrations",
+            "version": "dev-master",
+            "source-reference": "17f4b56bf0af0274cabdf3ae9b644059246d66b7",
+            "commit-date": "1347005884"
         },
         {
             "package": "doctrine/orm",
@@ -236,6 +248,7 @@
     "stability-flags": {
         "friendsofsymfony/rest-bundle": 20,
         "leafo/lessphp": 20,
-        "sonata-project/jquery-bundle": 20
+        "sonata-project/jquery-bundle": 20,
+        "doctrine/doctrine-migrations-bundle": 20
     }
 }
