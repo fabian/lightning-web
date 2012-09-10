@@ -27,7 +27,8 @@ Lightning.App.prototype.login = function () {
         url: Lightning.URL_LISTS,
         dataType: 'json',
         headers: { 
-            Accept: 'application/json; charset=utf-8'
+            Accept: 'application/json; charset=utf-8',
+            Account: 'http://localhost/a/1?secret=test'
         },
         success: $.proxy(this.lists, this)
     });

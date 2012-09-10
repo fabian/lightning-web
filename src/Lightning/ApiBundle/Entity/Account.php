@@ -3,6 +3,9 @@
 namespace Lightning\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
+use JMS\SerializerBundle\Annotation\Exclude;
+use JMS\SerializerBundle\Annotation\Groups;
 
 /**
  * Lightning\ApiBundle\Entity\Account
@@ -10,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Account
+class Account implements UserInterface
 {
     /**
      * @var integer $id
@@ -18,6 +21,7 @@ class Account
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"Default", "secret"})
      */
     private $id;
 
@@ -25,6 +29,7 @@ class Account
      * @var string $code
      *
      * @ORM\Column(name="code", type="string", length=255)
+     * @Exclude
      */
     private $code;
 
@@ -32,13 +37,23 @@ class Account
      * @var string $secret
      *
      * @ORM\Column(name="secret", type="string", length=255)
+     * @Groups({"secret"})
      */
     private $secret;
+
+    /**
+     * @var string $salt
+     *
+     * @ORM\Column(name="salt", type="string", length=255)
+     * @Exclude
+     */
+    private $salt;
 
     /**
      * @var \DateTime $created
      *
      * @ORM\Column(name="created", type="datetime")
+     * @Exclude
      */
     private $created;
 
@@ -46,9 +61,28 @@ class Account
      * @var \DateTime $modified
      *
      * @ORM\Column(name="modified", type="datetime")
+     * @Exclude
      */
     private $modified;
 
+    /**
+     * @var string $url
+     *
+     * @Groups({"Default", "secret"})
+     */
+    public $url;
+
+    /**
+     * @var string $short
+     *
+     * @Groups({"Default", "secret"})
+     */
+    public $short;
+
+    public function __construct()
+    {
+        $this->salt = md5(uniqid(null, true));
+    }
 
     /**
      * Get id
@@ -150,5 +184,44 @@ class Account
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUsername()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+        return $this->salt;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getPassword()
+    {
+        return $this->secret;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
     }
 }

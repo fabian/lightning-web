@@ -18,8 +18,6 @@ class ListController extends FOSRestController
      */
     public function indexAction()
     {
-        // 23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz
-
         $lists = $product = $this->getDoctrine()
             ->getRepository('LightningApiBundle:ItemList')
             ->findAll();
