@@ -14,13 +14,24 @@ use Lightning\ApiBundle\Entity\Account;
 
 class AccountController extends FOSRestController
 {
+    const CHARSET = '23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+
     /**
      * @Route("/a/{code}.{_format}", defaults={"_format" = "html"})
      * @View()
      */
     public function indexAction($code)
     {
-        return array('name' => $code);
+        return array('code' => $code);
+    }
+
+    /**
+     * @Route("/a/{code}.{_format}", requirements={"_method" = "POST"}, defaults={"_format" = "json"})
+     * @View()
+     */
+    public function accessAction($code)
+    {
+        return array('code' => $code);
     }
 
     /**
@@ -52,10 +63,10 @@ class AccountController extends FOSRestController
      */
     public function createAction(Request $request)
     {
-        // 23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz
+        // 
 
         $account = new Account();
-        $account->setCode('c6eh83qb');
+        $account->setCode($this->generateCode());
         $account->setCreated(new \DateTime('now'));
         $account->setModified(new \DateTime('now'));
 
@@ -74,6 +85,17 @@ class AccountController extends FOSRestController
         $this->addUrls($account, $random);
 
         return $account;
+    }
+
+    protected function generateCode($length = 8)
+    {
+        $code = '';
+        $charset = self::CHARSET;
+        $count = strlen($charset);
+        while ($length--) {
+            $code .= $charset[mt_rand(0, $count-1)];
+        }
+        return $code;
     }
 
     protected function addUrls($account, $secret = null)
