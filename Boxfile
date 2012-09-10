@@ -1,0 +1,26 @@
+web1: 
+    name: lightning-web
+    shared_writable_dirs:
+        - app/cache
+        - app/logs
+    document_root: web
+    default_gateway: app.php
+    index_list: [app.php]
+    php_extensions:
+        - pdo_mysql
+    php_session_autostart: Off
+    php_short_open_tag: Off
+    magic_quotes_gpc: Off
+    php_date_timezone: UTC
+    after_build:
+        - "cp app/config/parameters.yml.pagoda app/config/parameters.yml"
+        - "curl -s http://getcomposer.org/installer | php -- --quiet; php composer.phar install -n"
+        - "php app/console --env=prod --no-debug assetic:dump -n"
+    before_deploy:
+        - "php app/console --env=prod --no-debug cache:clear --no-warmup"
+        - "php app/console --env=prod --no-debug cache:warmup"
+        - "php app/console --env=prod --no-debug doctrine:migrations:migrate -n"
+
+db1:
+  name: lightning-db
+  type: mysql
