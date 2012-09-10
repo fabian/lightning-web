@@ -4,13 +4,13 @@ namespace Lightning\WebBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class WebControllerTest extends WebTestCase
+class AccountsControllerTest extends WebTestCase
 {
     public function testIndex()
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/test');
+        $crawler = $client->request('GET', '/a/test');
 
         $this->assertTrue($crawler->filter('html:contains("test")')->count() > 0);
     }

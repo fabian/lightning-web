@@ -26,10 +26,6 @@ fos_rest:
             json: true
             xml: true
             rss: false
-    format_listener:
-        default_priorities:
-            - json
-        fallback_format: json
 
 # Twig Configuration
 twig:
@@ -40,7 +36,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ LightningWebBundle ]
+    bundles:        [ LightningApiBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
