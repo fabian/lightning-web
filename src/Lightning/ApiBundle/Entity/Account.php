@@ -70,14 +70,14 @@ class Account implements UserInterface
     public $url;
 
     /**
-     * @var string $urlShort
+     * @var string $short
      */
-    public $urlShort;
+    public $short;
 
     /**
-     * @var string $urlSecret
+     * @var string $account
      */
-    public $urlSecret;
+    public $account;
 
     public function __construct()
     {

@@ -80,10 +80,10 @@ class AccountController extends FOSRestController
     {
         $router = $this->get('router');
         $account->url = $router->generate('lightning_api_account_show', array('id' => $account->getId()), true);
-        $account->urlShort = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
+        $account->short = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
 
         if ($secret) {
-            $account->urlSecret = $router->generate('lightning_api_account_show', array('id' => $account->getId(), 'secret' => $secret), true);
+            $account->account = $router->generate('lightning_api_account_show', array('id' => $account->getId(), 'secret' => $secret), true);
         }
     }
 }
