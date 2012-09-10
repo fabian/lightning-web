@@ -16,8 +16,8 @@
         <div id="user"></div>
         <script>
             var Lightning = Lightning || {};
-            Lightning.URL_LISTS = '{{ path('lightning_api_lists_index') }}';
-            Lightning.URL_ACCOUNT = '{{ path('lightning_api_accounts_index', {'code': code}) }}';
+            Lightning.URL_LISTS = '{{ path('lightning_api_list_index') }}';
+            Lightning.URL_ACCOUNT = '{{ path('lightning_api_account_index', {'code': code}) }}';
         </script>
         {% javascripts
             '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'

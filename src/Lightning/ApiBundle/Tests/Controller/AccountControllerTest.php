@@ -4,7 +4,7 @@ namespace Lightning\WebBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class AccountsControllerTest extends WebTestCase
+class AccountControllerTest extends WebTestCase
 {
     public function testIndex()
     {

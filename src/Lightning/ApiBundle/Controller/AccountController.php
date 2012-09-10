@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 
-class AccountsController extends FOSRestController
+class AccountController extends FOSRestController
 {
     /**
      * @Route("/a/{code}.{_format}", defaults={"_format" = "html"})
