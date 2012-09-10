@@ -25,29 +25,30 @@ class AccountListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
+        
+        if (false === $account = $request->headers->get('account', false)) {
+            return;
+        }
 
-        if ($request->headers->has('account')) {
+        $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
 
-            $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
+        if (preg_match($regex, $account, $matches)) {
 
-            if (preg_match($regex, $request->headers->get('account'), $matches)) {
+            $token = new AccountToken();
+            $token->setUser($matches[1]);
 
-                $token = new AccountToken();
-                $token->setUser($matches[1]);
+            $token->secret = $matches[2];
 
-                $token->secret = $matches[2];
+            try {
+                $returnValue = $this->authenticationManager->authenticate($token);
 
-                try {
-                    $returnValue = $this->authenticationManager->authenticate($token);
-
-                    if ($returnValue instanceof TokenInterface) {
-                        return $this->securityContext->setToken($returnValue);
-                    } elseif ($returnValue instanceof Response) {
-                        return $event->setResponse($returnValue);
-                    }
-                } catch (AuthenticationException $e) {
-                    // you might log something here
+                if ($returnValue instanceof TokenInterface) {
+                    return $this->securityContext->setToken($returnValue);
+                } elseif ($returnValue instanceof Response) {
+                    return $event->setResponse($returnValue);
                 }
+            } catch (AuthenticationException $e) {
+                // you might log something here
             }
         }
 

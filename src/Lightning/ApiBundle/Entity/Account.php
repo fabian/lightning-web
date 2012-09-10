@@ -21,7 +21,6 @@ class Account implements UserInterface
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Groups({"Default", "secret"})
      */
     private $id;
 
@@ -37,7 +36,7 @@ class Account implements UserInterface
      * @var string $secret
      *
      * @ORM\Column(name="secret", type="string", length=255)
-     * @Groups({"secret"})
+     * @Exclude
      */
     private $secret;
 
@@ -67,15 +66,11 @@ class Account implements UserInterface
 
     /**
      * @var string $url
-     *
-     * @Groups({"Default", "secret"})
      */
     public $url;
 
     /**
      * @var string $short
-     *
-     * @Groups({"Default", "secret"})
      */
     public $short;
 
