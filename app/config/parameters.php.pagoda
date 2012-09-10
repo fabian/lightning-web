@@ -14,4 +14,4 @@ $container->setParameter('mailer_host', 'localhost');
 $container->setParameter('mailer_user', null);
 $container->setParameter('mailer_password', null);
 $container->setParameter('locale', 'en');
-$container->setParameter('secret', $_SERVER["FRAMEWORK_SECRET"]);
+$container->setParameter('secret', isset($_SERVER["FRAMEWORK_SECRET"]) ? $_SERVER["FRAMEWORK_SECRET"] : 'ThisTokenIsNotSoSecretChangeIt');
