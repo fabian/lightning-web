@@ -5,7 +5,7 @@ Lightning.App = function () {
     this.container = $('#container');
     this.loading = $('.loading');
 
-    this.container.html('<p>To access your lists you need to send an access request to your mobile phone.</p>'); 
+    this.container.html('<p>You need to send an access request to your mobile phone to edit your lists and items.</p>'); 
 
     var message = $(document.createElement('p'));
     var link = $(document.createElement('a')).attr('href', Lightning.URL_ACCOUNT).text('Send Request');
