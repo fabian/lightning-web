@@ -4,3 +4,4 @@ php:
 before_script:
   - mysql -e 'CREATE DATABASE lightning_test;'
   - composer install
+script: phpunit -c app
