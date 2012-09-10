@@ -12,7 +12,8 @@
     }
 }
 
-.text-blue(@text-decoration: none) {
+@-webkit-keyframes loading {
+    from { width: 0; }
 }
 
 body {
@@ -27,6 +28,14 @@ body {
 h1 {
     font-weight: normal;
     font-size: 2em;
+}
+
+.loading {
+    -webkit-animation: loading 1.2s steps(4, end) infinite;
+    overflow: hidden;
+    width: 1em;
+    display: inline-block;
+    visibility: hidden;
 }
 
 a {

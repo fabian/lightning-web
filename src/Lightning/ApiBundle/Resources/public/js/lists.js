@@ -1,35 +1,27 @@
 var Lightning = Lightning || {};
 
-$(function () {
+Lightning.App = function () {
 
-    var url = Lightning.URL_ACCOUNT;
+    this.container = $('#container');
+    this.loading = $('.loading');
 
-    var container = $('#container');
-    container.html('<p>To access your lists you need to send an access request to your mobile phone.</p>'); 
+    this.container.html('<p>To access your lists you need to send an access request to your mobile phone.</p>'); 
 
     var message = $(document.createElement('p'));
-    var link = $(document.createElement('a')).attr('href', url).text('Send Request');
-    link.click(function (e) {
-
-        var i = 0;
-        setInterval(function () {
-            i = (i + 1) % 4;
-            var message = '<p>Sending access request';
-            for (var j = 0; j < i; j++) {
-                message += '.';
-            }
-            message += '</p>';
-            container.html(message);
-        }, 300);
-
-        return false;
-    });
+    var link = $(document.createElement('a')).attr('href', Lightning.URL_ACCOUNT).text('Send Request');
+    link.click($.proxy(this.login, this));
     message.append(link);
-    container.append(message);
+    this.container.append(message);
+};
 
-    $('#user').html('<a href="">Logout</a>');
+Lightning.App.prototype.load = function (loading) {
+    this.loading.css('visibility', loading ? 'visible' : 'hidden');
+};
 
-    return;
+Lightning.App.prototype.login = function () {
+
+    this.load(true);
+    this.container.html('<p>Please allow access on your mobile phone<p>');
 
     $.ajax({
         url: Lightning.URL_LISTS,
@@ -37,19 +29,30 @@ $(function () {
         headers: { 
             Accept: 'application/json; charset=utf-8'
         },
-        success: function (data) {
-
-            var ul = $(document.createElement('ul'));
-
-            $(data.lists).each(function (i, list) {
-                var li = $(document.createElement('li'));
-                var a = $(document.createElement('a')).attr('href', '').text(list.title);
-                li.append(a);
-                ul.append(li);
-            });
-
-            $('#container').append(ul);
-        }
+        success: $.proxy(this.lists, this)
     });
 
+    return false;
+};
+
+
+Lightning.App.prototype.lists = function (data) {
+
+    var ul = $(document.createElement('ul'));
+
+    $(data.lists).each(function (i, list) {
+        var li = $(document.createElement('li'));
+        var a = $(document.createElement('a')).attr('href', '').text(list.title);
+        li.append(a);
+        ul.append(li);
+    });
+
+    this.load(false);
+    this.container.html('').append(ul);
+
+    $('#user').html('<a href="">Logout</a>');
+};
+
+$(function () {
+    var app = new Lightning.App();
 });
