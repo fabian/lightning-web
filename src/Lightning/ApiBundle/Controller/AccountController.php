@@ -71,16 +71,19 @@ class AccountController extends FOSRestController
         $em->flush();
 
         // make sure original password gets returned
-        $account->setSecret($random);
-        $this->addUrls($account);
+        $this->addUrls($account, $random);
 
         return $account;
     }
-    
-    protected function addUrls($account)
+
+    protected function addUrls($account, $secret = null)
     {
         $router = $this->get('router');
-        $account->short = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
-        $account->url = $router->generate('lightning_api_account_show', array('id' => $account->getId(), 'secret' => $account->getSecret()), true);
+        $account->url = $router->generate('lightning_api_account_show', array('id' => $account->getId()), true);
+        $account->urlShort = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
+
+        if ($secret) {
+            $account->urlSecret = $router->generate('lightning_api_account_show', array('id' => $account->getId(), 'secret' => $secret), true);
+        }
     }
 }
