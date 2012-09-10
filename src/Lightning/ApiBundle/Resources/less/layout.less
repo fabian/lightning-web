@@ -1,7 +1,19 @@
 @color-black: #0b1d26;
 @color-white: #fcfdfd;
+@color-blue: #1075b6;
 @padding-body-top: 4em;
-@padding-body-left: 3em;
+
+.link-black {
+    color: @color-black;
+    text-decoration: none;
+
+    &:hover {
+        color: @color-blue;
+    }
+}
+
+.text-blue(@text-decoration: none) {
+}
 
 body {
     background-color: @color-white;
@@ -9,7 +21,7 @@ body {
     font-size: 1em;
     line-height: 1.4;
     font-family: Helvetica, sans-serif;
-    padding: 4em @padding-body-left;
+    padding: 1em 2em;
 }
 
 h1 {
@@ -18,12 +30,17 @@ h1 {
 }
 
 a {
-    color: @color-black;
-    text-decoration: none;
+    color: @color-blue;
+    text-decoration: underline;
 
     &:hover {
-        color: #1393d5;
+        color: @color-blue;
     }
+}
+
+p {
+    max-width: 20em;
+    line-height: 1.4;
 }
 
 ul {
@@ -37,12 +54,29 @@ ul {
         a {
             display: block;
             padding: 1em 0 1.2em 0;
+            .link-black;
         }
     }
 }
 
 #user {
     position: absolute;
-    top: @padding-body-top / 2;
-    right: @padding-body-left;
+    top: 2.5em;
+    right: 2em;
+
+    a {
+        .link-black;
+    }
+}
+
+@media only screen and (min-width: 940px) {
+
+    body {
+        padding: 4em 3em;
+    }
+
+    #user {
+        top: 2em;
+        right: 3em;
+    }
 }

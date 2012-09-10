@@ -11,12 +11,13 @@
         {% endstylesheets %}
     </head>
     <body>
-        <h1>Lightning {{code}}</h1>
-        <div id="user"><a href="">Logout</a></div>
+        <h1>Lightning</h1>
         <div id="container"></div>
+        <div id="user"></div>
         <script>
             var Lightning = Lightning || {};
             Lightning.URL_LISTS = '{{ path('lightning_api_lists_index') }}';
+            Lightning.URL_ACCOUNT = '{{ path('lightning_api_accounts_index', {'code': code}) }}';
         </script>
         {% javascripts
             '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
