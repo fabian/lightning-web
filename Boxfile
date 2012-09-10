@@ -19,7 +19,7 @@ web1:
     magic_quotes_gpc: Off
     php_date_timezone: UTC
     after_build:
-        - "cp app/config/parameters.yml.pagoda app/config/parameters.yml"
+        - "cp app/config/parameters.php.pagoda app/config/parameters.php"
         - "curl -s http://getcomposer.org/installer | php -- --quiet; php composer.phar install -n"
         - "php app/console --env=prod --no-debug assetic:dump -n"
     before_deploy:

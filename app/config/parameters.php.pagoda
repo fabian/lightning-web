@@ -1,0 +1,17 @@
+<?php 
+
+$container->setParameter('database_driver', 'pdo_mysql');
+$container->setParameter('database_host', $_SERVER["DB1_HOST"]);
+$container->setParameter('database_port', $_SERVER["DB1_PORT"]);
+$container->setParameter('database_name', $_SERVER["DB1_NAME"]);
+$container->setParameter('database_name_test', null);
+$container->setParameter('database_user', $_SERVER["DB1_USER"]);
+$container->setParameter('database_password', $_SERVER["DB1_PASS"]);
+$container->setParameter('database_path', null);
+
+$container->setParameter('mailer_transport', 'smtp');
+$container->setParameter('mailer_host', 'localhost');
+$container->setParameter('mailer_user', null);
+$container->setParameter('mailer_password', null);
+$container->setParameter('locale', 'en');
+$container->setParameter('secret', $_SERVER["FRAMEWORK_SECRET"]);
