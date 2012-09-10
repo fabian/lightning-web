@@ -20,6 +20,17 @@ framework:
 sensio_framework_extra:
     view:    { annotations: false }
 
+fos_rest:
+    view:
+        formats:
+            json: true
+            xml: true
+            rss: false
+    format_listener:
+        default_priorities:
+            - json
+        fallback_format: json
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
