@@ -23,6 +23,13 @@ Lightning.App.prototype.login = function () {
     this.load(true);
     this.container.html('<p>Please allow access on your mobile phone<p>');
 
+    this.poll();
+
+    return false;
+};
+
+Lightning.App.prototype.poll = function () {
+
     $.ajax({
         url: Lightning.URL_LISTS,
         dataType: 'json',
@@ -32,10 +39,7 @@ Lightning.App.prototype.login = function () {
         },
         success: $.proxy(this.lists, this)
     });
-
-    return false;
 };
-
 
 Lightning.App.prototype.lists = function (data) {
 
@@ -52,6 +56,8 @@ Lightning.App.prototype.lists = function (data) {
     this.container.html('').append(ul);
 
     $('#user').html('<a href="">Logout</a>');
+
+    setTimeout($.proxy(this.poll, this), 1000);
 };
 
 $(function () {
