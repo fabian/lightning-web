@@ -5,7 +5,8 @@ namespace Lightning\ApiBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use JMS\DiExtraBundle\Annotation as DI;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\ItemList;
@@ -17,7 +18,7 @@ class ListController
     protected $router;
 
     /**
-     * @DI\InjectParams
+     * @InjectParams
      */
     public function __construct($doctrine, $router)
     {

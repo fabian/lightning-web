@@ -7,7 +7,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use JMS\DiExtraBundle\Annotation as DI;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\Account;
@@ -24,9 +25,9 @@ class AccountController
     protected $factory;
 
     /**
-     * @DI\InjectParams({
-     *     "random" = @DI\Inject("lightning.api.random"),
-     *     "factory" = @DI\Inject("security.encoder_factory")
+     * @InjectParams({
+     *     "random" = @Inject("lightning.api.random"),
+     *     "factory" = @Inject("security.encoder_factory")
      * })
      */
     public function __construct($random, $doctrine, $router, $factory)
