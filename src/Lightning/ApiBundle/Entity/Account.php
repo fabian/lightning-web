@@ -195,6 +195,19 @@ class Account implements UserInterface
     }
 
     /**
+     * Set salt
+     *
+     * @param string $salt
+     * @return Account
+     */
+    public function setSalt($salt)
+    {
+        $this->salt = $salt;
+
+        return $this;
+    }
+
+    /**
      * @inheritDoc
      */
     public function getSalt()

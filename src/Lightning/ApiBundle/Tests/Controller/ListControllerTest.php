@@ -2,26 +2,13 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
-use Lightning\ApiBundle\Entity\Account;
-
 class ListControllerTest extends ApiControllerTest
 {
     public function setUp()
     {
         parent::setUp();
 
-        $account = new Account();
-        $account->setCode('abc');
-        $account->setCreated(new \DateTime('now'));
-        $account->setModified(new \DateTime('now'));
-
-        $factory = static::$kernel->getContainer()->get('security.encoder_factory');
-        $encoder = $factory->getEncoder($account);
-        $password = $encoder->encodePassword('123', $account->getSalt());
-        $account->setSecret($password);
-
-        $this->em->persist($account);
-        $this->em->flush();
+        $this->createAccount();
     }
 
     public function testIndex()

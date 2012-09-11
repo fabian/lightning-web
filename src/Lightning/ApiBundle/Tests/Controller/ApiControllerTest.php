@@ -5,6 +5,8 @@ namespace Lightning\ApiBundle\Tests\Controller;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\ORM\Tools\SchemaTool;
 
+use Lightning\ApiBundle\Entity\Account;
+
 abstract class ApiControllerTest extends WebTestCase
 {
     /**
@@ -27,5 +29,18 @@ abstract class ApiControllerTest extends WebTestCase
         );
         $tool->dropSchema($classes);
         $tool->createSchema($classes);
+    }
+    
+    protected function createAccount()
+    {
+        $account = new Account();
+        $account->setCode('abc');
+        $account->setSalt('123');
+        $account->setSecret('6607dfa9e28a363016862c8cb03d797c953fa8c7'); // secret 123
+        $account->setCreated(new \DateTime('now'));
+        $account->setModified(new \DateTime('now'));
+
+        $this->em->persist($account);
+        $this->em->flush();
     }
 }
