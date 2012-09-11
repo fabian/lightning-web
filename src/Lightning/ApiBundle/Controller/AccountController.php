@@ -3,7 +3,6 @@
 namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,12 +13,31 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
-class AccountController extends Controller
+class AccountController
 {
+    protected $random;
+
+    protected $doctrine;
+
+    protected $router;
+
+    protected $factory;
+
     /**
-     * @DI\Inject("lightning.api.random")
+     * @DI\InjectParams({
+     *     "random" = @DI\Inject("lightning.api.random"),
+     *     "doctrine" = @DI\Inject("doctrine"),
+     *     "router" = @DI\Inject("router"),
+     *     "factory" = @DI\Inject("security.encoder_factory")
+     * })
      */
-    private $random;
+    public function __construct($random, $doctrine, $router, $factory)
+    {
+        $this->random = $random;
+        $this->doctrine = $doctrine;
+        $this->router = $router;
+        $this->factory = $factory;
+    }
 
     /**
      * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "html"})
@@ -49,7 +67,7 @@ class AccountController extends Controller
      */
     public function showAction($id)
     {
-        $account = $this->getDoctrine()
+        $account = $this->doctrine
             ->getRepository('LightningApiBundle:Account')
             ->find($id);
 
@@ -83,11 +101,11 @@ class AccountController extends Controller
         // encode random salt and secret as password
         $account->setSalt($this->random->secret());
         $secret = $this->random->secret();
-        $encoder = $this->get('security.encoder_factory')->getEncoder($account);
+        $encoder = $this->factory->getEncoder($account);
         $password = $encoder->encodePassword($secret, $account->getSalt());
         $account->setSecret($password);
 
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($account);
         $em->flush();
 
@@ -99,15 +117,20 @@ class AccountController extends Controller
 
     protected function addUrls($account, $secret = null)
     {
-        $router = $this->get('router');
-        $account->url = $router->generate('lightning_api_account_show', array('id' => $account->getId()), true);
-        $account->short = $router->generate('lightning_api_account_index', array(
+        // full account url
+        $account->url = $this->router->generate('lightning_api_account_show', array(
+            'id' => $account->getId(),
+        ), true);
+
+        // short web url
+        $account->short = $this->router->generate('lightning_api_account_index', array(
             'id' => $account->getId(),
             'code' => $account->getCode(),
         ), true);
 
+        // account url with secret
         if ($secret) {
-            $account->account = $router->generate('lightning_api_account_show', array(
+            $account->account = $this->router->generate('lightning_api_account_show', array(
                 'id' => $account->getId(),
                 'secret' => $secret,
             ), true);

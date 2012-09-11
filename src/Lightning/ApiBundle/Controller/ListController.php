@@ -3,15 +3,31 @@
 namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\ItemList;
 
-class ListController extends Controller
+class ListController
 {
+    protected $doctrine;
+
+    protected $router;
+
+    /**
+     * @DI\InjectParams({
+     *     "doctrine" = @DI\Inject("doctrine"),
+     *     "router" = @DI\Inject("router")
+     * })
+     */
+    public function __construct($doctrine, $router)
+    {
+        $this->doctrine = $doctrine;
+        $this->router = $router;
+    }
+
     /**
      * @Route("/lists.{_format}", defaults={"_format" = "json"})
      * @Method("GET")
@@ -19,7 +35,7 @@ class ListController extends Controller
      */
     public function indexAction()
     {
-        $lists = $product = $this->getDoctrine()
+        $lists = $product = $this->doctrine
             ->getRepository('LightningApiBundle:ItemList')
             ->findAll();
 
@@ -44,7 +60,7 @@ class ListController extends Controller
         $list->setCreated(new \DateTime('now'));
         $list->setModified(new \DateTime('now'));
     
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->doctrine->getManager();
         $em->persist($list);
         $em->flush();
 
@@ -58,7 +74,7 @@ class ListController extends Controller
      */
     public function showAction($id)
     {
-        $list = $this->getDoctrine()
+        $list = $this->doctrine
             ->getRepository('LightningApiBundle:ItemList')
             ->find($id);
 
@@ -73,6 +89,6 @@ class ListController extends Controller
 
     protected function addUrl($list)
     {
-        $list->url = $this->get('router')->generate('lightning_api_list_show', array('id' => $list->getId()), true);
+        $list->url = $this->router->generate('lightning_api_list_show', array('id' => $list->getId()), true);
     }
 }
