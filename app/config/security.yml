@@ -23,15 +23,20 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        front:
+            pattern:  ^/a/
+            security: false
+
+        accounts:
+            pattern:  ^/accounts
+            security: false
+
         default:
             pattern:  ^/
             account: true
-            anonymous: ~
-            stateless:  true
+            stateless: true
 
     access_control:
-        - { path: ^/a/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/accounts$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_USER }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

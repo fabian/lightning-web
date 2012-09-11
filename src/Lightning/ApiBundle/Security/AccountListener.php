@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Lightning\ApiBundle\Security\AccountToken;
 
 class AccountListener implements ListenerInterface
@@ -25,13 +26,15 @@ class AccountListener implements ListenerInterface
     public function handle(GetResponseEvent $event)
     {
         $request = $event->getRequest();
-        
+
+
         if (false === $account = $request->headers->get('account', false)) {
-            return;
+            throw new AccessDeniedHttpException('Account header not found.');
         }
 
-        $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
+        $account = $request->headers->get('account', false);
 
+        $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
         if (preg_match($regex, $account, $matches)) {
 
             $token = new AccountToken();
@@ -48,13 +51,11 @@ class AccountListener implements ListenerInterface
                     return $event->setResponse($returnValue);
                 }
             } catch (AuthenticationException $e) {
-                // you might log something here
+                // throw exception below
             }
         }
 
-        $response = new Response();
-        $response->setStatusCode(403);
-        $event->setResponse($response);
+        throw new AccessDeniedHttpException('Account header authentication failed.');
     }
 }
 
