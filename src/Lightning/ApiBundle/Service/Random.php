@@ -5,7 +5,7 @@ namespace Lightning\ApiBundle\Service;
 use JMS\DiExtraBundle\Annotation\Service;
 
 /**
- * @Service("lightning.api.random")
+ * @Service
  */
 class Random
 {

@@ -26,7 +26,7 @@ class AccountController
 
     /**
      * @InjectParams({
-     *     "random" = @Inject("lightning.api.random"),
+     *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */

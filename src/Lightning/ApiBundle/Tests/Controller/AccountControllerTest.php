@@ -24,7 +24,7 @@ class AccountControllerTest extends ApiControllerTest
         $random->expects($this->any())
             ->method('secret')
             ->will($this->returnValue('123'));
-        static::$kernel->getContainer()->set('lightning.api.random', $random);
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
 
         $crawler = $client->request('POST', '/accounts');
 
