@@ -35,7 +35,7 @@ class ListController
      */
     public function indexAction()
     {
-        $lists = $product = $this->doctrine
+        $lists = $this->doctrine
             ->getRepository('LightningApiBundle:ItemList')
             ->findAll();
 
