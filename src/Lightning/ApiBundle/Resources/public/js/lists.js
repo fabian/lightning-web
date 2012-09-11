@@ -5,20 +5,16 @@ Lightning.App = function () {
     this.container = $('#container');
     this.loading = $('.loading');
 
-    this.container.html('<p>You need to send an access request to your mobile phone to edit your lists and items.</p>'); 
+    this.container.html(Twig.render(Lightning.templates.welcome, {href: Lightning.URL_ACCOUNT}));
 
-    var message = $(document.createElement('p'));
-    var link = $(document.createElement('a')).attr('href', Lightning.URL_ACCOUNT).text('Send Request');
-    link.click($.proxy(this.login, this));
-    message.append(link);
-    this.container.append(message);
+    $('.send-request').click($.proxy(this.sendRequest, this));
 };
 
 Lightning.App.prototype.load = function (loading) {
     this.loading.css('visibility', loading ? 'visible' : 'hidden');
 };
 
-Lightning.App.prototype.login = function () {
+Lightning.App.prototype.sendRequest = function () {
 
     this.load(true);
     this.container.html('<p>Please allow access on your mobile phone<p>');
