@@ -6,7 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% stylesheets filter='lessphp'
             '@LightningApiBundle/Resources/less/normalize.less'
-            '@LightningApiBundle/Resources/less/*.less' %}
+            '@LightningApiBundle/Resources/less/*.less'
+        %}
             <link rel="stylesheet" href="{{ asset_url }}" />
         {% endstylesheets %}
     </head>
@@ -26,7 +27,9 @@
         %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        {% javascripts filter='twig_js' '@LightningApiBundle/Resources/views/templates/*' %}
+        {% javascripts filter='twig_js'
+            '@LightningApiBundle/Resources/views/templates/*'
+        %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
     </body>
