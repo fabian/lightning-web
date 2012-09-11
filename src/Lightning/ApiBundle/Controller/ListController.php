@@ -17,10 +17,7 @@ class ListController
     protected $router;
 
     /**
-     * @DI\InjectParams({
-     *     "doctrine" = @DI\Inject("doctrine"),
-     *     "router" = @DI\Inject("router")
-     * })
+     * @DI\InjectParams
      */
     public function __construct($doctrine, $router)
     {

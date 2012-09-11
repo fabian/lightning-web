@@ -26,8 +26,6 @@ class AccountController
     /**
      * @DI\InjectParams({
      *     "random" = @DI\Inject("lightning.api.random"),
-     *     "doctrine" = @DI\Inject("doctrine"),
-     *     "router" = @DI\Inject("router"),
      *     "factory" = @DI\Inject("security.encoder_factory")
      * })
      */
