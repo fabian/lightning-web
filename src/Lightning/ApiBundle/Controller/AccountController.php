@@ -8,13 +8,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\Account;
+use Lightning\ApiBundle\Service\CodeGenerator;
 
 class AccountController extends Controller
 {
-    const CHARSET = '23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+    /**
+     * @DI\Inject("lightning.api.random")
+     */
+    private $random;
 
     /**
      * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "html"})
@@ -69,15 +74,17 @@ class AccountController extends Controller
     public function createAction(Request $request)
     {
         $account = new Account();
-        $account->setCode($this->generateCode());
         $account->setCreated(new \DateTime('now'));
         $account->setModified(new \DateTime('now'));
 
-        $random = md5(uniqid(null, true));
+        // generate access code
+        $account->setCode($this->random->code());
 
-        $factory = $this->get('security.encoder_factory');
-        $encoder = $factory->getEncoder($account);
-        $password = $encoder->encodePassword($random, $account->getSalt());
+        // encode random salt and secret as password
+        $account->setSalt($this->random->secret());
+        $secret = $this->random->secret();
+        $encoder = $this->get('security.encoder_factory')->getEncoder($account);
+        $password = $encoder->encodePassword($secret, $account->getSalt());
         $account->setSecret($password);
 
         $em = $this->getDoctrine()->getManager();
@@ -85,27 +92,19 @@ class AccountController extends Controller
         $em->flush();
 
         // make sure original password gets returned
-        $this->addUrls($account, $random);
+        $this->addUrls($account, $secret);
 
         return $account;
-    }
-
-    protected function generateCode($length = 8)
-    {
-        $code = '';
-        $charset = self::CHARSET;
-        $count = strlen($charset);
-        while ($length--) {
-            $code .= $charset[mt_rand(0, $count-1)];
-        }
-        return $code;
     }
 
     protected function addUrls($account, $secret = null)
     {
         $router = $this->get('router');
         $account->url = $router->generate('lightning_api_account_show', array('id' => $account->getId()), true);
-        $account->short = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
+        $account->short = $router->generate('lightning_api_account_index', array(
+            'id' => $account->getId(),
+            'code' => $account->getCode(),
+        ), true);
 
         if ($secret) {
             $account->account = $router->generate('lightning_api_account_show', array(

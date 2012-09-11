@@ -1,10 +1,8 @@
 <?php
 
-namespace Lightning\WebBundle\Tests\Controller;
+namespace Lightning\ApiBundle\Tests\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
-class AccountControllerTest extends WebTestCase
+class AccountControllerTest extends ApiControllerTest
 {
     public function testIndex()
     {
@@ -13,5 +11,23 @@ class AccountControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/12/test');
 
         $this->assertTrue($crawler->filter('html:contains("test")')->count() > 0);
+    }
+
+    public function testCreate()
+    {
+        $client = static::createClient();
+
+        $random = $this->getMock('Lightning\ApiBundle\Service\Random');
+        $random->expects($this->any())
+            ->method('code')
+            ->will($this->returnValue('abc'));
+        $random->expects($this->any())
+            ->method('secret')
+            ->will($this->returnValue('123'));
+        static::$kernel->getContainer()->set('lightning.api.random', $random);
+
+        $crawler = $client->request('POST', '/accounts');
+
+        $this->assertEquals('{"id":1,"url":"http:\/\/localhost\/accounts\/1","short":"http:\/\/localhost\/1\/abc","account":"http:\/\/localhost\/accounts\/1?secret=123"}', $client->getResponse()->getContent());
     }
 }

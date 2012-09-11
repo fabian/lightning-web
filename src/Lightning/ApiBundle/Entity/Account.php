@@ -79,11 +79,6 @@ class Account implements UserInterface
      */
     public $account;
 
-    public function __construct()
-    {
-        $this->salt = md5(uniqid(null, true));
-    }
-
     /**
      * Get id
      *

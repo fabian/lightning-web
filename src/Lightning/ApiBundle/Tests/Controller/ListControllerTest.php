@@ -15,7 +15,7 @@ class ListControllerTest extends ApiControllerTest
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/lists', array(), array(), array(
+        $client->request('GET', '/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
@@ -27,13 +27,13 @@ class ListControllerTest extends ApiControllerTest
     {
         $client = static::createClient();
 
-        $crawler = $client->request('POST', '/lists', array('title' => 'Example'), array(), array(
+        $client->request('POST', '/lists', array('title' => 'Example'), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
         $this->assertEquals('{"id":1,"title":"Example"}', $client->getResponse()->getContent());
 
-        $crawler = $client->request('GET', '/lists', array(), array(), array(
+        $client->request('GET', '/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));

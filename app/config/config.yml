@@ -20,6 +20,10 @@ framework:
 sensio_framework_extra:
     view:    { annotations: false }
 
+jms_di_extra:
+    locations:
+        bundles: [LightningApiBundle]
+
 fos_rest:
     view:
         formats:
