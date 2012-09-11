@@ -45,6 +45,10 @@ class ItemList
      */
     private $modified;
 
+    /**
+     * @var string $url
+     */
+    public $url;
 
     /**
      * Get id

@@ -22,6 +22,10 @@ class ListController extends FOSRestController
             ->getRepository('LightningApiBundle:ItemList')
             ->findAll();
 
+        foreach ($lists as $list) {
+            $this->addUrl($list);
+        }
+
         $data = array('lists' => $lists);
 
         return $data;
@@ -43,5 +47,29 @@ class ListController extends FOSRestController
         $em->flush();
 
         return $list;
+    }
+
+    /**
+     * @Route("/lists/{id}.{_format}", defaults={"_format" = "json"})
+     * @View()
+     */
+    public function showAction($id)
+    {
+        $list = $this->getDoctrine()
+            ->getRepository('LightningApiBundle:ItemList')
+            ->find($id);
+
+        if (!$list) {
+            throw new NotFoundHttpException('No list found for id ' . $id);
+        }
+
+        $this->addUrl($list);
+
+        return $list;
+    }
+
+    protected function addUrl($list)
+    {
+        $list->url = $this->get('router')->generate('lightning_api_list_show', array('id' => $list->getId()), true);
     }
 }
