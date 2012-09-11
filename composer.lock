@@ -1,5 +1,5 @@
 {
-    "hash": "451cfb647b8dac14557da39f9e6459a5",
+    "hash": "c42b8253e1993e2fac94f44864994f4f",
     "packages": [
         {
             "package": "doctrine/common",
@@ -88,6 +88,18 @@
             "version": "dev-master",
             "source-reference": "5a9b7e6b62143950726f642da23d7eebf850e389",
             "commit-date": "1346073949"
+        },
+        {
+            "package": "jms/twig-js",
+            "version": "dev-master",
+            "source-reference": "607c0f5463f9b80c34ca30e1f78156e4aed5b55f",
+            "commit-date": "1337799406"
+        },
+        {
+            "package": "jms/twig-js-bundle",
+            "version": "dev-master",
+            "source-reference": "7f310bf22ebfb058dbd453796e4de40e3d41e361",
+            "commit-date": "1337799439"
         },
         {
             "package": "kriswallsmith/assetic",
@@ -249,6 +261,7 @@
         "friendsofsymfony/rest-bundle": 20,
         "leafo/lessphp": 20,
         "sonata-project/jquery-bundle": 20,
-        "doctrine/doctrine-migrations-bundle": 20
+        "doctrine/doctrine-migrations-bundle": 20,
+        "jms/twig-js-bundle": 20
     }
 }

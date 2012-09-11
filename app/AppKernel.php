@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle($this),
             new FOS\RestBundle\FOSRestBundle(),
+            new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Lightning\ApiBundle\LightningApiBundle(),
         );

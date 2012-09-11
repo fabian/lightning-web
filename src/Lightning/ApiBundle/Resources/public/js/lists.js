@@ -35,7 +35,7 @@ Lightning.App.prototype.poll = function () {
         dataType: 'json',
         headers: { 
             Accept: 'application/json; charset=utf-8',
-            Account: 'http://localhost/a/1?secret=test'
+            Account: 'http://localhost:8000/accounts/1?secret=97e3aaa01680c301117295d6c50d3a4e'
         },
         success: $.proxy(this.lists, this)
     });
@@ -43,17 +43,8 @@ Lightning.App.prototype.poll = function () {
 
 Lightning.App.prototype.lists = function (data) {
 
-    var ul = $(document.createElement('ul'));
-
-    $(data.lists).each(function (i, list) {
-        var li = $(document.createElement('li'));
-        var a = $(document.createElement('a')).attr('href', '').text(list.title);
-        li.append(a);
-        ul.append(li);
-    });
-
     this.load(false);
-    this.container.html('').append(ul);
+    this.container.html(Twig.render(Lightning.templates.lists, data));
 
     $('#user').html('<a href="">Logout</a>');
 

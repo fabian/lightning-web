@@ -21,7 +21,12 @@
         </script>
         {% javascripts
             '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
-            '@LightningApiBundle/Resources/public/js/*' %}
+            '@LightningApiBundle/Resources/public/js/*'
+            '../vendor/jms/twig-js/twig.js'
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% javascripts filter='twig_js' '@LightningApiBundle/Resources/views/List/index.html.twig' %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
     </body>
