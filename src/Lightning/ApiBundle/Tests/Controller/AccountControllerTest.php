@@ -10,7 +10,7 @@ class AccountControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/a/test');
+        $crawler = $client->request('GET', '/12/test');
 
         $this->assertTrue($crawler->filter('html:contains("test")')->count() > 0);
     }

@@ -5,6 +5,7 @@ namespace Lightning\ApiBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 
@@ -13,7 +14,8 @@ use Lightning\ApiBundle\Entity\ItemList;
 class ListController extends FOSRestController
 {
     /**
-     * @Route("/lists.{_format}", requirements={"_method" = "GET"}, defaults={"_format" = "json"})
+     * @Route("/lists.{_format}", defaults={"_format" = "json"})
+     * @Method("GET")
      * @View()
      */
     public function indexAction()
@@ -32,7 +34,8 @@ class ListController extends FOSRestController
     }
 
     /**
-     * @Route("/lists.{_format}", requirements={"_method" = "POST"}, defaults={"_format" = "json"})
+     * @Route("/lists.{_format}", defaults={"_format" = "json"})
+     * @Method("POST")
      * @View()
      */
     public function createAction(Request $request)
@@ -51,6 +54,7 @@ class ListController extends FOSRestController
 
     /**
      * @Route("/lists/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("GET")
      * @View()
      */
     public function showAction($id)

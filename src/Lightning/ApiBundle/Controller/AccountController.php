@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 
@@ -17,25 +18,29 @@ class AccountController extends FOSRestController
     const CHARSET = '23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
     /**
-     * @Route("/a/{code}.{_format}", defaults={"_format" = "html"})
+     * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "html"})
+     * @Method("GET")
      * @View()
      */
-    public function indexAction($code)
+    public function indexAction($id, $code)
     {
-        return array('code' => $code);
+        return array('id' => $id, 'code' => $code);
     }
 
     /**
-     * @Route("/a/{code}.{_format}", requirements={"_method" = "POST"}, defaults={"_format" = "json"})
+     * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "json"})
+     * @Method("POST")
      * @View()
      */
-    public function accessAction($code)
+    public function accessAction($id, $code)
     {
-        return array('code' => $code);
+        var_dump($code);
+        return array();
     }
 
     /**
      * @Route("/accounts/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("GET")
      * @View()
      */
     public function showAction($id)
@@ -58,13 +63,12 @@ class AccountController extends FOSRestController
     }
 
     /**
-     * @Route("/accounts.{_format}", requirements={"_method" = "POST"}, defaults={"_format" = "json"})
+     * @Route("/accounts.{_format}", defaults={"_format" = "json"})
+     * @Method("POST")
      * @View()
      */
     public function createAction(Request $request)
     {
-        // 
-
         $account = new Account();
         $account->setCode($this->generateCode());
         $account->setCreated(new \DateTime('now'));

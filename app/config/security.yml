@@ -24,7 +24,7 @@ security:
             security: false
 
         front:
-            pattern:  ^/a/
+            pattern:  ^/\d+/
             security: false
 
         accounts:
