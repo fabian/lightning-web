@@ -8,12 +8,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\Account;
 
-class AccountController extends FOSRestController
+class AccountController extends Controller
 {
     const CHARSET = '23456789ABCDEFGHJKLMNPRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
 
@@ -109,7 +108,10 @@ class AccountController extends FOSRestController
         $account->short = $router->generate('lightning_api_account_index', array('code' => $account->getCode()), true);
 
         if ($secret) {
-            $account->account = $router->generate('lightning_api_account_show', array('id' => $account->getId(), 'secret' => $secret), true);
+            $account->account = $router->generate('lightning_api_account_show', array(
+                'id' => $account->getId(),
+                'secret' => $secret,
+            ), true);
         }
     }
 }
