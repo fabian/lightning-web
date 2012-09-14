@@ -27,7 +27,7 @@ class ListControllerTest extends ApiControllerTest
     {
         $client = static::createClient();
 
-        $client->request('POST', '/lists', array('title' => 'Example'), array(), array(
+        $client->request('POST', '/lists', array('title' => 'Example', 'owner' => 1), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));

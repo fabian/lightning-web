@@ -27,6 +27,8 @@ class AccountController
     /**
      * @InjectParams({
      *     "random" = @Inject("lightning.api_bundle.service.random"),
+     *     "doctrine" = @Inject("doctrine"),
+     *     "router" = @Inject("router"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */
@@ -74,7 +76,7 @@ class AccountController
             throw new NotFoundHttpException('No account found for id ' . $id);
         }
 
-        if ($this->getUser()->getUsername() !== $account->getUsername()) {
+        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
             throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account');
         }
 
