@@ -11,18 +11,6 @@ class ListControllerTest extends ApiControllerTest
         $this->createAccount();
     }
 
-    public function testIndex()
-    {
-        $client = static::createClient();
-
-        $client->request('GET', '/lists', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
-
-        $this->assertEquals('{"lists":[]}', $client->getResponse()->getContent());
-    }
-
     public function testCreate()
     {
         $client = static::createClient();
@@ -33,10 +21,10 @@ class ListControllerTest extends ApiControllerTest
         ));
         $this->assertEquals('{"id":1,"title":"Example"}', $client->getResponse()->getContent());
 
-        $client->request('GET', '/lists', array(), array(), array(
+        $client->request('GET', '/lists/1', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
-        $this->assertEquals('{"lists":[{"id":1,"title":"Example","url":"http:\/\/localhost\/lists\/1"}]}', $client->getResponse()->getContent());
+        $this->assertEquals('{"id":1,"title":"Example","url":"http:\/\/localhost\/lists\/1"}', $client->getResponse()->getContent());
     }
 }

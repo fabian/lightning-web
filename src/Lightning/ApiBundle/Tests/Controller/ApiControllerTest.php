@@ -26,6 +26,7 @@ abstract class ApiControllerTest extends WebTestCase
         $classes = array(
             $this->em->getClassMetadata('Lightning\ApiBundle\Entity\ItemList'),
             $this->em->getClassMetadata('Lightning\ApiBundle\Entity\Account'),
+            $this->em->getClassMetadata('Lightning\ApiBundle\Entity\AccountList'),
         );
         $tool->dropSchema($classes);
         $tool->createSchema($classes);

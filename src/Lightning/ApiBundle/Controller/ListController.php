@@ -39,26 +39,6 @@ class ListController
 
     /**
      * @Route("/lists.{_format}", defaults={"_format" = "json"})
-     * @Method("GET")
-     * @View()
-     */
-    public function indexAction()
-    {
-        $lists = $this->doctrine
-            ->getRepository('LightningApiBundle:ItemList')
-            ->findAll();
-
-        foreach ($lists as $list) {
-            $this->addUrl($list);
-        }
-
-        $data = array('lists' => $lists);
-
-        return $data;
-    }
-
-    /**
-     * @Route("/lists.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
      * @View()
      */
