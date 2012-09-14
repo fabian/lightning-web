@@ -28,7 +28,7 @@ security:
             security: false
 
         accounts:
-            pattern:  ^/accounts
+            pattern:  ^/accounts$
             security: false
 
         default:

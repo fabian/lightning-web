@@ -72,6 +72,7 @@ class ListController
         $accountList->setAccount($account);
 
         $em = $this->doctrine->getManager();
+        $em->persist($accountList);
         $em->persist($list);
         $em->flush();
 

@@ -26,5 +26,11 @@ class ListControllerTest extends ApiControllerTest
             'HTTP_ACCEPT' => 'application/json',
         ));
         $this->assertEquals('{"id":1,"title":"Example","url":"http:\/\/localhost\/lists\/1"}', $client->getResponse()->getContent());
+
+        $client->request('GET', '/accounts/1/lists', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+        $this->assertEquals('[{"id":1,"permission":"owner","deleted":false,"account":{"id":1},"list":{"id":1,"title":"Example"},"url":"http:\/\/localhost\/lists\/1"}]', $client->getResponse()->getContent());
     }
 }

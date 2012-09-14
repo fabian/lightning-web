@@ -37,14 +37,14 @@ class AccountList
      *
      * @ORM\Column(name="deleted", type="boolean")
      */
-    private $deleted;
+    private $deleted = false;
 
     /**
      * The last time the list was marked as read.
      *
      * @var \DateTime $read
      *
-     * @ORM\Column(name="read", type="datetime")
+     * @ORM\Column(name="`read`", type="datetime")
      * @Exclude
      */
     private $read;
