@@ -3,6 +3,7 @@
 namespace Lightning\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\SerializerBundle\Annotation\Exclude;
 use JMS\SerializerBundle\Annotation\Groups;
@@ -65,6 +66,12 @@ class Account implements UserInterface
     private $modified;
 
     /**
+     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="account")
+     * @Exclude
+     */
+    protected $lists;
+
+    /**
      * @var string $url
      */
     public $url;
@@ -78,6 +85,11 @@ class Account implements UserInterface
      * @var string $account
      */
     public $account;
+
+    public function __construct()
+    {
+        $this->lists = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -231,5 +243,38 @@ class Account implements UserInterface
      */
     public function eraseCredentials()
     {
+    }
+
+    /**
+     * Add lists
+     *
+     * @param Lightning\ApiBundle\Entity\ItemList $lists
+     * @return Account
+     */
+    public function addList(\Lightning\ApiBundle\Entity\ItemList $lists)
+    {
+        $this->lists[] = $lists;
+    
+        return $this;
+    }
+
+    /**
+     * Remove lists
+     *
+     * @param Lightning\ApiBundle\Entity\ItemList $lists
+     */
+    public function removeList(\Lightning\ApiBundle\Entity\ItemList $lists)
+    {
+        $this->lists->removeElement($lists);
+    }
+
+    /**
+     * Get lists
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getLists()
+    {
+        return $this->lists;
     }
 }

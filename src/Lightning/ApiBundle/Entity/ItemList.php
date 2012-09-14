@@ -46,6 +46,12 @@ class ItemList
     private $modified;
 
     /**
+     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="list")
+     * @Exclude
+     */
+    protected $accounts;
+
+    /**
      * @var string $url
      */
     public $url;
@@ -127,5 +133,45 @@ class ItemList
     public function getModified()
     {
         return $this->modified;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add accounts
+     *
+     * @param Lightning\ApiBundle\Entity\AccountList $accounts
+     * @return ItemList
+     */
+    public function addAccount(\Lightning\ApiBundle\Entity\AccountList $accounts)
+    {
+        $this->accounts[] = $accounts;
+    
+        return $this;
+    }
+
+    /**
+     * Remove accounts
+     *
+     * @param Lightning\ApiBundle\Entity\AccountList $accounts
+     */
+    public function removeAccount(\Lightning\ApiBundle\Entity\AccountList $accounts)
+    {
+        $this->accounts->removeElement($accounts);
+    }
+
+    /**
+     * Get accounts
+     *
+     * @return Doctrine\Common\Collections\Collection 
+     */
+    public function getAccounts()
+    {
+        return $this->accounts;
     }
 }
