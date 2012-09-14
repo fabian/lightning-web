@@ -31,7 +31,7 @@ Lightning.App.prototype.poll = function () {
         dataType: 'json',
         headers: { 
             Accept: 'application/json; charset=utf-8',
-            Account: 'http://localhost:8000/accounts/1?secret=97e3aaa01680c301117295d6c50d3a4e'
+            Account: 'http://lightningapp.ch/accounts/2?secret=173341cec52486c67e72f9f20ae8fd1e'
         },
         success: $.proxy(this.lists, this)
     });
