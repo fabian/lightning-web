@@ -22,6 +22,8 @@ class AccountController
 
     protected $router;
 
+    protected $security;
+
     protected $factory;
 
     /**
@@ -29,14 +31,16 @@ class AccountController
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "router" = @Inject("router"),
+     *     "security" = @Inject("security.context"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */
-    public function __construct($random, $doctrine, $router, $factory)
+    public function __construct($random, $doctrine, $router, $security, $factory)
     {
         $this->random = $random;
         $this->doctrine = $doctrine;
         $this->router = $router;
+        $this->security = $security;
         $this->factory = $factory;
     }
 
