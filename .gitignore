@@ -4,6 +4,8 @@ web/js/
 app/bootstrap.php.cache
 app/cache/*
 app/logs/*
+app/coverage/*
+app/phpunit.xml
 build/
 vendor
 bin
