@@ -6,6 +6,10 @@ framework:
     session:
         storage_id: session.storage.mock_file
 
+lightning_api:
+    urbanairship_key: ABC123
+    urbanairship_secret: DEF987
+
 doctrine:
     dbal:
         dbname:   %database_name_test%

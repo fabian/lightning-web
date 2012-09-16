@@ -22,6 +22,7 @@
         "leafo/lessphp": "dev-master",
         "sonata-project/jquery-bundle": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
+        "kriswallsmith/buzz": "dev-master",
         "jms/twig-js-bundle": "dev-master"
     },
     "scripts": {

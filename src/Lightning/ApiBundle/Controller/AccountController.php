@@ -18,6 +18,8 @@ class AccountController
 {
     protected $random;
 
+    protected $airship;
+
     protected $doctrine;
 
     protected $router;
@@ -29,15 +31,17 @@ class AccountController
     /**
      * @InjectParams({
      *     "random" = @Inject("lightning.api_bundle.service.random"),
+     *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
      *     "doctrine" = @Inject("doctrine"),
      *     "router" = @Inject("router"),
      *     "security" = @Inject("security.context"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */
-    public function __construct($random, $doctrine, $router, $security, $factory)
+    public function __construct($random, $airship, $doctrine, $router, $security, $factory)
     {
         $this->random = $random;
+        $this->airship = $airship;
         $this->doctrine = $doctrine;
         $this->router = $router;
         $this->security = $security;
@@ -118,6 +122,33 @@ class AccountController
         $this->addUrls($account, $secret);
 
         return $account;
+    }
+
+    /**
+     * @Route("/accounts/{id}/tokens/{token}.{_format}", defaults={"_format" = "json"})
+     * @Method("PUT")
+     * @View()
+     */
+    public function tokenAction($id, $token)
+    {
+        $account = $this->doctrine
+            ->getRepository('LightningApiBundle:Account')
+            ->find($id);
+
+        if (!$account) {
+            throw new NotFoundHttpException('No account found for id ' . $id);
+        }
+
+        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
+            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account');
+        }
+
+        $url = $this->router->generate('lightning_api_account_show', array(
+            'id' => $account->getId(),
+        ), true);
+        $this->airship->register($token, $url);
+
+        return array('token' => $token);
     }
 
     protected function addUrls($account, $secret = null)

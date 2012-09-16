@@ -15,3 +15,6 @@ $container->setParameter('mailer_user', null);
 $container->setParameter('mailer_password', null);
 $container->setParameter('locale', 'en');
 $container->setParameter('secret', '579f85a6a7cb52df9101107ba82714f509');
+
+$container->setParameter('urbanairship_key', '');
+$container->setParameter('urbanairship_secret', '');

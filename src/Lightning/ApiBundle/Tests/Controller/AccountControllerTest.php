@@ -100,4 +100,26 @@ class AccountControllerTest extends ApiControllerTest
 
         $this->assertEquals('403', $client->getResponse()->getStatusCode());
     }
+
+    public function testToken()
+    {
+        $client = static::createClient();
+
+        $this->createAccount();
+
+        $airship = $this->getMockBuilder('Lightning\ApiBundle\Service\UrbanAirship')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $airship->expects($this->once())
+            ->method('register')
+            ->with('ABC123', 'http://localhost/accounts/1');
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
+
+        $crawler = $client->request('PUT', '/accounts/1/tokens/ABC123', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('{"token":"ABC123"}', $client->getResponse()->getContent());
+    }
 }

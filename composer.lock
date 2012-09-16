@@ -1,5 +1,5 @@
 {
-    "hash": "c42b8253e1993e2fac94f44864994f4f",
+    "hash": "2b95d529fb8a303dcbdaa32634d447bd",
     "packages": [
         {
             "name": "doctrine/common",
@@ -503,7 +503,7 @@
                 "symfony/framework-bundle": "2.*",
                 "jms/cg": "1.0.0"
             },
-            "time": "2012-01-02 10:50:26",
+            "time": "2012-01-02 05:50:26",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -545,7 +545,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 10:40:52",
+            "time": "2012-01-02 05:40:52",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -645,7 +645,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 11:32:49",
+            "time": "2012-01-02 06:32:49",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -952,6 +952,51 @@
                 "assets",
                 "compression",
                 "minification"
+            ]
+        },
+        {
+            "name": "kriswallsmith/buzz",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "http://github.com/kriswallsmith/Buzz.git",
+                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/kriswallsmith/Buzz/zipball/988bf14201ffbed940f23b42f87302e6adec4c21",
+                "reference": "988bf14201ffbed940f23b42f87302e6adec4c21",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-curl": "*"
+            },
+            "time": "1345206213",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Buzz": "lib/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kris Wallsmith",
+                    "email": "kris.wallsmith@gmail.com",
+                    "homepage": "http://kriswallsmith.net/"
+                }
+            ],
+            "description": "Lightweight HTTP client",
+            "homepage": "https://github.com/kriswallsmith/Buzz",
+            "keywords": [
+                "curl",
+                "http client"
             ]
         },
         {
@@ -1659,6 +1704,7 @@
         "leafo/lessphp": 20,
         "sonata-project/jquery-bundle": 20,
         "doctrine/doctrine-migrations-bundle": 20,
+        "kriswallsmith/buzz": 20,
         "jms/twig-js-bundle": 20
     }
 }

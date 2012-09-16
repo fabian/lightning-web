@@ -31,6 +31,10 @@ fos_rest:
             xml: true
             rss: false
 
+lightning_api:
+    urbanairship_key: %urbanairship_key%
+    urbanairship_secret: %urbanairship_secret%
+
 # Twig Configuration
 twig:
     debug:            %kernel.debug%
