@@ -45,6 +45,33 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals('{"id":1,"url":"http:\/\/localhost\/accounts\/1","short":"http:\/\/localhost\/1\/abc"}', $client->getResponse()->getContent());
     }
 
+    public function testShowNoAccount()
+    {
+        $client = static::createClient();
+
+        $this->createAccount();
+
+        $crawler = $client->request('GET', '/accounts/1', array(), array(), array(
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('403', $client->getResponse()->getStatusCode());
+    }
+
+    public function testShowWrongSecret()
+    {
+        $client = static::createClient();
+
+        $this->createAccount();
+
+        $crawler = $client->request('GET', '/accounts/1', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=987',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('403', $client->getResponse()->getStatusCode());
+    }
+
     public function testShowWrongId()
     {
         $client = static::createClient();
@@ -57,5 +84,20 @@ class AccountControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('404', $client->getResponse()->getStatusCode());
+    }
+
+    public function testShowWrongAccount()
+    {
+        $client = static::createClient();
+
+        $this->createAccount();
+        $this->createAccount();
+
+        $crawler = $client->request('GET', '/accounts/2', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('403', $client->getResponse()->getStatusCode());
     }
 }
