@@ -39,8 +39,23 @@ class AccountControllerTest extends ApiControllerTest
 
         $crawler = $client->request('GET', '/accounts/1', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
         ));
 
         $this->assertEquals('{"id":1,"url":"http:\/\/localhost\/accounts\/1","short":"http:\/\/localhost\/1\/abc"}', $client->getResponse()->getContent());
+    }
+
+    public function testShowWrongId()
+    {
+        $client = static::createClient();
+
+        $this->createAccount();
+
+        $crawler = $client->request('GET', '/accounts/999', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('404', $client->getResponse()->getStatusCode());
     }
 }
