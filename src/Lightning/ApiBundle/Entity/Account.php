@@ -227,7 +227,7 @@ class Account implements UserInterface
      */
     public function getPassword()
     {
-        return $this->secret;
+        return $this->getSecret();
     }
 
     /**
