@@ -14,17 +14,13 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
-class AccountController
+class AccountController extends AbstractAccountController
 {
     protected $random;
 
     protected $airship;
 
-    protected $doctrine;
-
     protected $router;
-
-    protected $security;
 
     protected $factory;
 
@@ -40,11 +36,10 @@ class AccountController
      */
     public function __construct($random, $airship, $doctrine, $router, $security, $factory)
     {
+        parent::__construct($doctrine, $security);
         $this->random = $random;
         $this->airship = $airship;
-        $this->doctrine = $doctrine;
         $this->router = $router;
-        $this->security = $security;
         $this->factory = $factory;
     }
 
@@ -65,32 +60,7 @@ class AccountController
      */
     public function accessAction($id, $code)
     {
-        var_dump($code);
         return array();
-    }
-
-    /**
-     * @Route("/accounts/{id}.{_format}", defaults={"_format" = "json"})
-     * @Method("GET")
-     * @View()
-     */
-    public function showAction($id)
-    {
-        $account = $this->doctrine
-            ->getRepository('LightningApiBundle:Account')
-            ->find($id);
-
-        if (!$account) {
-            throw new NotFoundHttpException('No account found for id ' . $id . '.');
-        }
-
-        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
-        }
-
-        $this->addUrls($account);
-
-        return $account;
     }
 
     /**
@@ -125,23 +95,27 @@ class AccountController
     }
 
     /**
+     * @Route("/accounts/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("GET")
+     * @View()
+     */
+    public function showAction($id)
+    {
+        $account = $this->checkAccount($id);
+
+        $this->addUrls($account);
+
+        return $account;
+    }
+
+    /**
      * @Route("/accounts/{id}/tokens/{token}.{_format}", defaults={"_format" = "json"})
      * @Method("PUT")
      * @View()
      */
     public function tokenAction($id, $token)
     {
-        $account = $this->doctrine
-            ->getRepository('LightningApiBundle:Account')
-            ->find($id);
-
-        if (!$account) {
-            throw new NotFoundHttpException('No account found for id ' . $id);
-        }
-
-        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
-        }
+        $account = $this->checkAccount($id);
 
         $url = $this->router->generate('lightning_api_account_show', array(
             'id' => $account->getId(),

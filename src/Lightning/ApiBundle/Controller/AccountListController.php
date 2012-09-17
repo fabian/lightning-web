@@ -14,13 +14,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
-class AccountListController
+class AccountListController extends AbstractAccountController
 {
-    protected $doctrine;
-
     protected $router;
-
-    protected $security;
 
     /**
      * @InjectParams({
@@ -31,9 +27,8 @@ class AccountListController
      */
     public function __construct($doctrine, $router, $security)
     {
-        $this->doctrine = $doctrine;
+        parent::__construct($doctrine, $security);
         $this->router = $router;
-        $this->security = $security;
     }
 
     /**
@@ -43,17 +38,7 @@ class AccountListController
      */
     public function showAction($id)
     {
-        $account = $this->doctrine
-            ->getRepository('LightningApiBundle:Account')
-            ->find($id);
-
-        if (!$account) {
-            throw new NotFoundHttpException('No account found for id ' . $id);
-        }
-
-        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account');
-        }
+        $account = $this->checkAccount($id);
 
         $lists = $account->getLists();
 
