@@ -47,7 +47,7 @@ class AccountControllerTest extends ApiControllerTest
 
     public function testShowNoAccount()
     {
-        $client = static::createClient();
+        $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
 
@@ -56,11 +56,12 @@ class AccountControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('403', $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":403,"message":"Account header not found."}}', trim($client->getResponse()->getContent()));
     }
 
     public function testShowWrongSecret()
     {
-        $client = static::createClient();
+        $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
 
@@ -70,11 +71,12 @@ class AccountControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('403', $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":403,"message":"Account header authentication failed."}}', trim($client->getResponse()->getContent()));
     }
 
     public function testShowWrongId()
     {
-        $client = static::createClient();
+        $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
 
@@ -84,11 +86,12 @@ class AccountControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('404', $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($client->getResponse()->getContent()));
     }
 
     public function testShowWrongAccount()
     {
-        $client = static::createClient();
+        $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
         $this->createAccount();
@@ -99,6 +102,7 @@ class AccountControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('403', $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($client->getResponse()->getContent()));
     }
 
     public function testToken()

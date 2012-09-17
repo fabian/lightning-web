@@ -81,11 +81,11 @@ class AccountController
             ->find($id);
 
         if (!$account) {
-            throw new NotFoundHttpException('No account found for id ' . $id);
+            throw new NotFoundHttpException('No account found for id ' . $id . '.');
         }
 
         if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account');
+            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
         }
 
         $this->addUrls($account);
@@ -140,7 +140,7 @@ class AccountController
         }
 
         if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account');
+            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
         }
 
         $url = $this->router->generate('lightning_api_account_show', array(

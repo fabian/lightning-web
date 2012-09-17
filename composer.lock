@@ -503,7 +503,7 @@
                 "symfony/framework-bundle": "2.*",
                 "jms/cg": "1.0.0"
             },
-            "time": "2012-01-02 05:50:26",
+            "time": "2012-01-02 04:50:26",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -545,7 +545,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 05:40:52",
+            "time": "2012-01-02 04:40:52",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -576,12 +576,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSDiExtraBundle",
-                "reference": "d3360b2eb98a1381b9a3fd86ea94a35a347afebb"
+                "reference": "b94feeee8f57060598fdc7a3ef2527182b3946b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/schmittjoh/JMSDiExtraBundle/zipball/d3360b2eb98a1381b9a3fd86ea94a35a347afebb",
-                "reference": "d3360b2eb98a1381b9a3fd86ea94a35a347afebb",
+                "url": "https://github.com/schmittjoh/JMSDiExtraBundle/zipball/b94feeee8f57060598fdc7a3ef2527182b3946b5",
+                "reference": "b94feeee8f57060598fdc7a3ef2527182b3946b5",
                 "shasum": ""
             },
             "require": {
@@ -592,17 +592,19 @@
                 "symfony/finder": "2.1.*"
             },
             "require-dev": {
-                "symfony/validator": "2.1.*",
-                "symfony/form": "2.1.*",
-                "symfony/class-loader": "2.1.*",
-                "symfony/yaml": "2.1.*",
-                "symfony/browser-kit": "2.1.*",
-                "symfony/security-bundle": "2.1.*",
-                "symfony/twig-bundle": "2.1.*",
-                "sensio/framework-extra-bundle": "2.1.*",
-                "jms/security-extra-bundle": "1.*"
+                "jms/security-extra-bundle": "1.*",
+                "symfony/validator": "*",
+                "symfony/form": "*",
+                "symfony/class-loader": "*",
+                "symfony/yaml": "*",
+                "symfony/browser-kit": "*",
+                "symfony/security-bundle": "*",
+                "symfony/twig-bundle": "*",
+                "sensio/framework-extra-bundle": "*",
+                "doctrine/doctrine-bundle": "*",
+                "doctrine/orm": "*"
             },
-            "time": "1347584907",
+            "time": "1347872946",
             "type": "symfony-bundle",
             "installation-source": "source",
             "autoload": {
@@ -617,7 +619,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -645,7 +647,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 06:32:49",
+            "time": "2012-01-02 05:32:49",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1510,12 +1512,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "846df269dd32c495fde203d4568c50e3214b4365"
+                "reference": "9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/846df269dd32c495fde203d4568c50e3214b4365",
-                "reference": "846df269dd32c495fde203d4568c50e3214b4365",
+                "url": "https://github.com/symfony/symfony/zipball/9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9",
+                "reference": "9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9",
                 "shasum": ""
             },
             "require": {
@@ -1564,7 +1566,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
-            "time": "1347781262",
+            "time": "1347864860",
             "type": "library",
             "extra": {
                 "branch-alias": {
