@@ -43,5 +43,7 @@ abstract class ApiControllerTest extends WebTestCase
 
         $this->em->persist($account);
         $this->em->flush();
+
+        return $account;
     }
 }

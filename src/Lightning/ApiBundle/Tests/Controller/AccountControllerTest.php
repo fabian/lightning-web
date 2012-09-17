@@ -13,6 +13,15 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertTrue($crawler->filter('html:contains("test")')->count() > 0);
     }
 
+    public function testAccess()
+    {
+        $client = static::createClient();
+
+        $crawler = $client->request('POST', '/12/test');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+    }
+
     public function testCreate()
     {
         $client = static::createClient();
@@ -129,4 +138,36 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertEquals('{"token":"ABC123"}', $client->getResponse()->getContent());
     }
+
+    public function testTokenWrongId()
+    {
+        $client = static::createClient(array('debug' => false));
+
+        $this->createAccount();
+
+        $crawler = $client->request('PUT', '/accounts/999/tokens/ABC123', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($client->getResponse()->getContent()));
+    }
+
+    public function testTokenWrongAccount()
+    {
+        $client = static::createClient(array('debug' => false));
+
+        $this->createAccount();
+        $this->createAccount();
+
+        $crawler = $client->request('PUT', '/accounts/2/tokens/ABC123', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($client->getResponse()->getContent()));
+    }
+
 }
