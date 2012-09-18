@@ -20,6 +20,17 @@
                     "type": "zip"
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "yui/yuicompressor",
+                "version": "2.4.7",
+                "dist": {
+                    "url": "http://yui.zenfs.com/releases/yuicompressor/yuicompressor-2.4.7.zip",
+                    "type": "zip"
+                }
+            }
         }
     ],
     "require": {
@@ -42,7 +53,8 @@
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "kriswallsmith/buzz": "dev-master",
         "jms/twig-js-bundle": "dev-master",
-        "yui/yui3": "3.6.*"
+        "yui/yui3": "3.6.*",
+        "yui/yuicompressor": "2.4.*"
     },
     "scripts": {
         "post-install-cmd": [

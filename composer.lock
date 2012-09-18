@@ -1,5 +1,5 @@
 {
-    "hash": "0cc73f1b90156a60cb82aa8c2b8a2af1",
+    "hash": "f3d5757abd35af74ef6972f8bdbd3b95",
     "packages": [
         {
             "name": "doctrine/common",
@@ -503,7 +503,7 @@
                 "symfony/framework-bundle": "2.*",
                 "jms/cg": "1.0.0"
             },
-            "time": "2012-01-02 03:50:26",
+            "time": "2012-01-02 02:50:26",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -545,7 +545,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 03:40:52",
+            "time": "2012-01-02 02:40:52",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -647,7 +647,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 04:32:49",
+            "time": "2012-01-02 03:32:49",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1706,6 +1706,18 @@
             "dist": {
                 "type": "zip",
                 "url": "http://github.com/yui/yui3/zipball/3.x",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "installation-source": "dist"
+        },
+        {
+            "name": "yui/yuicompressor",
+            "version": "2.4.7",
+            "dist": {
+                "type": "zip",
+                "url": "http://yui.zenfs.com/releases/yuicompressor/yuicompressor-2.4.7.zip",
                 "reference": null,
                 "shasum": null
             },

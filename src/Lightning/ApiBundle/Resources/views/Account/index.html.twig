@@ -30,7 +30,7 @@
         %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        {% javascripts debug=false output='js/lightning_*.js'
+        {% javascripts filter='yui_js' debug=false output='js/lightning_*.js'
             '../vendor/yui/yui3/build/yui/yui.js'
             '../vendor/yui/yui3/build/yui-base/yui-base.js'
             '../vendor/yui/yui3/build/oop/oop.js'
