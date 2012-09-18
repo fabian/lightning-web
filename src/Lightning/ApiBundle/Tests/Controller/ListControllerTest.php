@@ -21,10 +21,10 @@ class ListControllerTest extends ApiControllerTest
         ));
         $this->assertEquals('{"id":1,"title":"Example"}', $client->getResponse()->getContent());
 
-        $list = $this->em
-            ->getRepository('LightningApiBundle:ItemList')
+        $accountList = $this->em
+            ->getRepository('LightningApiBundle:AccountList')
             ->find(1);
 
-        $this->assertEquals('Example', $list->getTitle());
+        $this->assertEquals('Example', $accountList->getList()->getTitle());
     }
 }
