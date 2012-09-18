@@ -21,14 +21,40 @@
             Lightning.URL_ACCOUNT = '{{ path('lightning_api_account_index', {'id': id, 'code': code}) }}';
         </script>
         {% javascripts
-            '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'
-            '@LightningApiBundle/Resources/public/js/*'
             '../vendor/jms/twig-js/twig.js'
         %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
-        {% javascripts filter='twig_js'
+        {% javascripts filter='twig_js' debug=false output='js/templates_*.js'
             '@LightningApiBundle/Resources/views/templates/*'
+        %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        {% javascripts debug=false output='js/lightning_*.js'
+            '../vendor/yui/yui3/build/yui/yui.js'
+            '../vendor/yui/yui3/build/yui-base/yui-base.js'
+            '../vendor/yui/yui3/build/oop/oop.js'
+            '../vendor/yui/yui3/build/event-custom-base/event-custom-base.js'
+            '../vendor/yui/yui3/build/features/features.js'
+            '../vendor/yui/yui3/build/dom-core/dom-core.js'
+            '../vendor/yui/yui3/build/dom-base/dom-base.js'
+            '../vendor/yui/yui3/build/selector-native/selector-native.js'
+            '../vendor/yui/yui3/build/selector/selector.js'
+            '../vendor/yui/yui3/build/node-core/node-core.js'
+            '../vendor/yui/yui3/build/node-base/node-base.js'
+            '../vendor/yui/yui3/build/event-base/event-base.js'
+            '../vendor/yui/yui3/build/event-delegate/event-delegate.js'
+            '../vendor/yui/yui3/build/node-event-delegate/node-event-delegate.js'
+            '../vendor/yui/yui3/build/pluginhost-base/pluginhost-base.js'
+            '../vendor/yui/yui3/build/pluginhost-config/pluginhost-config.js'
+            '../vendor/yui/yui3/build/node-pluginhost/node-pluginhost.js'
+            '../vendor/yui/yui3/build/dom-style/dom-style.js'
+            '../vendor/yui/yui3/build/dom-screen/dom-screen.js'
+            '../vendor/yui/yui3/build/node-screen/node-screen.js'
+            '../vendor/yui/yui3/build/node-style/node-style.js'
+            '../vendor/yui/yui3/build/querystring-stringify-simple/querystring-stringify-simple.js'
+            '../vendor/yui/yui3/build/io-base/io-base.js'
+            '@LightningApiBundle/Resources/public/js/*'
         %}
             <script src="{{ asset_url }}"></script>
         {% endjavascripts %}

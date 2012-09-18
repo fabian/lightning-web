@@ -1,5 +1,5 @@
 {
-    "hash": "2b95d529fb8a303dcbdaa32634d447bd",
+    "hash": "0cc73f1b90156a60cb82aa8c2b8a2af1",
     "packages": [
         {
             "name": "doctrine/common",
@@ -7,18 +7,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common",
-                "reference": "bcc89eb63e7dad22102c4e0516fe40159461f40a"
+                "reference": "24c761bf0f8337064b961a8fad85631a561d26c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/common/zipball/bcc89eb63e7dad22102c4e0516fe40159461f40a",
-                "reference": "bcc89eb63e7dad22102c4e0516fe40159461f40a",
+                "url": "https://github.com/doctrine/common/zipball/24c761bf0f8337064b961a8fad85631a561d26c7",
+                "reference": "24c761bf0f8337064b961a8fad85631a561d26c7",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "1347603718",
+            "time": "1347882477",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -55,7 +55,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "https://github.com/schmittjoh",
+                    "homepage": "http://jmsyst.com",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -75,19 +75,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal",
-                "reference": "239630b61f03f39d198441eced1bfffb7b0e61d1"
+                "reference": "c4fe3499781944f7f2b056fd164cfedc67cc0130"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/dbal/zipball/239630b61f03f39d198441eced1bfffb7b0e61d1",
-                "reference": "239630b61f03f39d198441eced1bfffb7b0e61d1",
+                "url": "https://github.com/doctrine/dbal/zipball/c4fe3499781944f7f2b056fd164cfedc67cc0130",
+                "reference": "c4fe3499781944f7f2b056fd164cfedc67cc0130",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "doctrine/common": "2.3.*"
             },
-            "time": "1346866589",
+            "time": "1347882607",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -307,12 +307,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/doctrine/doctrine2.git",
-                "reference": "4d9f24b2eef3af3a3e76c773994c19bbb0706f88"
+                "reference": "c6101317cd71cbf320e96f4ce461f8a5a54bf56d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/doctrine/doctrine2/zipball/4d9f24b2eef3af3a3e76c773994c19bbb0706f88",
-                "reference": "4d9f24b2eef3af3a3e76c773994c19bbb0706f88",
+                "url": "https://github.com/doctrine/doctrine2/zipball/c6101317cd71cbf320e96f4ce461f8a5a54bf56d",
+                "reference": "c6101317cd71cbf320e96f4ce461f8a5a54bf56d",
                 "shasum": ""
             },
             "require": {
@@ -324,7 +324,7 @@
             "suggest": {
                 "symfony/yaml": "If you want to use YAML Metadata Mapping Driver"
             },
-            "time": "1346869007",
+            "time": "1347883749",
             "bin": [
                 "bin/doctrine",
                 "bin/doctrine.php"
@@ -428,12 +428,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSRestBundle",
-                "reference": "ee75db5cf924a4fee6c8b5b056c2bc0f81b15964"
+                "reference": "2cd153030041b3b817193bb8c64e980b9e7143e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/FriendsOfSymfony/FOSRestBundle/zipball/ee75db5cf924a4fee6c8b5b056c2bc0f81b15964",
-                "reference": "ee75db5cf924a4fee6c8b5b056c2bc0f81b15964",
+                "url": "https://github.com/FriendsOfSymfony/FOSRestBundle/zipball/2cd153030041b3b817193bb8c64e980b9e7143e9",
+                "reference": "2cd153030041b3b817193bb8c64e980b9e7143e9",
                 "shasum": ""
             },
             "require": {
@@ -447,7 +447,7 @@
                 "symfony/form": ">=2.0,<2.3-dev",
                 "symfony/yaml": ">=2.0,<2.3-dev"
             },
-            "time": "1347411334",
+            "time": "1347997381",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -503,7 +503,7 @@
                 "symfony/framework-bundle": "2.*",
                 "jms/cg": "1.0.0"
             },
-            "time": "2012-01-02 04:50:26",
+            "time": "2012-01-02 03:50:26",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -545,7 +545,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 04:40:52",
+            "time": "2012-01-02 03:40:52",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -647,7 +647,7 @@
             "require": {
                 "php": ">=5.3.0"
             },
-            "time": "2012-01-02 05:32:49",
+            "time": "2012-01-02 04:32:49",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -1043,12 +1043,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog",
-                "reference": "0f3dc95c4a0ed7d17bec237d07af3da6c0c1071a"
+                "reference": "09b3a80cfaf3e323e348a5e817afeee98d5e6b48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/Seldaek/monolog/zipball/0f3dc95c4a0ed7d17bec237d07af3da6c0c1071a",
-                "reference": "0f3dc95c4a0ed7d17bec237d07af3da6c0c1071a",
+                "url": "https://github.com/Seldaek/monolog/zipball/09b3a80cfaf3e323e348a5e817afeee98d5e6b48",
+                "reference": "09b3a80cfaf3e323e348a5e817afeee98d5e6b48",
                 "shasum": ""
             },
             "require": {
@@ -1062,7 +1062,7 @@
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
                 "ext-mongo": "Allow sending log messages to a MongoDB server"
             },
-            "time": "1347363321",
+            "time": "1347983448",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1403,12 +1403,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/MonologBundle",
-                "reference": "b7318480e6f8bf5579d6b3cd856850302e7ba8d8"
+                "reference": "e1acd0a0da661bdb0f5378a60226ae6e30ec55c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/MonologBundle/zipball/b7318480e6f8bf5579d6b3cd856850302e7ba8d8",
-                "reference": "b7318480e6f8bf5579d6b3cd856850302e7ba8d8",
+                "url": "https://github.com/symfony/MonologBundle/zipball/e1acd0a0da661bdb0f5378a60226ae6e30ec55c6",
+                "reference": "e1acd0a0da661bdb0f5378a60226ae6e30ec55c6",
                 "shasum": ""
             },
             "require": {
@@ -1422,7 +1422,7 @@
                 "symfony/yaml": "2.1.*",
                 "symfony/config": "2.1.*"
             },
-            "time": "1347283885",
+            "time": "1347983520",
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
@@ -1512,12 +1512,12 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/symfony/symfony.git",
-                "reference": "9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9"
+                "reference": "5a4a73ef9461bab9c88335a0d7e3ece5850225ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/symfony/zipball/9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9",
-                "reference": "9993b86a4844af0b3dcd79f1c795eb4a8f5ab7d9",
+                "url": "https://github.com/symfony/symfony/zipball/5a4a73ef9461bab9c88335a0d7e3ece5850225ae",
+                "reference": "5a4a73ef9461bab9c88335a0d7e3ece5850225ae",
                 "shasum": ""
             },
             "require": {
@@ -1566,7 +1566,7 @@
                 "propel/propel1": "dev-master",
                 "monolog/monolog": "dev-master"
             },
-            "time": "1347864860",
+            "time": "1347986688",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1652,18 +1652,18 @@
             "source": {
                 "type": "git",
                 "url": "git://github.com/fabpot/Twig.git",
-                "reference": "c38e06ff4134820f5acca2b5b0a163251b053d89"
+                "reference": "b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/fabpot/Twig/zipball/c38e06ff4134820f5acca2b5b0a163251b053d89",
-                "reference": "c38e06ff4134820f5acca2b5b0a163251b053d89",
+                "url": "https://github.com/fabpot/Twig/zipball/b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4",
+                "reference": "b4d1d62b82e83c6fd3d5a6cd46a186de64275bb4",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
             },
-            "time": "1347806324",
+            "time": "1347961095",
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -1694,6 +1694,23 @@
             "keywords": [
                 "templating"
             ]
+        },
+        {
+            "name": "yui/yui3",
+            "version": "3.6.0",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/yui/yui3.git",
+                "reference": "origin/3.x"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "http://github.com/yui/yui3/zipball/3.x",
+                "reference": null,
+                "shasum": null
+            },
+            "type": "library",
+            "installation-source": "dist"
         }
     ],
     "packages-dev": null,

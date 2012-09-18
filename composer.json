@@ -4,6 +4,24 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "yui/yui3",
+                "version": "3.6.0",
+                "source": {
+                    "url": "git://github.com/yui/yui3.git",
+                    "type": "git",
+                    "reference": "origin/3.x"
+                },
+                "dist": {
+                    "url": "http://github.com/yui/yui3/zipball/3.x",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.1.*",
@@ -23,7 +41,8 @@
         "sonata-project/jquery-bundle": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "kriswallsmith/buzz": "dev-master",
-        "jms/twig-js-bundle": "dev-master"
+        "jms/twig-js-bundle": "dev-master",
+        "yui/yui3": "3.6.*"
     },
     "scripts": {
         "post-install-cmd": [

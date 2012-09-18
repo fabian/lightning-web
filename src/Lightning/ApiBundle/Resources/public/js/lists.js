@@ -1,52 +1,71 @@
 var Lightning = Lightning || {};
 
-Lightning.App = function () {
+YUI().use('*', function (Y) {
 
-    this.container = $('#container');
-    this.loading = $('.loading');
+    Lightning.App = function () {
 
-    this.container.html(Twig.render(Lightning.templates.welcome, {href: Lightning.URL_ACCOUNT}));
+        this.container = Y.one('#container');
+        this.loading = Y.one('.loading');
+        this.account = '';
 
-    $('.send-request').click($.proxy(this.sendRequest, this));
-};
+        this.container.setHTML(Twig.render(Lightning.templates.welcome, {href: Lightning.URL_ACCOUNT}));
 
-Lightning.App.prototype.load = function (loading) {
-    this.loading.css('visibility', loading ? 'visible' : 'hidden');
-};
+        Y.one('.send-request').on('click', Y.bind(this.sendRequest, this));
+    };
 
-Lightning.App.prototype.sendRequest = function () {
+    Lightning.App.prototype.load = function (loading) {
+        this.loading.setStyle('visibility', loading ? 'visible' : 'hidden');
+    };
 
-    this.load(true);
-    this.container.html('<p>Please allow access on your mobile phone<p>');
+    Lightning.App.prototype.sendRequest = function (e) {
 
-    this.poll();
+        e.preventDefault();
 
-    return false;
-};
+        this.load(true);
+        this.container.setHTML('<p>Please allow access on your mobile phone<p>');
 
-Lightning.App.prototype.poll = function () {
+        Y.io(Lightning.URL_ACCOUNT, {
+            method: 'POST',
+            headers: { 
+                Accept: 'application/json; charset=utf-8'
+            },
+            on: {success: Y.bind(this.accessed, this)}
+        });
 
-    $.ajax({
-        url: Lightning.URL_LISTS,
-        dataType: 'json',
-        headers: { 
-            Accept: 'application/json; charset=utf-8',
-            Account: 'http://lightningapp.ch/accounts/2?secret=173341cec52486c67e72f9f20ae8fd1e'
-        },
-        success: $.proxy(this.lists, this)
-    });
-};
+        return false;
+    };
 
-Lightning.App.prototype.lists = function (data) {
+    Lightning.App.prototype.accessed = function (id, e) {
 
-    this.load(false);
-    this.container.html(Twig.render(Lightning.templates.lists, data));
+        var account = JSON.parse(e.responseText);
 
-    $('#user').html('<a href="">Logout</a>');
+        this.account = 'secret';
 
-    setTimeout($.proxy(this.poll, this), 1000);
-};
+        this.poll();
+    };
 
-$(function () {
+    Lightning.App.prototype.poll = function () {
+
+        Y.io(Lightning.URL_LISTS, {
+            headers: {
+                Accept: 'application/json; charset=utf-8',
+                Account: this.account
+            },
+            on: {success: Y.bind(this.lists, this)}
+        });
+    };
+
+    Lightning.App.prototype.lists = function (id, e) {
+
+        var data = JSON.parse(e.responseText);
+
+        this.load(false);
+        this.container.setHTML(Twig.render(Lightning.templates.lists, data));
+
+        Y.one('#user').setHTML('<a href="">Logout</a>');
+
+        setTimeout(Y.bind(this.poll, this), 1000);
+    };
+
     var app = new Lightning.App();
 });
