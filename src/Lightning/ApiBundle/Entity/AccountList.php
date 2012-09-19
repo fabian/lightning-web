@@ -17,13 +17,20 @@ use Lightning\ApiBundle\Entity\ItemList;
 class AccountList
 {
     /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\ManyToOne(targetEntity="Account", inversedBy="lists")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     * @Exclude
      */
-    private $id;
+    protected $account;
+
+    /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="ItemList", inversedBy="accounts")
+     * @ORM\JoinColumn(name="list_id", referencedColumnName="id")
+     * @Exclude
+     */
+    protected $list;
 
     /**
      * @var string $permission
@@ -76,30 +83,19 @@ class AccountList
     private $modified;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Account", inversedBy="lists")
-     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     * @var string $title
      */
-    protected $account;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="ItemList", inversedBy="accounts")
-     * @ORM\JoinColumn(name="list_id", referencedColumnName="id")
-     */
-    protected $list;
+    public $title;
 
     /**
      * @var string $url
      */
     public $url;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
+    public function __construct(Account $account, ItemList $list)
     {
-        return $this->id;
+        $this->account = $account;
+        $this->list = $list;
     }
 
     /**

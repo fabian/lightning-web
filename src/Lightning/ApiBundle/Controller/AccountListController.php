@@ -11,6 +11,8 @@ use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use FOS\RestBundle\Controller\Annotations\View;
 
+use Lightning\ApiBundle\Entity\ItemList;
+use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
@@ -33,26 +35,60 @@ class AccountListController extends AbstractAccountController
 
     /**
      * @Route("/accounts/{id}/lists.{_format}", defaults={"_format" = "json"})
+     * @Method("POST")
+     * @View()
+     */
+    public function createAction($id, Request $request)
+    {
+        $account = $this->checkAccount($id);
+
+        $list = new ItemList();
+        $list->setTitle($request->request->get('title'));
+        $list->setCreated(new \DateTime('now'));
+        $list->setModified(new \DateTime('now'));
+
+        $accountList = new AccountList($account, $list);
+        $accountList->setPermission('owner');
+        $accountList->setRead(new \DateTime('now'));
+        $accountList->setPushed(new \DateTime('now'));
+        $accountList->setCreated(new \DateTime('now'));
+        $accountList->setModified(new \DateTime('now'));
+
+        $em = $this->doctrine->getManager();
+        $em->persist($list);
+        $em->flush(); // make sure list has an ID
+        $em->persist($accountList);
+        $em->flush();
+
+        $this->mergeList($accountList);
+
+        return $accountList;
+    }
+
+    /**
+     * @Route("/accounts/{id}/lists.{_format}", defaults={"_format" = "json"})
      * @Method("GET")
      * @View()
      */
-    public function showAction($id)
+    public function indexAction($id)
     {
         $account = $this->checkAccount($id);
 
         $lists = $account->getLists();
 
-        // make sure original password gets returned
+        // merge list
         foreach ($lists as $list) {
-            $this->addUrl($list);
+            $this->mergeList($list);
         }
 
-        return $lists;
+        return array('lists' => $lists);
     }
 
-    protected function addUrl($list, $secret = null)
+    protected function mergeList($accountList)
     {
-        $list->url = $this->router->generate('lightning_api_list_show', array(
+        $list = $accountList->getList();
+        $accountList->title = $list->getTitle();
+        $accountList->url = $this->router->generate('lightning_api_list_show', array(
             'id' => $list->getId(),
         ), true);
     }

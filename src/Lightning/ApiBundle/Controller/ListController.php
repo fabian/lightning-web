@@ -38,46 +38,18 @@ class ListController
         $this->security = $security;
     }
 
-    /**
-     * @Route("/lists.{_format}", defaults={"_format" = "json"})
-     * @Method("POST")
-     * @View()
-     */
-    public function createAction(Request $request)
+    protected function checkAccountList($list)
     {
-        $owner = $request->request->get('owner', 0);
-        $account = $this->doctrine
-            ->getRepository('LightningApiBundle:Account')
-            ->find($owner);
+        $account = $this->security->getToken()->getUser()->getUsername();
+        $accountList = $this->doctrine
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findBy(array('list' => $list->getId(), 'account' => $account, 'deleted' => false));
 
-        if (!$account) {
-            throw new HttpException(400, 'No account found for owner ' . $owner);
+        if (!$accountList) {
+            throw new AccessDeniedHttpException('Authenticated account ' . $account . ' has no access to list.');
         }
 
-        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Owner ' . $owner . ' doesn\'t match authenticated account');
-        }
-
-        $list = new ItemList();
-        $list->setTitle($request->request->get('title'));
-        $list->setCreated(new \DateTime('now'));
-        $list->setModified(new \DateTime('now'));
-
-        $accountList = new AccountList();
-        $accountList->setPermission('owner');
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
-        $accountList->setList($list);
-        $accountList->setAccount($account);
-
-        $em = $this->doctrine->getManager();
-        $em->persist($accountList);
-        $em->persist($list);
-        $em->flush();
-
-        return $list;
+        return $accountList;
     }
 
     /**
@@ -92,8 +64,10 @@ class ListController
             ->find($id);
 
         if (!$list) {
-            throw new NotFoundHttpException('No list found for id ' . $id);
+            throw new NotFoundHttpException('No list found for id ' . $id . '.');
         }
+
+        $accountList = $this->checkAccountList($list);
 
         $this->addUrl($list);
 

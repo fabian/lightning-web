@@ -6,6 +6,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\ORM\Tools\SchemaTool;
 
 use Lightning\ApiBundle\Entity\Account;
+use Lightning\ApiBundle\Entity\AccountList;
+use Lightning\ApiBundle\Entity\ItemList;
 
 abstract class ApiControllerTest extends WebTestCase
 {
@@ -45,5 +47,27 @@ abstract class ApiControllerTest extends WebTestCase
         $this->em->flush();
 
         return $account;
+    }
+    
+    protected function createList($account)
+    {
+        $list = new ItemList();
+        $list->setTitle('Groceries');
+        $list->setCreated(new \DateTime('now'));
+        $list->setModified(new \DateTime('now'));
+
+        $accountList = new AccountList($account, $list);
+        $accountList->setPermission('owner');
+        $accountList->setRead(new \DateTime('now'));
+        $accountList->setPushed(new \DateTime('now'));
+        $accountList->setCreated(new \DateTime('now'));
+        $accountList->setModified(new \DateTime('now'));
+
+        $this->em->persist($list);
+        $this->em->flush();
+        $this->em->persist($accountList);
+        $this->em->flush();
+
+        return $accountList;
     }
 }

@@ -133,7 +133,7 @@ class AccountController extends AbstractAccountController
         ), true);
 
         // short web url
-        $account->short = $this->router->generate('lightning_api_account_index', array(
+        $account->shortUrl = $this->router->generate('lightning_api_account_index', array(
             'id' => $account->getId(),
             'code' => $account->getCode(),
         ), true);
@@ -145,5 +145,10 @@ class AccountController extends AbstractAccountController
                 'secret' => $secret,
             ), true);
         }
+
+        // lists url
+        $account->listsUrl = $this->router->generate('lightning_api_accountlist_index', array(
+            'id' => $account->getId(),
+        ), true);
     }
 }

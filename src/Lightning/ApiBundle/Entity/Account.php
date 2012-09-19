@@ -77,14 +77,19 @@ class Account implements UserInterface
     public $url;
 
     /**
-     * @var string $short
+     * @var string $shortUrl
      */
-    public $short;
+    public $shortUrl;
 
     /**
      * @var string $account
      */
     public $account;
+
+    /**
+     * @var string $listsUrl
+     */
+    public $listsUrl;
 
     public function __construct()
     {
@@ -248,24 +253,14 @@ class Account implements UserInterface
     /**
      * Add lists
      *
-     * @param Lightning\ApiBundle\Entity\ItemList $lists
+     * @param Lightning\ApiBundle\Entity\AccountList $lists
      * @return Account
      */
-    public function addList(\Lightning\ApiBundle\Entity\ItemList $lists)
+    public function addList(\Lightning\ApiBundle\Entity\AccountList $list)
     {
         $this->lists[] = $lists;
     
         return $this;
-    }
-
-    /**
-     * Remove lists
-     *
-     * @param Lightning\ApiBundle\Entity\ItemList $lists
-     */
-    public function removeList(\Lightning\ApiBundle\Entity\ItemList $lists)
-    {
-        $this->lists->removeElement($lists);
     }
 
     /**
