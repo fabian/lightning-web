@@ -26,5 +26,19 @@ class ListControllerTest extends ApiControllerTest
             ->find(1);
 
         $this->assertEquals('Example', $accountList->getList()->getTitle());
+        $this->assertEquals(1, $accountList->getAccount()->getId());
+    }
+
+    public function testCreateWrongOwner()
+    {
+        $client = static::createClient(array('debug' => false));
+
+        $client->request('POST', '/lists', array('title' => 'Example', 'owner' => 99), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":400,"message":"No account found for owner 99"}}', trim($client->getResponse()->getContent()));
     }
 }
