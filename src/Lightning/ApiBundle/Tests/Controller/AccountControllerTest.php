@@ -66,8 +66,8 @@ class AccountControllerTest extends ApiControllerTest
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        $this->assertEquals('{"error":{"code":403,"message":"Account header not found."}}', trim($client->getResponse()->getContent()));
+        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($client->getResponse()->getContent()));
     }
 
     public function testShowWrongSecret()
