@@ -55,7 +55,7 @@ class ListController
         }
 
         if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Owner ' . $id . ' doesn\'t match authenticated account');
+            throw new AccessDeniedHttpException('Owner ' . $owner . ' doesn\'t match authenticated account');
         }
 
         $list = new ItemList();
