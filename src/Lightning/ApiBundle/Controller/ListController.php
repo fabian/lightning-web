@@ -5,6 +5,7 @@ namespace Lightning\ApiBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation\Inject;
@@ -50,7 +51,7 @@ class ListController
             ->find($owner);
 
         if (!$account) {
-            throw new NotFoundHttpException('No account found for owner ' . $owner);
+            throw new HttpException(400, 'No account found for owner ' . $owner);
         }
 
         if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
