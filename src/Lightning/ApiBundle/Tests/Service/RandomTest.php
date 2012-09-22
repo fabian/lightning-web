@@ -1,0 +1,28 @@
+<?php
+
+namespace Lightning\ApiBundle\Tests\Service;
+
+use Buzz\Client\ClientInterface;
+use Buzz\Browser;
+use Buzz\Message\Request;
+use Buzz\Message\Response;
+use Buzz\Message\RequestInterface;
+use JMS\DiExtraBundle\Annotation\Service;
+use Lightning\ApiBundle\Service\Random;
+
+class RandomTest extends \PHPUnit_Framework_TestCase
+{
+    private $random;
+
+    protected function setUp()
+    {
+        $this->random = new Random();
+    }
+
+    public function testCode()
+    {
+        $code = $this->random->code(8, 1);
+
+        $this->assertEquals('9v7n3Uab', $code);
+    }
+}
