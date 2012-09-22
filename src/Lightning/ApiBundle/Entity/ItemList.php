@@ -46,7 +46,7 @@ class ItemList
     private $modified;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="list")
+     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="list", cascade={"persist", "remove"})
      * @Exclude
      */
     protected $accounts;

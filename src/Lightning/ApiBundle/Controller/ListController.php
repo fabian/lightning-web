@@ -96,11 +96,28 @@ class ListController
         $accountList = $this->checkAccountList($list, true);
 
         $list->setTitle($request->get('title'));
-        $this->doctrine->getManager()->flush();
+
+        $em = $this->doctrine->getManager();
+        $em->flush();
 
         $this->addUrl($list);
 
         return $list;
+    }
+
+    /**
+     * @Route("/lists/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("DELETE")
+     * @View(statusCode=204)
+     */
+    public function deleteAction($id, Request $request)
+    {
+        $list = $this->checkList($id);
+        $accountList = $this->checkAccountList($list, true);
+
+        $em = $this->doctrine->getManager();
+        $em->remove($list);
+        $em->flush();
     }
 
     protected function addUrl($list)

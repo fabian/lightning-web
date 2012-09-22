@@ -66,7 +66,7 @@ class Account implements UserInterface
     private $modified;
 
     /**
-     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="account")
+     * @ORM\OneToMany(targetEntity="AccountList", mappedBy="account", cascade={"persist", "remove"})
      * @Exclude
      */
     protected $lists;
