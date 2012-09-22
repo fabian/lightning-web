@@ -40,16 +40,13 @@ class AccountListener implements ListenerInterface
 
             $token = new AccountToken();
             $token->setUser($matches[1]);
-
-            $token->secret = $matches[2];
+            $token->setSecret($matches[2]);
 
             try {
                 $returnValue = $this->authenticationManager->authenticate($token);
 
                 if ($returnValue instanceof TokenInterface) {
                     return $this->securityContext->setToken($returnValue);
-                } elseif ($returnValue instanceof Response) {
-                    return $event->setResponse($returnValue);
                 }
             } catch (AuthenticationException $e) {
                 // throw exception below

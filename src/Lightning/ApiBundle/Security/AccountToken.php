@@ -6,18 +6,23 @@ use Symfony\Component\Security\Core\Authentication\Token\AbstractToken;
 
 class AccountToken extends AbstractToken
 {
-    public $secret;
+    protected $secret;
 
     public function __construct(array $roles = array())
     {
         parent::__construct($roles);
 
         // If the user has roles, consider it authenticated
-        $this->setAuthenticated(count($roles) > 0);
+        parent::setAuthenticated(count($roles) > 0);
+    }
+
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
     }
 
     public function getCredentials()
     {
-        return '';
+        return $this->secret;
     }
 }
