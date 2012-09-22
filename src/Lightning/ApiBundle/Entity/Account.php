@@ -251,19 +251,6 @@ class Account implements UserInterface
     }
 
     /**
-     * Add lists
-     *
-     * @param Lightning\ApiBundle\Entity\AccountList $lists
-     * @return Account
-     */
-    public function addList(\Lightning\ApiBundle\Entity\AccountList $list)
-    {
-        $this->lists[] = $lists;
-    
-        return $this;
-    }
-
-    /**
      * Get lists
      *
      * @return Doctrine\Common\Collections\Collection 

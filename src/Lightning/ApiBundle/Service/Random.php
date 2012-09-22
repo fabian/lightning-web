@@ -25,6 +25,9 @@ class Random
         return $code;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function secret()
     {
         return md5(uniqid(null, true));

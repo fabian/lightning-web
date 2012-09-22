@@ -141,29 +141,6 @@ class ItemList
     {
         $this->accounts = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-    /**
-     * Add accounts
-     *
-     * @param Lightning\ApiBundle\Entity\AccountList $accounts
-     * @return ItemList
-     */
-    public function addAccount(\Lightning\ApiBundle\Entity\AccountList $accounts)
-    {
-        $this->accounts[] = $accounts;
-    
-        return $this;
-    }
-
-    /**
-     * Remove accounts
-     *
-     * @param Lightning\ApiBundle\Entity\AccountList $accounts
-     */
-    public function removeAccount(\Lightning\ApiBundle\Entity\AccountList $accounts)
-    {
-        $this->accounts->removeElement($accounts);
-    }
 
     /**
      * Get accounts
