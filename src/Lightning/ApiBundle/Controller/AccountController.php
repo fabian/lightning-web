@@ -66,7 +66,7 @@ class AccountController extends AbstractAccountController
     /**
      * @Route("/accounts.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
-     * @View()
+     * @View(statusCode=201)
      */
     public function createAction(Request $request)
     {

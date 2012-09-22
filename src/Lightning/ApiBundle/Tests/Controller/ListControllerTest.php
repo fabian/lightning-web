@@ -22,6 +22,7 @@ class ListControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('{"id":1,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}', $client->getResponse()->getContent());
+        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 
@@ -35,6 +36,7 @@ class ListControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('{"error":{"code":404,"message":"No list found for id 999."}}', trim($client->getResponse()->getContent()));
+        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
@@ -50,6 +52,7 @@ class ListControllerTest extends ApiControllerTest
         ));
 
         $this->assertEquals('{"error":{"code":403,"message":"Authenticated account 2 has no access to list."}}', trim($client->getResponse()->getContent()));
+        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 }

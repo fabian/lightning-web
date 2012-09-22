@@ -36,7 +36,7 @@ class AccountListController extends AbstractAccountController
     /**
      * @Route("/accounts/{id}/lists.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
-     * @View()
+     * @View(statusCode=201)
      */
     public function createAction($id, Request $request)
     {
