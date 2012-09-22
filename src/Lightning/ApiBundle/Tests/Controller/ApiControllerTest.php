@@ -57,7 +57,7 @@ abstract class ApiControllerTest extends WebTestCase
         $list->setModified(new \DateTime('now'));
 
         $accountList = new AccountList($account, $list);
-        $accountList->setPermission('owner');
+        $accountList->setPermission(AccountList::PERMISSION_OWNER);
         $accountList->setRead(new \DateTime('now'));
         $accountList->setPushed(new \DateTime('now'));
         $accountList->setCreated(new \DateTime('now'));
@@ -65,6 +65,21 @@ abstract class ApiControllerTest extends WebTestCase
 
         $this->em->persist($list);
         $this->em->flush();
+        $this->em->persist($accountList);
+        $this->em->flush();
+
+        return $accountList;
+    }
+
+    protected function createAccountList($account, $list)
+    {
+        $accountList = new AccountList($account, $list);
+        $accountList->setPermission(AccountList::PERMISSION_GUEST);
+        $accountList->setRead(new \DateTime('now'));
+        $accountList->setPushed(new \DateTime('now'));
+        $accountList->setCreated(new \DateTime('now'));
+        $accountList->setModified(new \DateTime('now'));
+
         $this->em->persist($accountList);
         $this->em->flush();
 

@@ -16,6 +16,9 @@ use Lightning\ApiBundle\Entity\ItemList;
  */
 class AccountList
 {
+    const PERMISSION_OWNER = 'owner';
+    const PERMISSION_GUEST = 'guest';
+
     /**
      * @ORM\Id
      * @ORM\ManyToOne(targetEntity="Account", inversedBy="lists")

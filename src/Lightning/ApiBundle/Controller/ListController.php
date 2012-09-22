@@ -38,15 +38,32 @@ class ListController
         $this->security = $security;
     }
 
-    protected function checkAccountList($list)
+    protected function checkList($id)
+    {
+        $list = $this->doctrine
+            ->getRepository('LightningApiBundle:ItemList')
+            ->find($id);
+
+        if (!$list) {
+            throw new NotFoundHttpException('No list found for id ' . $id . '.');
+        }
+
+        return $list;
+    }
+
+    protected function checkAccountList($list, $owner = false)
     {
         $account = $this->security->getToken()->getUser()->getUsername();
         $accountList = $this->doctrine
             ->getRepository('LightningApiBundle:AccountList')
-            ->findBy(array('list' => $list->getId(), 'account' => $account, 'deleted' => false));
+            ->findOneBy(array('list' => $list->getId(), 'account' => $account, 'deleted' => false));
 
         if (!$accountList) {
             throw new AccessDeniedHttpException('Authenticated account ' . $account . ' has no access to list.');
+        }
+
+        if ($owner && $accountList->getPermission() != AccountList::PERMISSION_OWNER) {
+            throw new AccessDeniedHttpException('Authenticated account ' . $account . ' is not owner of list.');
         }
 
         return $accountList;
@@ -59,15 +76,27 @@ class ListController
      */
     public function showAction($id)
     {
-        $list = $this->doctrine
-            ->getRepository('LightningApiBundle:ItemList')
-            ->find($id);
-
-        if (!$list) {
-            throw new NotFoundHttpException('No list found for id ' . $id . '.');
-        }
+        $list = $this->checkList($id);
 
         $accountList = $this->checkAccountList($list);
+
+        $this->addUrl($list);
+
+        return $list;
+    }
+
+    /**
+     * @Route("/lists/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("PUT")
+     * @View()
+     */
+    public function updateAction($id, Request $request)
+    {
+        $list = $this->checkList($id);
+        $accountList = $this->checkAccountList($list, true);
+
+        $list->setTitle($request->get('title'));
+        $this->doctrine->getManager()->flush();
 
         $this->addUrl($list);
 

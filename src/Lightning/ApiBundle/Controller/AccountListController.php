@@ -48,7 +48,7 @@ class AccountListController extends AbstractAccountController
         $list->setModified(new \DateTime('now'));
 
         $accountList = new AccountList($account, $list);
-        $accountList->setPermission('owner');
+        $accountList->setPermission(AccountList::PERMISSION_OWNER);
         $accountList->setRead(new \DateTime('now'));
         $accountList->setPushed(new \DateTime('now'));
         $accountList->setCreated(new \DateTime('now'));
