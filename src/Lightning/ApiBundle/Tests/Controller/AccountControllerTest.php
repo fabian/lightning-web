@@ -141,9 +141,8 @@ class AccountControllerTest extends ApiControllerTest
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"token":"ABC123"}', $client->getResponse()->getContent());
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals('', $client->getResponse()->getContent());
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
     public function testTokenWrongId()

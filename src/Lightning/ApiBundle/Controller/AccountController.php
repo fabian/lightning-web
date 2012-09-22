@@ -111,7 +111,7 @@ class AccountController extends AbstractAccountController
     /**
      * @Route("/accounts/{id}/tokens/{token}.{_format}", defaults={"_format" = "json"})
      * @Method("PUT")
-     * @View()
+     * @View(statusCode=204)
      */
     public function tokenAction($id, $token)
     {
@@ -121,8 +121,6 @@ class AccountController extends AbstractAccountController
             'id' => $account->getId(),
         ), true);
         $this->airship->register($token, $url);
-
-        return array('token' => $token);
     }
 
     protected function addUrls($account, $secret = null)
