@@ -145,6 +145,31 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
+    public function testTokenException()
+    {
+        $client = static::createClient(array('debug' => false));
+
+        $this->createAccount();
+
+        $airship = $this->getMockBuilder('Lightning\ApiBundle\Service\UrbanAirship')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $airship->expects($this->once())
+            ->method('register')
+            ->with('ABC123', 'http://localhost/accounts/1')
+            ->will($this->throwException(new \RuntimeException('Internal error')));
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
+
+        $crawler = $client->request('PUT', '/accounts/1/tokens/ABC123', array(), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('{"error":{"code":500,"message":"Internal error"}}', trim($client->getResponse()->getContent()));
+        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
+        $this->assertEquals(500, $client->getResponse()->getStatusCode());
+    }
+
     public function testTokenWrongId()
     {
         $client = static::createClient(array('debug' => false));
