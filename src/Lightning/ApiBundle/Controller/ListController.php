@@ -95,6 +95,11 @@ class ListController
         $list = $this->checkList($id);
         $accountList = $this->checkAccountList($list, true);
 
+        $modified = new \DateTime($request->get('modified'));
+        if ($modified < $list->getModified()) {
+            throw new HttpException(409, 'Conflict, list has later modification.');
+        }
+
         $list->setTitle($request->get('title'));
 
         $em = $this->doctrine->getManager();

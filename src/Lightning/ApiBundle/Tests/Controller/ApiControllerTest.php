@@ -56,12 +56,13 @@ abstract class ApiControllerTest extends WebTestCase
         $list->setCreated(new \DateTime('now'));
         $list->setModified(new \DateTime('now'));
 
+        $date = new \DateTime('2012-02-29T12:00:00+02:00');
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_OWNER);
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
+        $accountList->setRead($date);
+        $accountList->setPushed($date);
+        $accountList->setCreated($date);
+        $accountList->setModified($date);
 
         $this->em->persist($list);
         $this->em->flush();

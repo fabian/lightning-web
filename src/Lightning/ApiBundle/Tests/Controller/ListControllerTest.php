@@ -119,6 +119,23 @@ class ListControllerTest extends ApiControllerTest
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
+    public function testUpdateConflict()
+    {
+        $client = static::createClient(array('debug' => false));
+
+        $account = $this->createAccount();
+        $this->createAccountList($account, $this->accountList->getList());
+
+        $crawler = $client->request('PUT', '/lists/1', array('title' => 'Todos', 'modified' => '2012-02-01T12:00:00+02:00'), array(), array(
+            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+            'HTTP_ACCEPT' => 'application/json',
+        ));
+
+        $this->assertEquals('{"error":{"code":409,"message":"Conflict, list has later modification."}}', trim($client->getResponse()->getContent()));
+        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
+        $this->assertEquals(409, $client->getResponse()->getStatusCode());
+    }
+
     public function testDelete()
     {
         $client = static::createClient();
