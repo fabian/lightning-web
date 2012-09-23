@@ -17,7 +17,7 @@
         <div id="user"></div>
         <script>
             var Lightning = Lightning || {};
-            Lightning.URL_LISTS = '{{ path('lightning_api_accountlist_show', {'id': id}) }}';
+            Lightning.URL_LISTS = '{{ path('lightning_api_accountlist_index', {'id': id}) }}';
             Lightning.URL_ACCOUNT = '{{ path('lightning_api_account_index', {'id': id, 'code': code}) }}';
         </script>
         {% javascripts
