@@ -109,11 +109,11 @@ class AccountController extends AbstractAccountController
     }
 
     /**
-     * @Route("/accounts/{id}/tokens/{token}.{_format}", defaults={"_format" = "json"})
+     * @Route("/accounts/{id}/device_tokens/{token}.{_format}", defaults={"_format" = "json"})
      * @Method("PUT")
      * @View(statusCode=204)
      */
-    public function tokenAction($id, $token)
+    public function deviceTokenAction($id, $token)
     {
         $account = $this->checkAccount($id);
 

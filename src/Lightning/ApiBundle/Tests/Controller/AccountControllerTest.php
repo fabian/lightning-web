@@ -122,7 +122,7 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
-    public function testToken()
+    public function testDeviceToken()
     {
         $client = static::createClient();
 
@@ -136,7 +136,7 @@ class AccountControllerTest extends ApiControllerTest
             ->with('ABC123', 'http://localhost/accounts/1');
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $client->request('PUT', '/accounts/1/tokens/ABC123', array(), array(), array(
+        $crawler = $client->request('PUT', '/accounts/1/device_tokens/ABC123', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
@@ -145,7 +145,7 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 
-    public function testTokenException()
+    public function testDeviceTokenException()
     {
         $client = static::createClient(array('debug' => false));
 
@@ -160,7 +160,7 @@ class AccountControllerTest extends ApiControllerTest
             ->will($this->throwException(new \RuntimeException('Internal error')));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $client->request('PUT', '/accounts/1/tokens/ABC123', array(), array(), array(
+        $crawler = $client->request('PUT', '/accounts/1/device_tokens/ABC123', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
@@ -170,13 +170,13 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(500, $client->getResponse()->getStatusCode());
     }
 
-    public function testTokenWrongId()
+    public function testDeviceTokenWrongId()
     {
         $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
 
-        $crawler = $client->request('PUT', '/accounts/999/tokens/ABC123', array(), array(), array(
+        $crawler = $client->request('PUT', '/accounts/999/device_tokens/ABC123', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
@@ -186,14 +186,14 @@ class AccountControllerTest extends ApiControllerTest
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    public function testTokenWrongAccount()
+    public function testDeviceTokenWrongAccount()
     {
         $client = static::createClient(array('debug' => false));
 
         $this->createAccount();
         $this->createAccount();
 
-        $crawler = $client->request('PUT', '/accounts/2/tokens/ABC123', array(), array(), array(
+        $crawler = $client->request('PUT', '/accounts/2/device_tokens/ABC123', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
