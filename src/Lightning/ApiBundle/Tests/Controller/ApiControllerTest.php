@@ -11,6 +11,8 @@ use Lightning\ApiBundle\Entity\ItemList;
 
 abstract class ApiControllerTest extends WebTestCase
 {
+    protected $client;
+
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -18,9 +20,10 @@ abstract class ApiControllerTest extends WebTestCase
 
     public function setUp()
     {
-        static::$kernel = static::createKernel();
+        static::$kernel = static::createKernel(array('debug' => false));
         static::$kernel->boot();
 
+        $this->client = static::$kernel->getContainer()->get('test.client');
         $this->em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
 
         $tool = new SchemaTool($this->em);
@@ -33,7 +36,7 @@ abstract class ApiControllerTest extends WebTestCase
         $tool->dropSchema($classes);
         $tool->createSchema($classes);
     }
-    
+
     protected function createAccount()
     {
         $account = new Account();

@@ -15,118 +15,111 @@ class AccountListControllerTest extends ApiControllerTest
 
     public function testCreate()
     {
-        $client = static::createClient();
-
-        $client->request('POST', '/accounts/1/lists', array('title' => 'Example'), array(), array(
+        $this->client->request('POST', '/accounts/1/lists', array('title' => 'Example'), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"permission":"owner","deleted":false,"title":"Example","url":"http:\/\/localhost\/lists\/1"}', $client->getResponse()->getContent());
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"permission":"owner","deleted":false,"title":"Example","url":"http:\/\/localhost\/lists\/1"}', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(201, $response->getStatusCode());
     }
 
     public function testCreateWrongOwnerId()
     {
-        $client = static::createClient(array('debug' => false));
-
-        $client->request('POST', '/accounts/99/lists', array('title' => 'Example'), array(), array(
+        $this->client->request('POST', '/accounts/99/lists', array('title' => 'Example'), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 99."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 99."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testCreateWrongOwnerAccount()
     {
         $this->createAccount();
 
-        $client = static::createClient(array('debug' => false));
-
-        $client->request('POST', '/accounts/2/lists', array('title' => 'Example'), array(), array(
+        $this->client->request('POST', '/accounts/2/lists', array('title' => 'Example'), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testShow()
+    public function testIndex()
     {
-        $client = static::createClient();
-
         $this->createList($this->account);
+        $this->em->clear();
 
-        $crawler = $client->request('GET', '/accounts/1/lists', array(), array(), array(
+        $crawler = $this->client->request('GET', '/accounts/1/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"lists":[{"permission":"owner","deleted":false,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}]}', $client->getResponse()->getContent());
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"lists":[{"permission":"owner","deleted":false,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}]}', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testShowNoAccount()
+    public function testIndexNoAccount()
     {
-        $client = static::createClient(array('debug' => false));
-
-        $crawler = $client->request('GET', '/accounts/1/lists', array(), array(), array(
+        $crawler = $this->client->request('GET', '/accounts/1/lists', array(), array(), array(
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(401, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(401, $response->getStatusCode());
     }
 
-    public function testShowWrongSecret()
+    public function testIndexWrongSecret()
     {
-        $client = static::createClient(array('debug' => false));
-
-        $crawler = $client->request('GET', '/accounts/1/lists', array(), array(), array(
+        $crawler = $this->client->request('GET', '/accounts/1/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=987',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":403,"message":"Account header authentication failed."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":403,"message":"Account header authentication failed."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testShowWrongId()
+    public function testIndexWrongId()
     {
-        $client = static::createClient(array('debug' => false));
-
-        $crawler = $client->request('GET', '/accounts/999/lists', array(), array(), array(
+        $crawler = $this->client->request('GET', '/accounts/999/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
-    public function testShowWrongAccount()
+    public function testIndexWrongAccount()
     {
-        $client = static::createClient(array('debug' => false));
-
         $this->createAccount();
 
-        $crawler = $client->request('GET', '/accounts/2/lists', array(), array(), array(
+        $crawler = $this->client->request('GET', '/accounts/2/lists', array(), array(), array(
             'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
             'HTTP_ACCEPT' => 'application/json',
         ));
 
-        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($client->getResponse()->getContent()));
-        $this->assertEquals('application/json', $client->getResponse()->headers->get('Content-Type'));
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(403, $response->getStatusCode());
     }
 }

@@ -44,26 +44,6 @@ class AccountController extends AbstractAccountController
     }
 
     /**
-     * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "html"})
-     * @Method("GET")
-     * @View()
-     */
-    public function indexAction($id, $code)
-    {
-        return array('id' => $id, 'code' => $code);
-    }
-
-    /**
-     * @Route("/{id}/{code}.{_format}", requirements={"id" = "\d+"}, defaults={"_format" = "json"})
-     * @Method("POST")
-     * @View()
-     */
-    public function accessAction($id, $code)
-    {
-        return array();
-    }
-
-    /**
      * @Route("/accounts.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
      * @View(statusCode=201)
@@ -131,7 +111,7 @@ class AccountController extends AbstractAccountController
         ), true);
 
         // short web url
-        $account->shortUrl = $this->router->generate('lightning_api_account_index', array(
+        $account->shortUrl = $this->router->generate('lightning_api_accesstoken_access', array(
             'id' => $account->getId(),
             'code' => $account->getCode(),
         ), true);
