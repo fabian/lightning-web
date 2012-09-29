@@ -15,11 +15,13 @@ class AccountFactory implements SecurityFactoryInterface
         $providerId = 'security.authentication.provider.account.'.$id;
         $container
             ->setDefinition($providerId, new DefinitionDecorator('account.security.authentication.provider'))
-            ->replaceArgument(0, new Reference($userProvider))
-        ;
+            ->replaceArgument(0, new Reference($userProvider));
 
         $listenerId = 'security.authentication.listener.account.'.$id;
-        $listener = $container->setDefinition($listenerId, new DefinitionDecorator('account.security.authentication.listener'));
+        $listener = $container->setDefinition(
+            $listenerId,
+            new DefinitionDecorator('account.security.authentication.listener')
+        );
 
         return array($providerId, $listenerId, $defaultEntryPoint);
     }
@@ -38,4 +40,3 @@ class AccountFactory implements SecurityFactoryInterface
     {
     }
 }
-

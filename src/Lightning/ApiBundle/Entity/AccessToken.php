@@ -79,7 +79,7 @@ class AccessToken
     public function setChallenge($challenge)
     {
         $this->challenge = $challenge;
-    
+
         return $this;
     }
 
@@ -102,7 +102,7 @@ class AccessToken
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -125,7 +125,7 @@ class AccessToken
     public function setApproved($approved)
     {
         $this->approved = $approved;
-    
+
         return $this;
     }
 
@@ -148,7 +148,7 @@ class AccessToken
     public function setAccount(\Lightning\ApiBundle\Entity\Account $account = null)
     {
         $this->account = $account;
-    
+
         return $this;
     }
 

@@ -110,7 +110,7 @@ class AccountList
     public function setPermission($permission)
     {
         $this->permission = $permission;
-    
+
         return $this;
     }
 
@@ -133,7 +133,7 @@ class AccountList
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-    
+
         return $this;
     }
 
@@ -156,7 +156,7 @@ class AccountList
     public function setRead($read)
     {
         $this->read = $read;
-    
+
         return $this;
     }
 
@@ -179,7 +179,7 @@ class AccountList
     public function setPushed($pushed)
     {
         $this->pushed = $pushed;
-    
+
         return $this;
     }
 
@@ -202,7 +202,7 @@ class AccountList
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -225,7 +225,7 @@ class AccountList
     public function setModified($modified)
     {
         $this->modified = $modified;
-    
+
         return $this;
     }
 
@@ -248,7 +248,7 @@ class AccountList
     public function setAccount(Account $account = null)
     {
         $this->account = $account;
-    
+
         return $this;
     }
 
@@ -271,7 +271,7 @@ class AccountList
     public function setList(ItemList $list = null)
     {
         $this->list = $list;
-    
+
         return $this;
     }
 

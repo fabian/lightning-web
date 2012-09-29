@@ -16,6 +16,9 @@ use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
+/**
+ * Controller for lists linked to an account.
+ */
 class AccountListController extends AbstractAccountController
 {
     protected $router;
@@ -88,8 +91,12 @@ class AccountListController extends AbstractAccountController
     {
         $list = $accountList->getList();
         $accountList->title = $list->getTitle();
-        $accountList->url = $this->router->generate('lightning_api_list_show', array(
-            'id' => $list->getId(),
-        ), true);
+        $accountList->url = $this->router->generate(
+            'lightning_api_list_show',
+            array(
+                'id' => $list->getId(),
+            ),
+            true
+        );
     }
 }

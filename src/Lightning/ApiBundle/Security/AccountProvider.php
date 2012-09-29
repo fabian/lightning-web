@@ -23,8 +23,13 @@ class AccountProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
+        $valid = $this->encoderFactory->getEncoder($user)->isPasswordValid(
+            $user->getPassword(),
+            $token->getCredentials(),
+            $user->getSalt()
+        );
 
-        if ($user && $this->encoderFactory->getEncoder($user)->isPasswordValid($user->getPassword(), $token->getCredentials(), $user->getSalt())) {
+        if ($user && $valid) {
             $authenticatedToken = new AccountToken($user->getRoles());
             $authenticatedToken->setUser($user);
 

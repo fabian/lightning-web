@@ -29,7 +29,7 @@ Lightning.App.prototype.poll = function () {
     $.ajax({
         url: Lightning.URL_LISTS,
         dataType: 'json',
-        headers: { 
+        headers: {
             Accept: 'application/json; charset=utf-8',
             Account: 'http://lightningapp.ch/accounts/2?secret=173341cec52486c67e72f9f20ae8fd1e'
         },

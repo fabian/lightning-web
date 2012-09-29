@@ -16,6 +16,9 @@ use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Account;
 
+/**
+ * Controller items.
+ */
 class ListController extends AbstractListController
 {
     protected $router;

@@ -17,15 +17,20 @@ class AccessTokenControllerTest extends ApiControllerTest
         $this->em->persist($accountList);
         $this->em->flush();
 
-        $crawler = $this->client->request('PUT', '/accounts/1/access_tokens/1', array('challenge' => '1234'), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/1/access_tokens/1',
+            array('challenge' => '1234'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $token = $this->em
             ->getRepository('LightningApiBundle:AccessToken')
-            ->find(1)
-        ;
+            ->find(1);
 
         $this->assertTrue($token->getApproved());
 
@@ -45,15 +50,20 @@ class AccessTokenControllerTest extends ApiControllerTest
         $this->em->persist($accountList);
         $this->em->flush();
 
-        $crawler = $this->client->request('PUT', '/accounts/1/access_tokens/1', array('challenge' => '9999'), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/1/access_tokens/1',
+            array('challenge' => '9999'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $token = $this->em
             ->getRepository('LightningApiBundle:AccessToken')
-            ->find(1)
-        ;
+            ->find(1);
 
         $this->assertFalse($token->getApproved());
 

@@ -17,6 +17,9 @@ use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Account;
 
+/**
+ * Controller for items.
+ */
 class ItemController extends AbstractListController
 {
     protected $doctrine;
@@ -94,6 +97,13 @@ class ItemController extends AbstractListController
 
     protected function addUrl($item)
     {
-        $item->url = $this->router->generate('lightning_api_item_show', array('list' => $item->getList()->getId(), 'id' => $item->getId()), true);
+        $item->url = $this->router->generate(
+            'lightning_api_item_show',
+            array(
+                'list' => $item->getList()->getId(),
+                'id' => $item->getId(),
+            ),
+            true
+        );
     }
 }

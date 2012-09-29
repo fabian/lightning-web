@@ -75,7 +75,7 @@ class ItemList
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
@@ -98,7 +98,7 @@ class ItemList
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -121,7 +121,7 @@ class ItemList
     public function setModified($modified)
     {
         $this->modified = $modified;
-    
+
         return $this;
     }
 

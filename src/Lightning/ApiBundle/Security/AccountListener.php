@@ -18,8 +18,10 @@ class AccountListener implements ListenerInterface
     protected $securityContext;
     protected $authenticationManager;
 
-    public function __construct(SecurityContextInterface $securityContext, AuthenticationManagerInterface $authenticationManager)
-    {
+    public function __construct (
+        SecurityContextInterface $securityContext,
+        AuthenticationManagerInterface $authenticationManager
+    ) {
         $this->securityContext = $securityContext;
         $this->authenticationManager = $authenticationManager;
     }
@@ -56,4 +58,3 @@ class AccountListener implements ListenerInterface
         throw new AccessDeniedHttpException('Account header authentication failed.');
     }
 }
-

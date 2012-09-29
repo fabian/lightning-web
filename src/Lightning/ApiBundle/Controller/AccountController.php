@@ -14,6 +14,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Service\CodeGenerator;
 
+/**
+ * Controller for accounts.
+ */
 class AccountController extends AbstractAccountController
 {
     protected $random;
@@ -97,36 +100,56 @@ class AccountController extends AbstractAccountController
     {
         $account = $this->checkAccount($id);
 
-        $url = $this->router->generate('lightning_api_account_show', array(
-            'id' => $account->getId(),
-        ), true);
+        $url = $this->router->generate(
+            'lightning_api_account_show',
+            array(
+                'id' => $account->getId(),
+            ),
+            true
+        );
         $this->airship->register($token, $url);
     }
 
     protected function addUrls($account, $secret = null)
     {
         // full account url
-        $account->url = $this->router->generate('lightning_api_account_show', array(
-            'id' => $account->getId(),
-        ), true);
+        $account->url = $this->router->generate(
+            'lightning_api_account_show',
+            array(
+                'id' => $account->getId(),
+            ),
+            true
+        );
 
         // short web url
-        $account->shortUrl = $this->router->generate('lightning_api_accesstoken_access', array(
-            'id' => $account->getId(),
-            'code' => $account->getCode(),
-        ), true);
+        $account->shortUrl = $this->router->generate(
+            'lightning_api_accesstoken_access',
+            array(
+                'id' => $account->getId(),
+                'code' => $account->getCode(),
+            ),
+            true
+        );
 
         // account url with secret
         if ($secret) {
-            $account->account = $this->router->generate('lightning_api_account_show', array(
-                'id' => $account->getId(),
-                'secret' => $secret,
-            ), true);
+            $account->account = $this->router->generate(
+                'lightning_api_account_show',
+                array(
+                    'id' => $account->getId(),
+                    'secret' => $secret,
+                ),
+                true
+            );
         }
 
         // lists url
-        $account->listsUrl = $this->router->generate('lightning_api_accountlist_index', array(
-            'id' => $account->getId(),
-        ), true);
+        $account->listsUrl = $this->router->generate(
+            'lightning_api_accountlist_index',
+            array(
+                'id' => $account->getId(),
+            ),
+            true
+        );
     }
 }

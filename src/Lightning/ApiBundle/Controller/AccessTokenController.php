@@ -14,6 +14,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Entity\AccessToken;
 
+/**
+ * Controller for access tokens.
+ */
 class AccessTokenController extends AbstractAccountController
 {
     protected $router;
@@ -72,7 +75,8 @@ class AccessTokenController extends AbstractAccountController
     }
 
     /**
-     * @Route("/accounts/{accountId}/access_tokens/{tokenId}.{_format}", requirements={"account" = "\d+", "id" = "\d+"}, defaults={"_format" = "json"})
+     * @Route("/accounts/{accountId}/access_tokens/{tokenId}.{_format}", 
+     *     requirements={"accountId" = "\d+", "id" = "\d+"}, defaults={"_format" = "json"})
      * @Method("PUT")
      * @View(statusCode=204)
      */

@@ -97,7 +97,7 @@ class Item
     public function setValue($value)
     {
         $this->value = $value;
-    
+
         return $this;
     }
 
@@ -120,7 +120,7 @@ class Item
     public function setDone($done)
     {
         $this->done = $done;
-    
+
         return $this;
     }
 
@@ -143,7 +143,7 @@ class Item
     public function setDeleted($deleted)
     {
         $this->deleted = $deleted;
-    
+
         return $this;
     }
 
@@ -166,7 +166,7 @@ class Item
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -189,7 +189,7 @@ class Item
     public function setModified($modified)
     {
         $this->modified = $modified;
-    
+
         return $this;
     }
 
@@ -212,7 +212,7 @@ class Item
     public function setList(ItemList $list)
     {
         $this->list = $list;
-    
+
         return $this;
     }
 

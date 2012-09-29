@@ -115,7 +115,7 @@ class Account implements UserInterface
     public function setCode($code)
     {
         $this->code = $code;
-    
+
         return $this;
     }
 
@@ -138,7 +138,7 @@ class Account implements UserInterface
     public function setSecret($secret)
     {
         $this->secret = $secret;
-    
+
         return $this;
     }
 
@@ -161,7 +161,7 @@ class Account implements UserInterface
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
@@ -184,7 +184,7 @@ class Account implements UserInterface
     public function setModified($modified)
     {
         $this->modified = $modified;
-    
+
         return $this;
     }
 

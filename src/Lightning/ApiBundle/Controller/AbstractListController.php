@@ -14,6 +14,9 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
 
+/**
+ * Base controller for list access.
+ */
 abstract class AbstractListController
 {
     protected $doctrine;

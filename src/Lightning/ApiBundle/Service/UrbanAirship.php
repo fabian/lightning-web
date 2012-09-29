@@ -39,7 +39,7 @@ class UrbanAirship
     protected function request($method, $path, $payload)
     {
         $url = self::URL . $path;
-    
+
         $request = new Request($method, $url);
         $request->addHeader('Authorization: Basic ' . base64_encode($this->key . ':' . $this->secret));
         $request->addHeader('Content-Type: application/json');

@@ -18,7 +18,10 @@ class AccountControllerTest extends ApiControllerTest
         $crawler = $this->client->request('POST', '/accounts');
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"id":1,"url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","account":"http:\/\/localhost\/accounts\/1?secret=123","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}', $response->getContent());
+        $this->assertEquals(
+            '{"id":1,"url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","account":"http:\/\/localhost\/accounts\/1?secret=123","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
+            $response->getContent()
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(201, $response->getStatusCode());
     }
@@ -27,13 +30,22 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request('GET', '/accounts/1', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"id":1,"url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}', $response->getContent());
+        $this->assertEquals(
+            '{"id":1,"url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
+            $response->getContent()
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -42,12 +54,21 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request('GET', '/accounts/1', array(), array(), array(
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":401,"message":"Account header not found."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(401, $response->getStatusCode());
     }
@@ -56,13 +77,22 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request('GET', '/accounts/1', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=987',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=987',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":403,"message":"Account header authentication failed."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":403,"message":"Account header authentication failed."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -71,13 +101,22 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request('GET', '/accounts/999', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'GET',
+            '/accounts/999',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":404,"message":"No account found for id 999."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(404, $response->getStatusCode());
     }
@@ -87,13 +126,22 @@ class AccountControllerTest extends ApiControllerTest
         $this->createAccount();
         $this->createAccount();
 
-        $crawler = $this->client->request('GET', '/accounts/2', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'GET',
+            '/accounts/2',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
     }
@@ -110,10 +158,16 @@ class AccountControllerTest extends ApiControllerTest
             ->with('ABC123', 'http://localhost/accounts/1');
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $this->client->request('PUT', '/accounts/1/device_tokens/ABC123', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/1/device_tokens/ABC123',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());
@@ -133,13 +187,22 @@ class AccountControllerTest extends ApiControllerTest
             ->will($this->throwException(new \RuntimeException('Internal error')));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $this->client->request('PUT', '/accounts/1/device_tokens/ABC123', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/1/device_tokens/ABC123',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":500,"message":"Internal error"}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":500,"message":"Internal error"}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(500, $response->getStatusCode());
     }
@@ -148,13 +211,22 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request('PUT', '/accounts/999/device_tokens/ABC123', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/999/device_tokens/ABC123',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":404,"message":"No account found for id 999."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":404,"message":"No account found for id 999."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(404, $response->getStatusCode());
     }
@@ -164,15 +236,23 @@ class AccountControllerTest extends ApiControllerTest
         $this->createAccount();
         $this->createAccount();
 
-        $crawler = $this->client->request('PUT', '/accounts/2/device_tokens/ABC123', array(), array(), array(
-            'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-            'HTTP_ACCEPT' => 'application/json',
-        ));
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/2/device_tokens/ABC123',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals(
+            '{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}',
+            trim($response->getContent())
+        );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
     }
-
 }
