@@ -12,5 +12,5 @@ services:
   - mysql
 
 script:
-  - bin/phpunit -c app --coverage-text
+#  - bin/phpunit -c app/ --coverage-text
   - bin/phpcs --standard=PSR2 -n src/
