@@ -6,6 +6,45 @@ use Lightning\ApiBundle\Entity\AccessToken;
 
 class AccessTokenControllerTest extends ApiControllerTest
 {
+    public function testAccess()
+    {
+        $account = $this->createAccount();
+
+        $crawler = $this->client->request(
+            'GET',
+            '/1/abc'
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testAccessToken()
+    {
+        $account = $this->createAccount();
+
+        $random = $this->getMock('Lightning\ApiBundle\Service\Random');
+        $random->expects($this->any())
+            ->method('challenge')
+            ->will($this->returnValue('9876'));
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
+
+        $crawler = $this->client->request(
+            'POST',
+            '/1/abc'
+        );
+
+        $token = $this->em
+            ->getRepository('LightningApiBundle:AccessToken')
+            ->find(1);
+
+        $this->assertEquals(9876, $token->getChallenge());
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"challenge":"9876"}', $response->getContent());
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     public function testApprove()
     {
         $account = $this->createAccount();

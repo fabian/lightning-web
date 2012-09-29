@@ -25,4 +25,11 @@ class RandomTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('9v7n3Uab', $code);
     }
+
+    public function testChallenge()
+    {
+        $challenge = $this->random->challenge(1);
+
+        $this->assertEquals(6261, $challenge);
+    }
 }
