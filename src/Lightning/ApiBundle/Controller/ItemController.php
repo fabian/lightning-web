@@ -97,13 +97,6 @@ class ItemController extends AbstractListController
 
     protected function addUrl($item)
     {
-        $item->url = $this->router->generate(
-            'lightning_api_item_show',
-            array(
-                'list' => $item->getList()->getId(),
-                'id' => $item->getId(),
-            ),
-            true
-        );
+        $item->url = $this->router->generate('lightning_api_item_show', array('id' => $item->getId()), true);
     }
 }

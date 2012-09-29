@@ -7,6 +7,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Entity\AccountList;
+use Lightning\ApiBundle\Entity\Item;
 use Lightning\ApiBundle\Entity\ItemList;
 
 abstract class ApiControllerTest extends WebTestCase
@@ -90,5 +91,18 @@ abstract class ApiControllerTest extends WebTestCase
         $this->em->flush();
 
         return $accountList;
+    }
+
+    protected function createItem($list)
+    {
+        $item = new Item($list);
+        $item->setValue('Milk');
+        $item->setCreated(new \DateTime('now'));
+        $item->setModified(new \DateTime('now'));
+
+        $this->em->persist($item);
+        $this->em->flush();
+
+        return $item;
     }
 }

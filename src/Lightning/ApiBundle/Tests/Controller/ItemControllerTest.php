@@ -4,14 +4,14 @@ namespace Lightning\ApiBundle\Tests\Controller;
 
 class ItemControllerTest extends ApiControllerTest
 {
-    protected $accountList;
+    protected $list;
 
     public function setUp()
     {
         parent::setUp();
 
         $account = $this->createAccount();
-        $this->createList($account);
+        $this->list = $this->createList($account)->getList();
     }
 
     public function testCreate()
@@ -29,7 +29,7 @@ class ItemControllerTest extends ApiControllerTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1?list=1"}',
+            '{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -86,5 +86,51 @@ class ItemControllerTest extends ApiControllerTest
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
+    }
+
+    public function testShow()
+    {
+        $this->createItem($this->list);
+
+        $crawler = $this->client->request(
+            'GET',
+            '/items/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            $response->getContent()
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testShowWrongId()
+    {
+        $crawler = $this->client->request(
+            'GET',
+            '/items/999',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":404,"message":"No item found for id 999."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(404, $response->getStatusCode());
     }
 }
