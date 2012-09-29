@@ -7,6 +7,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Lightning\ApiBundle\DependencyInjection\Security\AccountFactory;
 
+/**
+ * Symfony Bundle defintion
+ *
+ * @codeCoverageIgnore
+ */
 class LightningApiBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
