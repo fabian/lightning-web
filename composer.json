@@ -46,5 +46,9 @@
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
+    },
+    "require-dev": {
+        "zerkalica/php-code-sniffer": "dev-master",
+        "phpunit/phpunit": "3.7.*"
     }
 }
