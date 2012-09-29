@@ -10,4 +10,4 @@ before_script:
 services:
   - mysql
 
-script: phpunit -c app --coverage-text
+script: bin/phpunit -c app --coverage-text
