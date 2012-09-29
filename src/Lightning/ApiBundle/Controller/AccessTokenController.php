@@ -19,18 +19,22 @@ use Lightning\ApiBundle\Entity\AccessToken;
  */
 class AccessTokenController extends AbstractAccountController
 {
+    protected $random;
+
     protected $router;
 
     /**
      * @InjectParams({
+     *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "router" = @Inject("router"),
      *     "security" = @Inject("security.context"),
      * })
      */
-    public function __construct($doctrine, $router, $security)
+    public function __construct($random, $doctrine, $router, $security)
     {
         parent::__construct($doctrine, $security);
+        $this->random = $random;
         $this->router = $router;
     }
 
@@ -51,7 +55,7 @@ class AccessTokenController extends AbstractAccountController
      */
     public function accessTokenAction($id, $code)
     {
-        $challenge = mt_rand(1111, 9999);
+        $challenge = $this->random->challenge();
 
         $account = $this->doctrine
             ->getRepository('LightningApiBundle:Account')
