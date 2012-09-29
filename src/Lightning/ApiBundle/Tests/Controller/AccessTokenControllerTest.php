@@ -71,4 +71,27 @@ class AccessTokenControllerTest extends ApiControllerTest
         $this->assertEquals('', $response->getContent());
         $this->assertEquals(204, $response->getStatusCode());
     }
+
+    public function testApproveWrongId()
+    {
+        $account = $this->createAccount();
+
+        $crawler = $this->client->request(
+            'PUT',
+            '/accounts/1/access_tokens/2',
+            array('challenge' => '9999'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":404,"message":"No token found for id 2."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals(404, $response->getStatusCode());
+    }
 }
