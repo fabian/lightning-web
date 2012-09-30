@@ -86,7 +86,7 @@ class AccountListControllerTest extends ApiControllerTest
         $this->createList($this->account);
         $this->em->clear();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1/lists',
             array(),
@@ -108,7 +108,7 @@ class AccountListControllerTest extends ApiControllerTest
 
     public function testIndexNoAccount()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1/lists',
             array(),
@@ -129,7 +129,7 @@ class AccountListControllerTest extends ApiControllerTest
 
     public function testIndexWrongSecret()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1/lists',
             array(),
@@ -151,7 +151,7 @@ class AccountListControllerTest extends ApiControllerTest
 
     public function testIndexWrongId()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/999/lists',
             array(),
@@ -175,7 +175,7 @@ class AccountListControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/2/lists',
             array(),

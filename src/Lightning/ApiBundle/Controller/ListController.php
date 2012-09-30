@@ -11,6 +11,7 @@ use JMS\DiExtraBundle\Annotation\InjectParams;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\AccountList;
+use Lightning\ApiBundle\Entity\ItemList;
 
 /**
  * Controller items.
@@ -88,6 +89,9 @@ class ListController extends AbstractListController
         $em->flush();
     }
 
+    /**
+     * @param ItemList $list
+     */
     protected function addUrl($list)
     {
         $list->url = $this->router->generate('lightning_api_list_show', array('id' => $list->getId()), true);

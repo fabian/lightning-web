@@ -16,6 +16,7 @@ class Random
     const CHALLENGE_MAX = 9999;
 
     /**
+     * @param integer      $length
      * @param integer|null $seed
      */
     public function code($length = 8, $seed = null)

@@ -108,7 +108,8 @@ class AccountController extends AbstractAccountController
     }
 
     /**
-     * @param Account $account
+     * @param Account     $account
+     * @param string|null $secret
      */
     protected function addUrls($account, $secret = null)
     {

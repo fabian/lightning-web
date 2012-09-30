@@ -27,8 +27,12 @@ class UrbanAirship
      *     "key" = @Inject("%lightning_api.urbanairship_key%"),
      *     "secret" = @Inject("%lightning_api.urbanairship_secret%")
      * })
+     *
+     * @param ClientInterface $client
+     * @param string          $key
+     * @param string          $secret
      */
-    public function __construct(\Buzz\Client\ClientInterface $client, $key, $secret)
+    public function __construct(ClientInterface $client, $key, $secret)
     {
         $this->client = $client;
         $this->key = $key;
@@ -36,6 +40,7 @@ class UrbanAirship
     }
 
     /**
+     * @param string $method
      * @param string $path
      * @param array  $payload
      */

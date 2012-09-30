@@ -10,7 +10,7 @@ class AccessTokenControllerTest extends ApiControllerTest
     {
         $account = $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/1/abc'
         );
@@ -29,7 +29,7 @@ class AccessTokenControllerTest extends ApiControllerTest
             ->will($this->returnValue('9876'));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'POST',
             '/1/abc'
         );
@@ -56,7 +56,7 @@ class AccessTokenControllerTest extends ApiControllerTest
         $this->em->persist($accountList);
         $this->em->flush();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/1/access_tokens/1',
             array('challenge' => '1234'),
@@ -89,7 +89,7 @@ class AccessTokenControllerTest extends ApiControllerTest
         $this->em->persist($accountList);
         $this->em->flush();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/1/access_tokens/1',
             array('challenge' => '9999'),
@@ -115,7 +115,7 @@ class AccessTokenControllerTest extends ApiControllerTest
     {
         $account = $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/1/access_tokens/2',
             array('challenge' => '9999'),

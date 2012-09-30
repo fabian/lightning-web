@@ -16,7 +16,7 @@ class ItemControllerTest extends ApiControllerTest
 
     public function testCreate()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'POST',
             '/lists/1/items',
             array('value' => 'Milk'),
@@ -44,7 +44,7 @@ class ItemControllerTest extends ApiControllerTest
 
     public function testCreateWrongList()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'POST',
             '/lists/999/items',
             array('value' => 'Milk'),
@@ -68,7 +68,7 @@ class ItemControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'POST',
             '/lists/1/items',
             array('value' => 'Milk'),
@@ -92,7 +92,7 @@ class ItemControllerTest extends ApiControllerTest
     {
         $this->createItem($this->list);
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/items/1',
             array(),
@@ -114,7 +114,7 @@ class ItemControllerTest extends ApiControllerTest
 
     public function testShowWrongId()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/items/999',
             array(),

@@ -15,7 +15,7 @@ class AccountControllerTest extends ApiControllerTest
             ->will($this->returnValue('123'));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
 
-        $crawler = $this->client->request('POST', '/accounts');
+        $this->client->request('POST', '/accounts');
 
         $response = $this->client->getResponse();
         $this->assertEquals(
@@ -30,7 +30,7 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1',
             array(),
@@ -54,7 +54,7 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1',
             array(),
@@ -77,7 +77,7 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/1',
             array(),
@@ -101,7 +101,7 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/999',
             array(),
@@ -126,7 +126,7 @@ class AccountControllerTest extends ApiControllerTest
         $this->createAccount();
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/accounts/2',
             array(),
@@ -158,7 +158,7 @@ class AccountControllerTest extends ApiControllerTest
             ->with('ABC123', 'http://localhost/accounts/1');
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/1/device_tokens/ABC123',
             array(),
@@ -187,7 +187,7 @@ class AccountControllerTest extends ApiControllerTest
             ->will($this->throwException(new \RuntimeException('Internal error')));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/1/device_tokens/ABC123',
             array(),
@@ -211,7 +211,7 @@ class AccountControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/999/device_tokens/ABC123',
             array(),
@@ -236,7 +236,7 @@ class AccountControllerTest extends ApiControllerTest
         $this->createAccount();
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/accounts/2/device_tokens/ABC123',
             array(),

@@ -12,7 +12,8 @@ use Lightning\ApiBundle\Security\AccountToken;
 class AccountProvider implements AuthenticationProviderInterface
 {
     private $userProvider;
-    private $cacheDir;
+
+    private $encoderFactory;
 
     public function __construct(UserProviderInterface $userProvider, EncoderFactoryInterface $encoderFactory)
     {

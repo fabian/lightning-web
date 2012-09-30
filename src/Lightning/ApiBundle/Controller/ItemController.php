@@ -78,6 +78,9 @@ class ItemController extends AbstractListController
         return $item;
     }
 
+    /**
+     * @param string|integer $id
+     */
     protected function checkItem($id)
     {
         $item = $this->doctrine

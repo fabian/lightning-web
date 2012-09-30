@@ -24,6 +24,8 @@ abstract class AbstractListController
     }
 
     /**
+     * @param string|integer
+     *
      * @return ItemList
      */
     protected function checkList($id)
@@ -40,7 +42,10 @@ abstract class AbstractListController
     }
 
     /**
-     * @param boolean $owner
+     * @param ItemList $list
+     * @param boolean  $owner
+     *
+     * @return AccountList
      */
     protected function checkAccountList($list, $owner = false)
     {

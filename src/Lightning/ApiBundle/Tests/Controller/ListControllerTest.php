@@ -16,7 +16,7 @@ class ListControllerTest extends ApiControllerTest
 
     public function testShow()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/lists/1',
             array(),
@@ -38,7 +38,7 @@ class ListControllerTest extends ApiControllerTest
 
     public function testShowWrongId()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/lists/999',
             array(),
@@ -62,7 +62,7 @@ class ListControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'GET',
             '/lists/1',
             array(),
@@ -84,7 +84,7 @@ class ListControllerTest extends ApiControllerTest
 
     public function testUpdate()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/lists/1',
             array('title' => 'Todos'),
@@ -112,7 +112,7 @@ class ListControllerTest extends ApiControllerTest
 
     public function testUpdateWrongId()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/lists/999',
             array('title' => 'Todos'),
@@ -136,7 +136,7 @@ class ListControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/lists/1',
             array('title' => 'Todos'),
@@ -161,7 +161,7 @@ class ListControllerTest extends ApiControllerTest
         $account = $this->createAccount();
         $this->createAccountList($account, $this->accountList->getList());
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/lists/1',
             array('title' => 'Todos'),
@@ -186,7 +186,7 @@ class ListControllerTest extends ApiControllerTest
         $account = $this->createAccount();
         $this->createAccountList($account, $this->accountList->getList());
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'PUT',
             '/lists/1',
             array('title' => 'Todos', 'modified' => '2012-02-01T12:00:00+02:00'),
@@ -212,7 +212,7 @@ class ListControllerTest extends ApiControllerTest
         $this->createAccountList($account, $this->accountList->getList());
         $this->em->clear();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'DELETE',
             '/lists/1',
             array(),
@@ -231,7 +231,7 @@ class ListControllerTest extends ApiControllerTest
 
     public function testDeleteWrongId()
     {
-        $crawler = $this->client->request(
+        $this->client->request(
             'DELETE',
             '/lists/999',
             array(),
@@ -255,7 +255,7 @@ class ListControllerTest extends ApiControllerTest
     {
         $this->createAccount();
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'DELETE',
             '/lists/1',
             array(),
@@ -280,7 +280,7 @@ class ListControllerTest extends ApiControllerTest
         $account = $this->createAccount();
         $this->createAccountList($account, $this->accountList->getList());
 
-        $crawler = $this->client->request(
+        $this->client->request(
             'DELETE',
             '/lists/1',
             array(),
