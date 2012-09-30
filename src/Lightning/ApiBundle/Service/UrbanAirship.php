@@ -3,7 +3,6 @@
 namespace Lightning\ApiBundle\Service;
 
 use Buzz\Client\ClientInterface;
-use Buzz\Browser;
 use Buzz\Message\RequestInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
@@ -36,6 +35,10 @@ class UrbanAirship
         $this->secret = $secret;
     }
 
+    /**
+     * @param string $path
+     * @param array  $payload
+     */
     protected function request($method, $path, $payload)
     {
         $url = self::URL . $path;
@@ -50,6 +53,10 @@ class UrbanAirship
         $this->client->send($request, $response);
     }
 
+    /**
+     * @param string $deviceToken
+     * @param string $alias
+     */
     public function register($deviceToken, $alias)
     {
         $payload = array(
@@ -59,6 +66,12 @@ class UrbanAirship
         $this->request(RequestInterface::METHOD_PUT, '/device_token/' . $deviceToken, $payload);
     }
 
+    /**
+     * @param array<string> $aliases
+     * @param string        $badge
+     * @param string        $alert
+     * @param string        $list
+     */
     public function push($aliases, $badge, $alert, $list)
     {
         $payload = array(

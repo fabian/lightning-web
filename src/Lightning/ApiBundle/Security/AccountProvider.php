@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Lightning\ApiBundle\Security;
 

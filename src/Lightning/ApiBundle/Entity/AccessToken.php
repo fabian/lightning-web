@@ -3,10 +3,7 @@
 namespace Lightning\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\SerializerBundle\Annotation\Exclude;
-use JMS\SerializerBundle\Annotation\Groups;
 
 /**
  * Lightning\ApiBundle\Entity\AccessToken
@@ -63,7 +60,7 @@ class AccessToken
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,7 +70,7 @@ class AccessToken
     /**
      * Set challenge
      *
-     * @param string $challenge
+     * @param  string      $challenge
      * @return AccessToken
      */
     public function setChallenge($challenge)
@@ -86,7 +83,7 @@ class AccessToken
     /**
      * Get challenge
      *
-     * @return string 
+     * @return string
      */
     public function getChallenge()
     {
@@ -96,7 +93,7 @@ class AccessToken
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime   $created
      * @return AccessToken
      */
     public function setCreated($created)
@@ -109,7 +106,7 @@ class AccessToken
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -119,7 +116,7 @@ class AccessToken
     /**
      * Set approved
      *
-     * @param boolean $approved
+     * @param  boolean     $approved
      * @return AccessToken
      */
     public function setApproved($approved)
@@ -132,7 +129,7 @@ class AccessToken
     /**
      * Get approved
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getApproved()
     {
@@ -142,7 +139,7 @@ class AccessToken
     /**
      * Set account
      *
-     * @param Lightning\ApiBundle\Entity\Account $account
+     * @param  null|Account $account
      * @return AccessToken
      */
     public function setAccount(\Lightning\ApiBundle\Entity\Account $account = null)
@@ -155,7 +152,7 @@ class AccessToken
     /**
      * Get account
      *
-     * @return Lightning\ApiBundle\Entity\Account 
+     * @return Account|null
      */
     public function getAccount()
     {

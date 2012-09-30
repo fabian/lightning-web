@@ -104,7 +104,7 @@ class AccountList
     /**
      * Set permission
      *
-     * @param string $permission
+     * @param  string      $permission
      * @return AccountList
      */
     public function setPermission($permission)
@@ -117,7 +117,7 @@ class AccountList
     /**
      * Get permission
      *
-     * @return string 
+     * @return string
      */
     public function getPermission()
     {
@@ -127,7 +127,7 @@ class AccountList
     /**
      * Set deleted
      *
-     * @param boolean $deleted
+     * @param  boolean     $deleted
      * @return AccountList
      */
     public function setDeleted($deleted)
@@ -140,7 +140,7 @@ class AccountList
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -150,7 +150,7 @@ class AccountList
     /**
      * Set read
      *
-     * @param \DateTime $read
+     * @param  \DateTime   $read
      * @return AccountList
      */
     public function setRead($read)
@@ -163,7 +163,7 @@ class AccountList
     /**
      * Get read
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getRead()
     {
@@ -173,7 +173,7 @@ class AccountList
     /**
      * Set pushed
      *
-     * @param \DateTime $pushed
+     * @param  \DateTime   $pushed
      * @return AccountList
      */
     public function setPushed($pushed)
@@ -186,7 +186,7 @@ class AccountList
     /**
      * Get pushed
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getPushed()
     {
@@ -196,7 +196,7 @@ class AccountList
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime   $created
      * @return AccountList
      */
     public function setCreated($created)
@@ -209,7 +209,7 @@ class AccountList
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -219,7 +219,7 @@ class AccountList
     /**
      * Set modified
      *
-     * @param \DateTime $modified
+     * @param  \DateTime   $modified
      * @return AccountList
      */
     public function setModified($modified)
@@ -232,7 +232,7 @@ class AccountList
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -242,7 +242,7 @@ class AccountList
     /**
      * Set account
      *
-     * @param Account $account
+     * @param  null|Account $account
      * @return AccountList
      */
     public function setAccount(Account $account = null)
@@ -255,7 +255,7 @@ class AccountList
     /**
      * Get account
      *
-     * @return Account 
+     * @return Account|null
      */
     public function getAccount()
     {
@@ -265,7 +265,7 @@ class AccountList
     /**
      * Set list
      *
-     * @param ItemList $list
+     * @param  null|ItemList $list
      * @return AccountList
      */
     public function setList(ItemList $list = null)
@@ -278,7 +278,7 @@ class AccountList
     /**
      * Get list
      *
-     * @return ItemList 
+     * @return ItemList|null
      */
     public function getList()
     {

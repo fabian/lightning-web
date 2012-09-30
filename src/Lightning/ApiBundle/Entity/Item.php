@@ -81,7 +81,7 @@ class Item
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class Item
     /**
      * Set value
      *
-     * @param string $value
+     * @param  string $value
      * @return Item
      */
     public function setValue($value)
@@ -104,7 +104,7 @@ class Item
     /**
      * Get value
      *
-     * @return string 
+     * @return string
      */
     public function getValue()
     {
@@ -114,7 +114,7 @@ class Item
     /**
      * Set done
      *
-     * @param boolean $done
+     * @param  boolean $done
      * @return Item
      */
     public function setDone($done)
@@ -127,7 +127,7 @@ class Item
     /**
      * Get done
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDone()
     {
@@ -137,7 +137,7 @@ class Item
     /**
      * Set deleted
      *
-     * @param boolean $deleted
+     * @param  boolean $deleted
      * @return Item
      */
     public function setDeleted($deleted)
@@ -150,7 +150,7 @@ class Item
     /**
      * Get deleted
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getDeleted()
     {
@@ -160,7 +160,7 @@ class Item
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Item
      */
     public function setCreated($created)
@@ -173,7 +173,7 @@ class Item
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -183,7 +183,7 @@ class Item
     /**
      * Set modified
      *
-     * @param \DateTime $modified
+     * @param  \DateTime $modified
      * @return Item
      */
     public function setModified($modified)
@@ -196,7 +196,7 @@ class Item
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -206,7 +206,7 @@ class Item
     /**
      * Set list
      *
-     * @param Lightning\ApiBundle\Entity\ItemList $list
+     * @param  Lightning\ApiBundle\Entity\ItemList $list
      * @return Item
      */
     public function setList(ItemList $list)
@@ -219,7 +219,7 @@ class Item
     /**
      * Get list
      *
-     * @return Lightning\ApiBundle\Entity\ItemList 
+     * @return Lightning\ApiBundle\Entity\ItemList
      */
     public function getList()
     {
