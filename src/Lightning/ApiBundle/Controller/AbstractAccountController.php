@@ -21,7 +21,7 @@ abstract class AbstractAccountController
         $this->doctrine = $doctrine;
         $this->security = $security;
     }
-    
+
     /**
      * Returns the account for the ID if authenticated user has access to it, throws exceptions otherwise.
      *
