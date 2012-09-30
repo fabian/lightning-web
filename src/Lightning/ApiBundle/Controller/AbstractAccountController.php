@@ -2,14 +2,8 @@
 
 namespace Lightning\ApiBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\Account;
 
@@ -34,7 +28,7 @@ abstract class AbstractAccountController
      * @param mixed $id Account ID
      *
      * @return Account
-     * @throws NotFoundHttpException If the account was not found
+     * @throws NotFoundHttpException     If the account was not found
      * @throws AccessDeniedHttpException If the authenticated account doesn't match
      */
     protected function checkAccount($id)

@@ -4,7 +4,6 @@ namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation\Inject;
@@ -79,7 +78,7 @@ class AccessTokenController extends AbstractAccountController
     }
 
     /**
-     * @Route("/accounts/{accountId}/access_tokens/{tokenId}.{_format}", 
+     * @Route("/accounts/{accountId}/access_tokens/{tokenId}.{_format}",
      *     requirements={"accountId" = "\d+", "id" = "\d+"}, defaults={"_format" = "json"})
      * @Method("PUT")
      * @View(statusCode=204)

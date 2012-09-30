@@ -3,8 +3,6 @@
 namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation\Inject;
@@ -14,7 +12,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Account;
-use Lightning\ApiBundle\Service\CodeGenerator;
 
 /**
  * Controller for lists linked to an account.
@@ -87,6 +84,9 @@ class AccountListController extends AbstractAccountController
         return array('lists' => $lists);
     }
 
+    /**
+     * @param AccountList $accountList
+     */
     protected function mergeList($accountList)
     {
         $list = $accountList->getList();

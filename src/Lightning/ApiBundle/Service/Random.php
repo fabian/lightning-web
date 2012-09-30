@@ -15,6 +15,9 @@ class Random
 
     const CHALLENGE_MAX = 9999;
 
+    /**
+     * @param integer|null $seed
+     */
     public function code($length = 8, $seed = null)
     {
         $code = '';
@@ -26,15 +29,20 @@ class Random
             }
             $code .= $charset[mt_rand(0, $count-1)];
         }
+
         return $code;
     }
 
+    /**
+     * @param integer|null $seed
+     */
     public function challenge($seed = null)
     {
         if ($seed) {
             mt_srand($seed);
         }
         $challenge = mt_rand(self::CHALLENGE_MIN, self::CHALLENGE_MAX);
+
         return $challenge;
     }
 

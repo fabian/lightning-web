@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use JMS\SerializerBundle\Annotation\Exclude;
-use JMS\SerializerBundle\Annotation\Groups;
 
 /**
  * Lightning\ApiBundle\Entity\Account
@@ -99,7 +98,7 @@ class Account implements UserInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -109,7 +108,7 @@ class Account implements UserInterface
     /**
      * Set code
      *
-     * @param string $code
+     * @param  string  $code
      * @return Account
      */
     public function setCode($code)
@@ -122,7 +121,7 @@ class Account implements UserInterface
     /**
      * Get code
      *
-     * @return string 
+     * @return string
      */
     public function getCode()
     {
@@ -132,7 +131,7 @@ class Account implements UserInterface
     /**
      * Set secret
      *
-     * @param string $secret
+     * @param  string  $secret
      * @return Account
      */
     public function setSecret($secret)
@@ -145,7 +144,7 @@ class Account implements UserInterface
     /**
      * Get secret
      *
-     * @return string 
+     * @return string
      */
     public function getSecret()
     {
@@ -155,7 +154,7 @@ class Account implements UserInterface
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Account
      */
     public function setCreated($created)
@@ -168,7 +167,7 @@ class Account implements UserInterface
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -178,7 +177,7 @@ class Account implements UserInterface
     /**
      * Set modified
      *
-     * @param \DateTime $modified
+     * @param  \DateTime $modified
      * @return Account
      */
     public function setModified($modified)
@@ -191,7 +190,7 @@ class Account implements UserInterface
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -209,7 +208,7 @@ class Account implements UserInterface
     /**
      * Set salt
      *
-     * @param string $salt
+     * @param  string  $salt
      * @return Account
      */
     public function setSalt($salt)
@@ -253,7 +252,7 @@ class Account implements UserInterface
     /**
      * Get lists
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return ArrayCollection
      */
     public function getLists()
     {

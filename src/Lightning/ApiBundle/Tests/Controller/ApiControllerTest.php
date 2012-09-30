@@ -55,6 +55,9 @@ abstract class ApiControllerTest extends WebTestCase
         return $account;
     }
 
+    /**
+     * @param Account $account
+     */
     protected function createList($account)
     {
         $list = new ItemList();
@@ -78,6 +81,9 @@ abstract class ApiControllerTest extends WebTestCase
         return $accountList;
     }
 
+    /**
+     * @param Account $account
+     */
     protected function createAccountList($account, $list)
     {
         $accountList = new AccountList($account, $list);

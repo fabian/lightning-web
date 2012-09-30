@@ -3,10 +3,8 @@
 namespace Lightning\ApiBundle\Tests\Service;
 
 use Buzz\Client\ClientInterface;
-use Buzz\Browser;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
-use Buzz\Message\RequestInterface;
 use JMS\DiExtraBundle\Annotation\Service;
 use Lightning\ApiBundle\Service\UrbanAirship;
 

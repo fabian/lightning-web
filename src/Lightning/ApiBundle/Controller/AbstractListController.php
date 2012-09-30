@@ -2,14 +2,8 @@
 
 namespace Lightning\ApiBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
@@ -29,6 +23,9 @@ abstract class AbstractListController
         $this->security = $security;
     }
 
+    /**
+     * @return ItemList
+     */
     protected function checkList($id)
     {
         $list = $this->doctrine
@@ -42,6 +39,9 @@ abstract class AbstractListController
         return $list;
     }
 
+    /**
+     * @param boolean $owner
+     */
     protected function checkAccountList($list, $owner = false)
     {
         $account = $this->security->getToken()->getUser()->getUsername();

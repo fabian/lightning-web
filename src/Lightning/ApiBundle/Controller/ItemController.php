@@ -4,8 +4,6 @@ namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation\Inject;
@@ -13,9 +11,7 @@ use JMS\DiExtraBundle\Annotation\InjectParams;
 use FOS\RestBundle\Controller\Annotations\View;
 
 use Lightning\ApiBundle\Entity\Item;
-use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\AccountList;
-use Lightning\ApiBundle\Entity\Account;
 
 /**
  * Controller for items.
@@ -95,6 +91,9 @@ class ItemController extends AbstractListController
         return $item;
     }
 
+    /**
+     * @param Item $item
+     */
     protected function addUrl($item)
     {
         $item->url = $this->router->generate('lightning_api_item_show', array('id' => $item->getId()), true);

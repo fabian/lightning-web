@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 $container->setParameter('database_driver', 'pdo_mysql');
 $container->setParameter('database_host', 'localhost');

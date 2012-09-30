@@ -59,7 +59,7 @@ class ItemList
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -69,7 +69,7 @@ class ItemList
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string   $title
      * @return ItemList
      */
     public function setTitle($title)
@@ -82,7 +82,7 @@ class ItemList
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -92,7 +92,7 @@ class ItemList
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return ItemList
      */
     public function setCreated($created)
@@ -105,7 +105,7 @@ class ItemList
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -115,7 +115,7 @@ class ItemList
     /**
      * Set modified
      *
-     * @param \DateTime $modified
+     * @param  \DateTime $modified
      * @return ItemList
      */
     public function setModified($modified)
@@ -128,7 +128,7 @@ class ItemList
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -145,7 +145,7 @@ class ItemList
     /**
      * Get accounts
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getAccounts()
     {
