@@ -70,9 +70,6 @@ class ItemController extends AbstractListController
     public function showAction($id)
     {
         $item = $this->checkItem($id);
-        $list = $item->getList();
-
-        $accountList = $this->checkAccountList($list);
 
         $this->addUrl($item);
 
@@ -116,6 +113,10 @@ class ItemController extends AbstractListController
         if (!$item) {
             throw new NotFoundHttpException('No item found for id ' . $id . '.');
         }
+
+        $list = $item->getList();
+
+        $this->checkAccountList($list);
 
         return $item;
     }
