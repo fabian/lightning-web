@@ -223,6 +223,12 @@ class ListControllerTest extends ApiControllerTest
             )
         );
 
+        $lists = $this->em
+            ->getRepository('LightningApiBundle:ItemList')
+            ->findAll();
+
+        $this->assertCount(0, $lists);
+
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
