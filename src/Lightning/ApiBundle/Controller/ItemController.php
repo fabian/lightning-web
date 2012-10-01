@@ -3,6 +3,7 @@
 namespace Lightning\ApiBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -72,6 +73,30 @@ class ItemController extends AbstractListController
         $list = $item->getList();
 
         $accountList = $this->checkAccountList($list);
+
+        $this->addUrl($item);
+
+        return $item;
+    }
+
+    /**
+     * @Route("/items/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("PUT")
+     * @View()
+     */
+    public function updateAction($id, Request $request)
+    {
+        $item = $this->checkItem($id);
+
+        $modified = new \DateTime($request->get('modified'));
+        if ($modified < $item->getModified()) {
+            throw new HttpException(409, 'Conflict, list has later modification.');
+        }
+
+        $item->setValue($request->get('value'));
+
+        $em = $this->doctrine->getManager();
+        $em->flush();
 
         $this->addUrl($item);
 

@@ -133,4 +133,64 @@ class ItemControllerTest extends ApiControllerTest
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(404, $response->getStatusCode());
     }
+
+    public function testUpdate()
+    {
+        $this->createItem($this->list);
+
+        $this->client->request(
+            'PUT',
+            '/items/1',
+            array('value' => 'Coffee'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $item = $this->em
+            ->getRepository('LightningApiBundle:Item')
+            ->find(1);
+
+        $this->assertEquals('Coffee', $item->getValue());
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"id":1,"value":"Coffee","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            $response->getContent()
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testUpdateConflict()
+    {
+        $this->createItem($this->list);
+
+        $this->client->request(
+            'PUT',
+            '/items/1',
+            array('value' => 'Coffee', 'modified' => '2012-02-01T12:00:00+02:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $item = $this->em
+            ->getRepository('LightningApiBundle:Item')
+            ->find(1);
+
+        $this->assertEquals('Milk', $item->getValue());
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":409,"message":"Conflict, list has later modification."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(409, $response->getStatusCode());
+    }
 }
