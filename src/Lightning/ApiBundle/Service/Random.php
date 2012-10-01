@@ -16,42 +16,39 @@ class Random
     const CHALLENGE_MAX = 9999;
 
     /**
-     * @param integer      $length
      * @param integer|null $seed
      */
-    public function code($length = 8, $seed = null)
+    public function __construct($seed = null)
+    {
+        if ($seed) {
+            mt_srand($seed);
+        }
+    }
+
+    /**
+     * @param integer $length
+     */
+    public function code($length = 8)
     {
         $code = '';
         $charset = self::CHARSET;
         $count = strlen($charset);
         while ($length--) {
-            if ($seed) {
-                mt_srand($seed + $length);
-            }
             $code .= $charset[mt_rand(0, $count-1)];
         }
 
         return $code;
     }
 
-    /**
-     * @param integer|null $seed
-     */
-    public function challenge($seed = null)
+    public function challenge()
     {
-        if ($seed) {
-            mt_srand($seed);
-        }
         $challenge = mt_rand(self::CHALLENGE_MIN, self::CHALLENGE_MAX);
 
         return $challenge;
     }
 
-    /**
-     * @codeCoverageIgnore
-     */
     public function secret()
     {
-        return md5(uniqid(null, true));
+        return md5(mt_rand());
     }
 }
