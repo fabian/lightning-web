@@ -94,6 +94,7 @@ class ItemController extends AbstractListController
         }
 
         $item->setValue($request->get('value'));
+        $item->setDone($request->get('done') === '1');
 
         $em = $this->doctrine->getManager();
         $em->flush();
