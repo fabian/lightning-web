@@ -102,6 +102,20 @@ class ItemController extends AbstractListController
     }
 
     /**
+     * @Route("/items/{id}.{_format}", defaults={"_format" = "json"})
+     * @Method("DELETE")
+     * @View(statusCode=204)
+     */
+    public function deleteAction($id, Request $request)
+    {
+        $item = $this->checkItem($id);
+
+        $em = $this->doctrine->getManager();
+        $em->remove($item);
+        $em->flush();
+    }
+
+    /**
      * @param string|integer $id
      */
     protected function checkItem($id)

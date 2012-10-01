@@ -195,4 +195,31 @@ class ItemControllerTest extends ApiControllerTest
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(409, $response->getStatusCode());
     }
+
+    public function testDelete()
+    {
+        $this->createItem($this->list);
+
+        $this->client->request(
+            'DELETE',
+            '/items/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $items = $this->em
+            ->getRepository('LightningApiBundle:Item')
+            ->findAll();
+
+        $this->assertCount(0, $items);
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
+    }
 }
