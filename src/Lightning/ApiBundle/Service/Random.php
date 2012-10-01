@@ -26,7 +26,11 @@ class Random
     }
 
     /**
+     * Returns a string with random numbers and characters (lower and upper case).
+     *
      * @param integer $length
+     *
+     * @return string
      */
     public function code($length = 8)
     {
@@ -40,6 +44,11 @@ class Random
         return $code;
     }
 
+    /**
+     * Returns a random number between 1111 and 9999.
+     *
+     * @return integer
+     */
     public function challenge()
     {
         $challenge = mt_rand(self::CHALLENGE_MIN, self::CHALLENGE_MAX);
@@ -47,6 +56,11 @@ class Random
         return $challenge;
     }
 
+    /**
+     * Returns a random MD5 hash.
+     *
+     * @return string
+     */
     public function secret()
     {
         return md5(mt_rand());
