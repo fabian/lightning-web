@@ -86,6 +86,11 @@ class AccountList
     private $modified;
 
     /**
+     * @var integer $id
+     */
+    public $id;
+
+    /**
      * @var string $title
      */
     public $title;

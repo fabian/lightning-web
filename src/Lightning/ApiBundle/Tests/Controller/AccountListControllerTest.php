@@ -28,7 +28,7 @@ class AccountListControllerTest extends ApiControllerTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"title":"Example","url":"http:\/\/localhost\/lists\/1"}',
+            '{"permission":"owner","deleted":false,"id":1,"title":"Example","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -99,7 +99,7 @@ class AccountListControllerTest extends ApiControllerTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
