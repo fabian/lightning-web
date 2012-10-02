@@ -99,10 +99,11 @@ abstract class ApiControllerTest extends WebTestCase
         return $accountList;
     }
 
-    protected function createItem($list)
+    protected function createItem($list, $deleted = false)
     {
         $item = new Item($list);
         $item->setValue('Milk');
+        $item->setDeleted($deleted);
         $item->setCreated(new \DateTime('now'));
         $item->setModified(new \DateTime('now'));
 

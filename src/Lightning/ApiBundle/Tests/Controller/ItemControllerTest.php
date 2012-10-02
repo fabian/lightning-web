@@ -14,6 +14,31 @@ class ItemControllerTest extends ApiControllerTest
         $this->list = $this->createList($account)->getList();
     }
 
+    public function testIndex()
+    {
+        $this->createItem($this->list); // normal item
+        $this->createItem($this->list, true); // deleted item
+
+        $this->client->request(
+            'GET',
+            '/lists/1/items',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"items":{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}}',
+            $response->getContent()
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     public function testCreate()
     {
         $this->client->request(

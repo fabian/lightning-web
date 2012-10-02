@@ -40,6 +40,27 @@ class ItemController extends AbstractListController
 
     /**
      * @Route("/lists/{id}/items.{_format}", defaults={"_format" = "json"})
+     * @Method("GET")
+     * @View()
+     */
+    public function indexAction($id, Request $request)
+    {
+        $list = $this->checkList($id);
+        $accountList = $this->checkAccountList($list);
+
+        $items = $this->doctrine
+            ->getRepository('LightningApiBundle:Item')
+            ->findBy(array('list' => $list->getId(), 'deleted' => false));
+
+        foreach ($items as $item) {
+            $this->addUrl($item);
+        }
+
+        return array('items' => $item);
+    }
+
+    /**
+     * @Route("/lists/{id}/items.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
      * @View(statusCode=201)
      */
