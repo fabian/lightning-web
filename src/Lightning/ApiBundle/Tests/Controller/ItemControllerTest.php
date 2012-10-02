@@ -211,11 +211,11 @@ class ItemControllerTest extends ApiControllerTest
             )
         );
 
-        $items = $this->em
+        $item = $this->em
             ->getRepository('LightningApiBundle:Item')
-            ->findAll();
+            ->find(1);
 
-        $this->assertCount(0, $items);
+        $this->assertTrue($item->getDeleted());
 
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());

@@ -110,8 +110,9 @@ class ItemController extends AbstractListController
     {
         $item = $this->checkItem($id);
 
+        $item->setDeleted(true);
+
         $em = $this->doctrine->getManager();
-        $em->remove($item);
         $em->flush();
     }
 
