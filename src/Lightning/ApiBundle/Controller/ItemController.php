@@ -19,11 +19,7 @@ use Lightning\ApiBundle\Entity\AccountList;
  */
 class ItemController extends AbstractListController
 {
-    protected $doctrine;
-
     protected $router;
-
-    protected $security;
 
     /**
      * @InjectParams({
