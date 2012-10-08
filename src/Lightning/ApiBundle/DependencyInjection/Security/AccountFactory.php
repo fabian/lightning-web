@@ -23,7 +23,7 @@ class AccountFactory implements SecurityFactoryInterface
             ->replaceArgument(0, new Reference($userProvider));
 
         $listenerId = 'security.authentication.listener.account.'.$id;
-        $listener = $container->setDefinition(
+        $container->setDefinition(
             $listenerId,
             new DefinitionDecorator('account.security.authentication.listener')
         );

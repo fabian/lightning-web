@@ -8,7 +8,7 @@ class AccessTokenControllerTest extends ApiControllerTest
 {
     public function testAccess()
     {
-        $account = $this->createAccount();
+        $this->createAccount();
 
         $this->client->request(
             'GET',
@@ -21,7 +21,7 @@ class AccessTokenControllerTest extends ApiControllerTest
 
     public function testAccessToken()
     {
-        $account = $this->createAccount();
+        $this->createAccount();
 
         $random = $this->getMock('Lightning\ApiBundle\Service\Random');
         $random->expects($this->any())
@@ -113,7 +113,7 @@ class AccessTokenControllerTest extends ApiControllerTest
 
     public function testApproveWrongId()
     {
-        $account = $this->createAccount();
+        $this->createAccount();
 
         $this->client->request(
             'PUT',

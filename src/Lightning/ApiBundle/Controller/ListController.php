@@ -42,7 +42,7 @@ class ListController extends AbstractListController
     {
         $list = $this->checkList($id);
 
-        $accountList = $this->checkAccountList($list);
+        $this->checkAccountList($list);
 
         $this->addUrl($list);
 
@@ -57,7 +57,7 @@ class ListController extends AbstractListController
     public function updateAction($id, Request $request)
     {
         $list = $this->checkList($id);
-        $accountList = $this->checkAccountList($list, true);
+        $this->checkAccountList($list, true);
 
         $modified = new \DateTime($request->get('modified'));
         if ($modified < $list->getModified()) {
@@ -82,7 +82,7 @@ class ListController extends AbstractListController
     public function deleteAction($id, Request $request)
     {
         $list = $this->checkList($id);
-        $accountList = $this->checkAccountList($list, true);
+        $this->checkAccountList($list, true);
 
         $em = $this->doctrine->getManager();
         $em->remove($list);

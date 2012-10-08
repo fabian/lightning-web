@@ -85,7 +85,7 @@ class AccessTokenController extends AbstractAccountController
      */
     public function approveAction($accountId, $tokenId, Request $request)
     {
-        $account = $this->checkAccount($accountId);
+        $this->checkAccount($accountId);
 
         $token = $this->doctrine
             ->getRepository('LightningApiBundle:AccessToken')
