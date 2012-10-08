@@ -26,7 +26,7 @@ abstract class AbstractListController
     /**
      * @param string|integer
      *
-     * @return ItemList
+     * @return \Lightning\ApiBundle\Entity\ItemList
      */
     protected function checkList($id)
     {
