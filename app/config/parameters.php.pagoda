@@ -15,3 +15,6 @@ $container->setParameter('mailer_user', null);
 $container->setParameter('mailer_password', null);
 $container->setParameter('locale', 'en');
 $container->setParameter('secret', isset($_SERVER["FRAMEWORK_SECRET"]) ? $_SERVER["FRAMEWORK_SECRET"] : 'ThisTokenIsNotSoSecretChangeIt');
+
+$container->setParameter('urbanairship_key', isset($_SERVER["URBANAIRSHIP_KEY"]) ? $_SERVER["FRAMEWORK_SECRET"] : '');
+$container->setParameter('urbanairship_secret', isset($_SERVER["URBANAIRSHIP_SECRET"]) ? $_SERVER["FRAMEWORK_SECRET"] : '');
