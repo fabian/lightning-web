@@ -11,3 +11,10 @@ before_script:
 script:
   - bin/phpunit -c app/ --coverage-text
   - bin/phpcs --standard=PSR2 -n src/
+
+notifications:
+  webhooks:
+    urls:
+      - http://lightning.farnsworth.ch/deploy.php
+    on_success: always
+    on_failure: never
