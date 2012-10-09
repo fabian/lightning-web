@@ -23,7 +23,8 @@
         "sonata-project/jquery-bundle": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
         "kriswallsmith/buzz": "dev-master",
-        "jms/twig-js-bundle": "dev-master"
+        "jms/twig-js-bundle": "dev-master",
+        "phpunit/phpunit": "3.7.*"
     },
     "scripts": {
         "post-install-cmd": [
@@ -48,7 +49,6 @@
         "symfony-web-dir": "web"
     },
     "require-dev": {
-        "zerkalica/php-code-sniffer": "dev-master",
-        "phpunit/phpunit": "3.7.*"
+        "zerkalica/php-code-sniffer": "dev-master"
     }
 }
