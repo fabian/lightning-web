@@ -17,7 +17,7 @@ web1:
     php_session_autostart: Off
     php_short_open_tag: Off
     magic_quotes_gpc: Off
-    php_date_timezone: UTC
+    php_date_timezone: Europe/Zurich
     after_build:
         - "cp app/config/parameters.php.pagoda app/config/parameters.php"
         - "curl -s http://getcomposer.org/installer | php -- --quiet; php composer.phar install -n"
