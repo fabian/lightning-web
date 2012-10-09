@@ -20,7 +20,7 @@ web1:
     php_date_timezone: Europe/Zurich
     after_build:
         - "cp app/config/parameters.php.pagoda app/config/parameters.php"
-        - "curl -s http://getcomposer.org/installer | php -- --quiet; php composer.phar install -n"
+        - "curl -s http://getcomposer.org/installer | php -- --quiet; php composer.phar install --dev -n"
         - "php app/console --env=prod --no-debug assetic:dump -n"
     before_deploy:
         - "php app/console --env=prod --no-debug cache:clear --no-warmup"
