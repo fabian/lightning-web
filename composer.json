@@ -49,6 +49,7 @@
         "symfony-web-dir": "web"
     },
     "require-dev": {
-        "zerkalica/php-code-sniffer": "dev-master"
+        "zerkalica/php-code-sniffer": "dev-master",
+        "phpdocumentor/phpdocumentor": "dev-master"
     }
 }

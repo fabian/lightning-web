@@ -7,6 +7,8 @@ app/logs/*
 app/coverage/*
 app/phpunit.xml
 build/
+data/
+docs/
 vendor
 bin
 composer.phar

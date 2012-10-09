@@ -40,3 +40,9 @@ Make sure to follow the [PSR-2 coding guidelines](https://github.com/php-fig/fig
 ```
 bin/phpcs --standard=PSR2 src/
 ```
+
+For building the API execute:
+
+```
+bin/phpdoc.php -d src/ --template data/templates/responsive/ -t docs/
+```
