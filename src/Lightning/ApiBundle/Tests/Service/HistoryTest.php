@@ -36,6 +36,7 @@ class HistoryTest extends AbstractTest
         $this->assertEquals(Log::ACTION_ADDED, $log->getAction());
         $this->assertEquals($this->item, $log->getItem());
         $this->assertNull($log->getOld());
+        $this->assertInstanceOf('\DateTime', $log->getHappened());
     }
 
     public function testModified()
@@ -49,6 +50,7 @@ class HistoryTest extends AbstractTest
         $this->assertEquals(Log::ACTION_MODIFIED, $log->getAction());
         $this->assertEquals($this->item, $log->getItem());
         $this->assertEquals('Bread', $log->getOld());
+        $this->assertInstanceOf('\DateTime', $log->getHappened());
     }
 
     public function testCompleted()
@@ -62,6 +64,7 @@ class HistoryTest extends AbstractTest
         $this->assertEquals(Log::ACTION_COMPLETED, $log->getAction());
         $this->assertEquals($this->item, $log->getItem());
         $this->assertNull($log->getOld());
+        $this->assertInstanceOf('\DateTime', $log->getHappened());
     }
 
     public function testDelete()
@@ -75,5 +78,6 @@ class HistoryTest extends AbstractTest
         $this->assertEquals(Log::ACTION_DELETED, $log->getAction());
         $this->assertEquals($this->item, $log->getItem());
         $this->assertNull($log->getOld());
+        $this->assertInstanceOf('\DateTime', $log->getHappened());
     }
 }
