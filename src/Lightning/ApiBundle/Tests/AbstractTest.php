@@ -1,6 +1,6 @@
 <?php
 
-namespace Lightning\ApiBundle\Tests\Controller;
+namespace Lightning\ApiBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Doctrine\ORM\Tools\SchemaTool;
@@ -10,9 +10,11 @@ use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Item;
 use Lightning\ApiBundle\Entity\ItemList;
 
-abstract class ApiControllerTest extends WebTestCase
+abstract class AbstractTest extends WebTestCase
 {
     protected $client;
+
+    protected $doctrine;
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -25,7 +27,8 @@ abstract class ApiControllerTest extends WebTestCase
         static::$kernel->boot();
 
         $this->client = static::$kernel->getContainer()->get('test.client');
-        $this->em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $this->doctrine = static::$kernel->getContainer()->get('doctrine');
+        $this->em = $this->doctrine->getEntityManager();
 
         $tool = new SchemaTool($this->em);
 
@@ -35,6 +38,7 @@ abstract class ApiControllerTest extends WebTestCase
             $this->em->getClassMetadata('Lightning\ApiBundle\Entity\Account'),
             $this->em->getClassMetadata('Lightning\ApiBundle\Entity\AccountList'),
             $this->em->getClassMetadata('Lightning\ApiBundle\Entity\AccessToken'),
+            $this->em->getClassMetadata('Lightning\ApiBundle\Entity\Log'),
         );
         $tool->dropSchema($classes);
         $tool->createSchema($classes);

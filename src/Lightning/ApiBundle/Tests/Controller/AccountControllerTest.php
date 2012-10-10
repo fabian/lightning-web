@@ -2,7 +2,9 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
-class AccountControllerTest extends ApiControllerTest
+use Lightning\ApiBundle\Tests\AbstractTest;
+
+class AccountControllerTest extends AbstractTest
 {
     public function testCreate()
     {

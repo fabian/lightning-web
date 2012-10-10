@@ -3,8 +3,9 @@
 namespace Lightning\ApiBundle\Tests\Controller;
 
 use Lightning\ApiBundle\Entity\AccessToken;
+use Lightning\ApiBundle\Tests\AbstractTest;
 
-class AccessTokenControllerTest extends ApiControllerTest
+class AccessTokenControllerTest extends AbstractTest
 {
     public function testAccess()
     {

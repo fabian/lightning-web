@@ -15,11 +15,14 @@ abstract class AbstractListController
 {
     protected $doctrine;
 
+    protected $history;
+
     protected $security;
 
-    public function __construct($doctrine, $security)
+    public function __construct($doctrine, $history, $security)
     {
         $this->doctrine = $doctrine;
+        $this->history = $history;
         $this->security = $security;
     }
 

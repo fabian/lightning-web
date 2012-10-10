@@ -2,7 +2,9 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
-class ListControllerTest extends ApiControllerTest
+use Lightning\ApiBundle\Tests\AbstractTest;
+
+class ListControllerTest extends AbstractTest
 {
     protected $accountList;
 

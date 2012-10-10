@@ -29,14 +29,15 @@ class AccountController extends AbstractAccountController
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
      *     "doctrine" = @Inject("doctrine"),
+     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "router" = @Inject("router"),
      *     "security" = @Inject("security.context"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */
-    public function __construct($random, $airship, $doctrine, $router, $security, $factory)
+    public function __construct($random, $airship, $doctrine, $history, $router, $security, $factory)
     {
-        parent::__construct($doctrine, $security);
+        parent::__construct($doctrine, $history, $security);
         $this->random = $random;
         $this->airship = $airship;
         $this->router = $router;

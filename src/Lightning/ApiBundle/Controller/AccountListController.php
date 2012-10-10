@@ -23,13 +23,14 @@ class AccountListController extends AbstractAccountController
     /**
      * @InjectParams({
      *     "doctrine" = @Inject("doctrine"),
+     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "router" = @Inject("router"),
      *     "security" = @Inject("security.context")
      * })
      */
-    public function __construct($doctrine, $router, $security)
+    public function __construct($doctrine, $history, $router, $security)
     {
-        parent::__construct($doctrine, $security);
+        parent::__construct($doctrine, $history, $security);
         $this->router = $router;
     }
 

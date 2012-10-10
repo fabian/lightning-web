@@ -61,6 +61,12 @@ class Item
     private $created;
 
     /**
+     * @ORM\OneToMany(targetEntity="Log", mappedBy="item", cascade={"persist", "remove"})
+     * @Exclude
+     */
+    protected $logs;
+
+    /**
      * @var \DateTime $modified
      *
      * @ORM\Column(name="modified", type="datetime")
@@ -224,5 +230,15 @@ class Item
     public function getList()
     {
         return $this->list;
+    }
+
+    /**
+     * Get logs
+     *
+     * @return ArrayCollection
+     */
+    public function getLogs()
+    {
+        return $this->logs;
     }
 }

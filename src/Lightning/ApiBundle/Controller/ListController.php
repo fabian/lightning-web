@@ -23,13 +23,14 @@ class ListController extends AbstractListController
     /**
      * @InjectParams({
      *     "doctrine" = @Inject("doctrine"),
+     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "security" = @Inject("security.context"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($doctrine, $security, $router)
+    public function __construct($doctrine, $history, $security, $router)
     {
-        parent::__construct($doctrine, $security);
+        parent::__construct($doctrine, $history, $security);
         $this->router = $router;
     }
 
