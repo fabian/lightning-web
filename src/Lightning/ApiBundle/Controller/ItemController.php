@@ -19,19 +19,22 @@ use Lightning\ApiBundle\Entity\AccountList;
  */
 class ItemController extends AbstractListController
 {
+    protected $history;
+
     protected $router;
 
     /**
      * @InjectParams({
      *     "doctrine" = @Inject("doctrine"),
-     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "security" = @Inject("security.context"),
+     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($doctrine, $history, $security, $router)
+    public function __construct($doctrine, $security, $history, $router)
     {
-        parent::__construct($doctrine, $history, $security);
+        parent::__construct($doctrine, $security);
+        $this->history = $history;
         $this->router = $router;
     }
 

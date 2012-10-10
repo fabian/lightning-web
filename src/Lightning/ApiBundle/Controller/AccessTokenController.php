@@ -26,14 +26,13 @@ class AccessTokenController extends AbstractAccountController
      * @InjectParams({
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
-     *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "router" = @Inject("router"),
      *     "security" = @Inject("security.context"),
      * })
      */
-    public function __construct($random, $doctrine, $history, $router, $security)
+    public function __construct($random, $doctrine, $router, $security)
     {
-        parent::__construct($doctrine, $history, $security);
+        parent::__construct($doctrine, $security);
         $this->random = $random;
         $this->router = $router;
     }

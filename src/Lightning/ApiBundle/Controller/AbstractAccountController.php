@@ -14,14 +14,11 @@ abstract class AbstractAccountController
 {
     protected $doctrine;
 
-    protected $history;
-
     protected $security;
 
-    public function __construct($doctrine, $history, $security)
+    public function __construct($doctrine, $security)
     {
         $this->doctrine = $doctrine;
-        $this->history = $history;
         $this->security = $security;
     }
 
