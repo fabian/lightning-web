@@ -14,8 +14,6 @@ abstract class AbstractTest extends WebTestCase
 {
     protected $client;
 
-    protected $doctrine;
-
     /**
      * @var \Doctrine\ORM\EntityManager
      */
@@ -27,8 +25,7 @@ abstract class AbstractTest extends WebTestCase
         static::$kernel->boot();
 
         $this->client = static::$kernel->getContainer()->get('test.client');
-        $this->doctrine = static::$kernel->getContainer()->get('doctrine');
-        $this->em = $this->doctrine->getEntityManager();
+        $this->em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
 
         $tool = new SchemaTool($this->em);
 

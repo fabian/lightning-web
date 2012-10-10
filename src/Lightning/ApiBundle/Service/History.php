@@ -12,16 +12,16 @@ use Lightning\ApiBundle\Entity\Log;
  */
 class History
 {
-    protected $doctrine;
+    protected $em;
 
     /**
      * @InjectParams({
-     *     "doctrine" = @Inject("doctrine")
+     *     "em" = @Inject("doctrine.orm.entity_manager")
      * })
      */
-    public function __construct($doctrine)
+    public function __construct($em)
     {
-        $this->doctrine = $doctrine;
+        $this->em = $em;
     }
 
     public function added($item)
@@ -51,8 +51,6 @@ class History
         $log->setOld($old);
         $log->setHappened(new \DateTime());
 
-        $em = $this->doctrine->getManager();
-        $em->persist($log);
-        $em->flush();
+        $this->em->persist($log);
     }
 }

@@ -18,7 +18,7 @@ class HistoryTest extends AbstractTest
     {
         parent::setUp();
 
-        $this->history = new History($this->doctrine);
+        $this->history = new History($this->em);
 
         $account = $this->createAccount();
         $list = $this->createList($account)->getList();
@@ -28,6 +28,7 @@ class HistoryTest extends AbstractTest
     public function testAdded()
     {
         $this->history->added($this->item);
+        $this->em->flush();
 
         $log = $this->em
             ->getRepository('LightningApiBundle:Log')
@@ -42,6 +43,7 @@ class HistoryTest extends AbstractTest
     public function testModified()
     {
         $this->history->modified($this->item, 'Bread');
+        $this->em->flush();
 
         $log = $this->em
             ->getRepository('LightningApiBundle:Log')
@@ -56,6 +58,7 @@ class HistoryTest extends AbstractTest
     public function testCompleted()
     {
         $this->history->completed($this->item);
+        $this->em->flush();
 
         $log = $this->em
             ->getRepository('LightningApiBundle:Log')
@@ -70,6 +73,7 @@ class HistoryTest extends AbstractTest
     public function testDelete()
     {
         $this->history->deleted($this->item);
+        $this->em->flush();
 
         $log = $this->em
             ->getRepository('LightningApiBundle:Log')
