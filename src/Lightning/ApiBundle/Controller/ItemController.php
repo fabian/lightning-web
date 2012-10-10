@@ -74,6 +74,8 @@ class ItemController extends AbstractListController
         $item->setCreated(new \DateTime('now'));
         $item->setModified(new \DateTime('now'));
 
+        $this->history->added($item);
+
         $em = $this->doctrine->getManager();
         $em->persist($item);
         $em->flush();
@@ -111,8 +113,17 @@ class ItemController extends AbstractListController
             throw new HttpException(409, 'Conflict, list has later modification.');
         }
 
-        $item->setValue($request->get('value'));
-        $item->setDone($request->get('done') === '1');
+        $value = $request->get('value');
+        $done = ($request->get('done') === '1');
+
+        // log changes
+        if (!$item->getDone() && $done) {
+            $this->history->completed($item);
+        }
+        $this->history->modified($item, $item->getValue());
+
+        $item->setValue($value);
+        $item->setDone($done);
 
         $em = $this->doctrine->getManager();
         $em->flush();
@@ -130,6 +141,8 @@ class ItemController extends AbstractListController
     public function deleteAction($id, Request $request)
     {
         $item = $this->checkItem($id);
+
+        $this->history->deleted($item);
 
         $item->setDeleted(true);
 
