@@ -4,7 +4,7 @@
 
 Symfony2 project with a restful API for a school project.
 
-## 1) Installation
+## Installation
 
 First checkout source code and install the required dependencies:
 
@@ -21,7 +21,7 @@ php app/console doctrine:database:create
 php app/console doctrine:migrations:migrate
 ```
 
-## 2) Development
+## Development
 
 Run the server and open http://localhost:8000/ in your browser:
 
