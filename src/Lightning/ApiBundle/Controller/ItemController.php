@@ -17,24 +17,21 @@ use Lightning\ApiBundle\Entity\AccountList;
 /**
  * Controller for items.
  */
-class ItemController extends AbstractListController
+class ItemController
 {
-    protected $history;
+    protected $manager;
 
     protected $router;
 
     /**
      * @InjectParams({
-     *     "doctrine" = @Inject("doctrine"),
-     *     "security" = @Inject("security.context"),
-     *     "history" = @Inject("lightning.api_bundle.service.history"),
+     *     "manager" = @Inject("lightning.api_bundle.service.item_manager"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($doctrine, $security, $history, $router)
+    public function __construct($manager, $router)
     {
-        parent::__construct($doctrine, $security);
-        $this->history = $history;
+        $this->manager = $manager;
         $this->router = $router;
     }
 
@@ -45,12 +42,7 @@ class ItemController extends AbstractListController
      */
     public function indexAction($id, Request $request)
     {
-        $list = $this->checkList($id);
-        $accountList = $this->checkAccountList($list);
-
-        $items = $this->doctrine
-            ->getRepository('LightningApiBundle:Item')
-            ->findBy(array('list' => $list->getId(), 'deleted' => false));
+        $items = $this->manager->getItems($id);
 
         foreach ($items as $item) {
             $this->addUrl($item);
@@ -66,19 +58,9 @@ class ItemController extends AbstractListController
      */
     public function createAction($id, Request $request)
     {
-        $list = $this->checkList($id);
-        $accountList = $this->checkAccountList($list);
+        $value = $request->request->get('value');
 
-        $item = new Item($list);
-        $item->setValue($request->request->get('value'));
-        $item->setCreated(new \DateTime('now'));
-        $item->setModified(new \DateTime('now'));
-
-        $this->history->added($item);
-
-        $em = $this->doctrine->getManager();
-        $em->persist($item);
-        $em->flush();
+        $item = $this->manager->createItem($id, $value);
 
         $this->addUrl($item);
 
@@ -92,7 +74,7 @@ class ItemController extends AbstractListController
      */
     public function showAction($id)
     {
-        $item = $this->checkItem($id);
+        $item = $this->manager->checkItem($id);
 
         $this->addUrl($item);
 
@@ -106,27 +88,11 @@ class ItemController extends AbstractListController
      */
     public function updateAction($id, Request $request)
     {
-        $item = $this->checkItem($id);
-
-        $modified = new \DateTime($request->get('modified'));
-        if ($modified < $item->getModified()) {
-            throw new HttpException(409, 'Conflict, list has later modification.');
-        }
-
+        $modified = $request->get('modified');
         $value = $request->get('value');
         $done = ($request->get('done') === '1');
 
-        // log changes
-        if (!$item->getDone() && $done) {
-            $this->history->completed($item);
-        }
-        $this->history->modified($item, $item->getValue());
-
-        $item->setValue($value);
-        $item->setDone($done);
-
-        $em = $this->doctrine->getManager();
-        $em->flush();
+        $item = $this->manager->updateItem($id, $modified, $value, $done);
 
         $this->addUrl($item);
 
@@ -140,34 +106,7 @@ class ItemController extends AbstractListController
      */
     public function deleteAction($id, Request $request)
     {
-        $item = $this->checkItem($id);
-
-        $this->history->deleted($item);
-
-        $item->setDeleted(true);
-
-        $em = $this->doctrine->getManager();
-        $em->flush();
-    }
-
-    /**
-     * @param string|integer $id
-     */
-    protected function checkItem($id)
-    {
-        $item = $this->doctrine
-            ->getRepository('LightningApiBundle:Item')
-            ->find($id);
-
-        if (!$item) {
-            throw new NotFoundHttpException('No item found for id ' . $id . '.');
-        }
-
-        $list = $item->getList();
-
-        $this->checkAccountList($list);
-
-        return $item;
+        $this->manager->deleteItem($id);
     }
 
     /**

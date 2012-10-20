@@ -16,20 +16,21 @@ use Lightning\ApiBundle\Entity\ItemList;
 /**
  * Controller items.
  */
-class ListController extends AbstractListController
+class ListController
 {
+    protected $manager;
+
     protected $router;
 
     /**
      * @InjectParams({
-     *     "doctrine" = @Inject("doctrine"),
-     *     "security" = @Inject("security.context"),
+     *     "manager" = @Inject("lightning.api_bundle.service.list_manager"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($doctrine, $security, $router)
+    public function __construct($manager, $router)
     {
-        parent::__construct($doctrine, $security);
+        $this->manager = $manager;
         $this->router = $router;
     }
 
@@ -40,9 +41,7 @@ class ListController extends AbstractListController
      */
     public function showAction($id)
     {
-        $list = $this->checkList($id);
-
-        $this->checkAccountList($list);
+        $list = $this->manager->checkList($id);
 
         $this->addUrl($list);
 
@@ -56,18 +55,10 @@ class ListController extends AbstractListController
      */
     public function updateAction($id, Request $request)
     {
-        $list = $this->checkList($id);
-        $this->checkAccountList($list, true);
+        $modified = $request->get('modified');
+        $title = $request->get('title');
 
-        $modified = new \DateTime($request->get('modified'));
-        if ($modified < $list->getModified()) {
-            throw new HttpException(409, 'Conflict, list has later modification.');
-        }
-
-        $list->setTitle($request->get('title'));
-
-        $em = $this->doctrine->getManager();
-        $em->flush();
+        $list = $this->manager->updateList($id, $modified, $title);
 
         $this->addUrl($list);
 
@@ -81,12 +72,7 @@ class ListController extends AbstractListController
      */
     public function deleteAction($id, Request $request)
     {
-        $list = $this->checkList($id);
-        $this->checkAccountList($list, true);
-
-        $em = $this->doctrine->getManager();
-        $em->remove($list);
-        $em->flush();
+        $this->manager->deleteList($id);
     }
 
     /**

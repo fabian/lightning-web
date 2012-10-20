@@ -14,33 +14,26 @@ use Lightning\ApiBundle\Entity\Account;
 /**
  * Controller for accounts.
  */
-class AccountController extends AbstractAccountController
+class AccountController
 {
-    protected $random;
+    protected $manager;
 
     protected $airship;
 
     protected $router;
 
-    protected $factory;
-
     /**
      * @InjectParams({
-     *     "random" = @Inject("lightning.api_bundle.service.random"),
+     *     "manager" = @Inject("lightning.api_bundle.service.account_manager"),
      *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
-     *     "doctrine" = @Inject("doctrine"),
-     *     "router" = @Inject("router"),
-     *     "security" = @Inject("security.context"),
-     *     "factory" = @Inject("security.encoder_factory")
+     *     "router" = @Inject("router")
      * })
      */
-    public function __construct($random, $airship, $doctrine, $router, $security, $factory)
+    public function __construct($manager, $airship, $router)
     {
-        parent::__construct($doctrine, $security);
-        $this->random = $random;
+        $this->manager = $manager;
         $this->airship = $airship;
         $this->router = $router;
-        $this->factory = $factory;
     }
 
     /**
@@ -50,26 +43,9 @@ class AccountController extends AbstractAccountController
      */
     public function createAction(Request $request)
     {
-        $account = new Account();
-        $account->setCreated(new \DateTime('now'));
-        $account->setModified(new \DateTime('now'));
+        $account = $this->manager->createAccount();
 
-        // generate access code
-        $account->setCode($this->random->code());
-
-        // encode random salt and secret as password
-        $account->setSalt($this->random->secret());
-        $secret = $this->random->secret();
-        $encoder = $this->factory->getEncoder($account);
-        $password = $encoder->encodePassword($secret, $account->getSalt());
-        $account->setSecret($password);
-
-        $em = $this->doctrine->getManager();
-        $em->persist($account);
-        $em->flush();
-
-        // make sure original password gets returned
-        $this->addUrls($account, $secret);
+        $this->addUrls($account);
 
         return $account;
     }
@@ -81,7 +57,7 @@ class AccountController extends AbstractAccountController
      */
     public function showAction($id)
     {
-        $account = $this->checkAccount($id);
+        $account = $this->manager->checkAccount($id);
 
         $this->addUrls($account);
 
@@ -95,7 +71,7 @@ class AccountController extends AbstractAccountController
      */
     public function deviceTokenAction($id, $token)
     {
-        $account = $this->checkAccount($id);
+        $account = $this->manager->checkAccount($id);
 
         $url = $this->router->generate(
             'lightning_api_account_show',
@@ -108,10 +84,9 @@ class AccountController extends AbstractAccountController
     }
 
     /**
-     * @param Account     $account
-     * @param string|null $secret
+     * @param Account $account
      */
-    protected function addUrls($account, $secret = null)
+    protected function addUrls($account)
     {
         // full account url
         $account->url = $this->router->generate(
@@ -133,12 +108,12 @@ class AccountController extends AbstractAccountController
         );
 
         // account url with secret
-        if ($secret) {
+        if ($account->revealed) {
             $account->account = $this->router->generate(
                 'lightning_api_account_show',
                 array(
                     'id' => $account->getId(),
-                    'secret' => $secret,
+                    'secret' => $account->revealed,
                 ),
                 true
             );

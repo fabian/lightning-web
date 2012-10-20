@@ -16,20 +16,21 @@ use Lightning\ApiBundle\Entity\Account;
 /**
  * Controller for lists linked to an account.
  */
-class AccountListController extends AbstractAccountController
+class AccountListController
 {
+    protected $manager;
+
     protected $router;
 
     /**
      * @InjectParams({
-     *     "doctrine" = @Inject("doctrine"),
-     *     "router" = @Inject("router"),
-     *     "security" = @Inject("security.context")
+     *     "manager" = @Inject("lightning.api_bundle.service.list_manager"),
+     *     "router" = @Inject("router")
      * })
      */
-    public function __construct($doctrine, $router, $security)
+    public function __construct($manager, $router)
     {
-        parent::__construct($doctrine, $security);
+        $this->manager = $manager;
         $this->router = $router;
     }
 
@@ -40,25 +41,9 @@ class AccountListController extends AbstractAccountController
      */
     public function createAction($id, Request $request)
     {
-        $account = $this->checkAccount($id);
+        $title = $request->request->get('title');
 
-        $list = new ItemList();
-        $list->setTitle($request->request->get('title'));
-        $list->setCreated(new \DateTime('now'));
-        $list->setModified(new \DateTime('now'));
-
-        $accountList = new AccountList($account, $list);
-        $accountList->setPermission(AccountList::PERMISSION_OWNER);
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
-
-        $em = $this->doctrine->getManager();
-        $em->persist($list);
-        $em->flush(); // make sure list has an ID
-        $em->persist($accountList);
-        $em->flush();
+        $accountList = $this->manager->createList($id, $title);
 
         $this->mergeList($accountList);
 
@@ -72,9 +57,7 @@ class AccountListController extends AbstractAccountController
      */
     public function indexAction($id)
     {
-        $account = $this->checkAccount($id);
-
-        $lists = $account->getLists();
+        $lists = $this->manager->getLists($id);
 
         // merge list
         foreach ($lists as $list) {

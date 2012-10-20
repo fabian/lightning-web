@@ -90,6 +90,15 @@ class Account implements UserInterface
      */
     public $listsUrl;
 
+    /**
+     * Secret in plain text, only set just after creation.
+     *
+     * @var string $revealed
+     *
+     * @Exclude
+     */
+    public $revealed;
+
     public function __construct()
     {
         $this->lists = new ArrayCollection();

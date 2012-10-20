@@ -16,24 +16,21 @@ use Lightning\ApiBundle\Entity\AccessToken;
 /**
  * Controller for access tokens.
  */
-class AccessTokenController extends AbstractAccountController
+class AccessTokenController
 {
-    protected $random;
+    protected $manager;
 
     protected $router;
 
     /**
      * @InjectParams({
-     *     "random" = @Inject("lightning.api_bundle.service.random"),
-     *     "doctrine" = @Inject("doctrine"),
+     *     "manager" = @Inject("lightning.api_bundle.service.access_token_manager"),
      *     "router" = @Inject("router"),
-     *     "security" = @Inject("security.context"),
      * })
      */
-    public function __construct($random, $doctrine, $router, $security)
+    public function __construct($manager, $router)
     {
-        parent::__construct($doctrine, $security);
-        $this->random = $random;
+        $this->manager = $manager;
         $this->router = $router;
     }
 
@@ -54,25 +51,7 @@ class AccessTokenController extends AbstractAccountController
      */
     public function accessTokenAction($id, $code)
     {
-        $challenge = $this->random->challenge();
-
-        $account = $this->doctrine
-            ->getRepository('LightningApiBundle:Account')
-            ->findOneBy(array('id' => $id, 'code' => $code));
-
-        // note: for security reasons we keep secret if no account was found
-        if ($account) {
-
-            $token = new AccessToken($account);
-            $token->setChallenge($challenge);
-            $token->setCreated(new \DateTime('now'));
-
-            $em = $this->doctrine->getManager();
-            $em->persist($token);
-            $em->flush();
-
-            // TODO send push notification
-        }
+        $challenge = $this->manager->createAccessToken($id, $code);
 
         return array('challenge' => $challenge);
     }
@@ -85,23 +64,8 @@ class AccessTokenController extends AbstractAccountController
      */
     public function approveAction($accountId, $tokenId, Request $request)
     {
-        $this->checkAccount($accountId);
+        $challenge = $request->get('challenge');
 
-        $token = $this->doctrine
-            ->getRepository('LightningApiBundle:AccessToken')
-            ->find($tokenId);
-
-        if (!$token) {
-            throw new NotFoundHttpException('No token found for id ' . $tokenId . '.');
-        }
-
-        // once again we keep secret if the challenge doesn't match
-        if ($request->get('challenge') == $token->getChallenge()) {
-
-            $token->setApproved(true);
-
-            $em = $this->doctrine->getManager();
-            $em->flush();
-        }
+        $this->manager->approveAccessToken($accountId, $tokenId, $challenge);
     }
 }
