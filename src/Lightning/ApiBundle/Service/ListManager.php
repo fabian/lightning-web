@@ -112,7 +112,7 @@ class ListManager
      * @param string|integer
      * @param boolean  $owner
      *
-     * @return \Lightning\ApiBundle\Entity\AccountList
+     * @return \Lightning\ApiBundle\Entity\ItemList
      */
     public function checkList($id, $owner = false)
     {
