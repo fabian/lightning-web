@@ -99,30 +99,6 @@ class AccountControllerTest extends AbstractTest
         $this->assertEquals(403, $response->getStatusCode());
     }
 
-    public function testShowWrongId()
-    {
-        $this->createAccount();
-
-        $this->client->request(
-            'GET',
-            '/accounts/999',
-            array(),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No account found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
-    }
-
     public function testShowWrongAccount()
     {
         $this->createAccount();
@@ -207,30 +183,6 @@ class AccountControllerTest extends AbstractTest
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(500, $response->getStatusCode());
-    }
-
-    public function testDeviceTokenWrongId()
-    {
-        $this->createAccount();
-
-        $this->client->request(
-            'PUT',
-            '/accounts/999/device_tokens/ABC123',
-            array(),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No account found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testDeviceTokenWrongAccount()

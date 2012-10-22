@@ -9,6 +9,7 @@ use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\Item;
 use Lightning\ApiBundle\Entity\ItemList;
+use Lightning\ApiBundle\Entity\Log;
 
 abstract class AbstractTest extends WebTestCase
 {
@@ -87,12 +88,13 @@ abstract class AbstractTest extends WebTestCase
      */
     protected function createAccountList($account, $list)
     {
+        $date = new \DateTime('2012-02-29T12:00:00+02:00');
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_GUEST);
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
+        $accountList->setRead($date);
+        $accountList->setPushed($date);
+        $accountList->setCreated($date);
+        $accountList->setModified($date);
 
         $this->em->persist($accountList);
         $this->em->flush();
@@ -100,10 +102,10 @@ abstract class AbstractTest extends WebTestCase
         return $accountList;
     }
 
-    protected function createItem($list, $deleted = false)
+    protected function createItem($list, $value = 'Milk', $deleted = false)
     {
         $item = new Item($list);
-        $item->setValue('Milk');
+        $item->setValue($value);
         $item->setDeleted($deleted);
         $item->setCreated(new \DateTime('now'));
         $item->setModified(new \DateTime('now'));
@@ -112,5 +114,18 @@ abstract class AbstractTest extends WebTestCase
         $this->em->flush();
 
         return $item;
+    }
+
+    protected function createLog($account, $item, $action, $old = null, $happened = null)
+    {
+        $log = new Log($account, $item);
+        $log->setAction($action);
+        $log->setOld($old);
+        $log->setHappened(new \DateTime($happened));
+
+        $this->em->persist($log);
+        $this->em->flush();
+
+        return $log;
     }
 }

@@ -6,22 +6,34 @@ use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use Lightning\ApiBundle\Entity\Log;
+use Lightning\ApiBundle\Entity\AccountList;
 
 /**
  * @Service
  */
 class History
 {
-    protected $em;
+    protected $doctrine;
+
+    protected $security;
+
+    protected $account;
 
     /**
      * @InjectParams({
-     *     "em" = @Inject("doctrine.orm.entity_manager")
+     *     "doctrine" = @Inject("doctrine"),
+     *     "security" = @Inject("security.context")
      * })
      */
-    public function __construct($em)
+    public function __construct($doctrine, $security)
     {
-        $this->em = $em;
+        $this->doctrine = $doctrine;
+        $this->security = $security;
+
+        $id = $this->security->getToken()->getUser()->getUsername();
+        $this->account = $this->doctrine
+            ->getRepository('LightningApiBundle:Account')
+            ->find($id);
     }
 
     public function added($item)
@@ -46,11 +58,12 @@ class History
 
     protected function store($item, $action, $old = null)
     {
-        $log = new Log($item);
+        $log = new Log($this->account, $item);
         $log->setAction($action);
         $log->setOld($old);
         $log->setHappened(new \DateTime());
 
-        $this->em->persist($log);
+        $em = $this->doctrine->getManager();
+        $em->persist($log);
     }
 }

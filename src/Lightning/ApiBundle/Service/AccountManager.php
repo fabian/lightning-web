@@ -17,27 +17,27 @@ use Lightning\ApiBundle\Entity\Account;
  */
 class AccountManager
 {
+    protected $random;
+
     protected $doctrine;
 
     protected $security;
-
-    protected $random;
 
     protected $factory;
 
     /**
      * @InjectParams({
+     *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "security" = @Inject("security.context"),
-     *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "factory" = @Inject("security.encoder_factory")
      * })
      */
-    public function __construct($doctrine, $security, $random, $factory)
+    public function __construct($random, $doctrine, $security, $factory)
     {
+        $this->random = $random;
         $this->doctrine = $doctrine;
         $this->security = $security;
-        $this->random = $random;
         $this->factory = $factory;
     }
 
@@ -52,17 +52,13 @@ class AccountManager
      */
     public function checkAccount($id)
     {
+        if ($this->security->getToken()->getUser()->getUsername() !== (int) $id) {
+            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
+        }
+
         $account = $this->doctrine
             ->getRepository('LightningApiBundle:Account')
             ->find($id);
-
-        if (!$account) {
-            throw new NotFoundHttpException('No account found for id ' . $id . '.');
-        }
-
-        if ($this->security->getToken()->getUser()->getUsername() !== $account->getUsername()) {
-            throw new AccessDeniedHttpException('Account ' . $id . ' doesn\'t match authenticated account.');
-        }
 
         return $account;
     }

@@ -19,7 +19,7 @@ class ItemControllerTest extends AbstractTest
     public function testIndex()
     {
         $this->createItem($this->list); // normal item
-        $this->createItem($this->list, true); // deleted item
+        $this->createItem($this->list, 'Bread', true); // deleted item
 
         $this->client->request(
             'GET',
@@ -67,28 +67,6 @@ class ItemControllerTest extends AbstractTest
             ->find(1);
 
         $this->assertEquals('Milk', $list->getValue());
-    }
-
-    public function testCreateWrongList()
-    {
-        $this->client->request(
-            'POST',
-            '/lists/999/items',
-            array('value' => 'Milk'),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No list found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testCreateWrongAccount()

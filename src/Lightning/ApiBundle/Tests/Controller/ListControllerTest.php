@@ -38,28 +38,6 @@ class ListControllerTest extends AbstractTest
         $this->assertEquals(200, $response->getStatusCode());
     }
 
-    public function testShowWrongId()
-    {
-        $this->client->request(
-            'GET',
-            '/lists/999',
-            array(),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No list found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
-    }
-
     public function testShowWrongAccount()
     {
         $this->createAccount();
@@ -110,28 +88,6 @@ class ListControllerTest extends AbstractTest
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(200, $response->getStatusCode());
-    }
-
-    public function testUpdateWrongId()
-    {
-        $this->client->request(
-            'PUT',
-            '/lists/999',
-            array('title' => 'Todos'),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No list found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testUpdateWrongAccount()
@@ -235,28 +191,6 @@ class ListControllerTest extends AbstractTest
         $this->assertEquals('', $response->getContent());
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(204, $response->getStatusCode());
-    }
-
-    public function testDeleteWrongId()
-    {
-        $this->client->request(
-            'DELETE',
-            '/lists/999',
-            array(),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No list found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testDeleteWrongAccount()

@@ -26,15 +26,15 @@ class AccessTokenManager
     /**
      * @InjectParams({
      *     "accountManager" = @Inject("lightning.api_bundle.service.account_manager"),
-     *     "doctrine" = @Inject("doctrine"),
-     *     "random" = @Inject("lightning.api_bundle.service.random")
+     *     "random" = @Inject("lightning.api_bundle.service.random"),
+     *     "doctrine" = @Inject("doctrine")
      * })
      */
-    public function __construct($accountManager, $doctrine, $random)
+    public function __construct($accountManager, $random, $doctrine)
     {
         $this->accountManager = $accountManager;
-        $this->doctrine = $doctrine;
         $this->random = $random;
+        $this->doctrine = $doctrine;
     }
 
     public function createAccessToken($accountId, $code)

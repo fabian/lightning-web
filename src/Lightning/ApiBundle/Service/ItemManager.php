@@ -122,7 +122,7 @@ class ItemManager
 
         $list = $item->getList();
 
-        $this->listManager->checkAccountList($list);
+        $this->listManager->checkList($list->getId());
 
         return $item;
     }

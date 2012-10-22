@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\SerializerBundle\Annotation\Exclude;
 
 use Lightning\ApiBundle\Entity\Item;
+use Lightning\ApiBundle\Entity\Account;
 
 /**
  * Lightning\ApiBundle\Entity\Log
@@ -51,14 +52,22 @@ class Log
     private $old;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Account")
+     * @ORM\JoinColumn(name="account_id", referencedColumnName="id")
+     * @Exclude
+     */
+    protected $account;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Item", inversedBy="logs")
      * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      * @Exclude
      */
     protected $item;
 
-    public function __construct(Item $item)
+    public function __construct(Account $account, Item $item)
     {
+        $this->account = $account;
         $this->item = $item;
     }
 
@@ -139,6 +148,29 @@ class Log
     public function getOld()
     {
         return $this->old;
+    }
+
+    /**
+     * Set account
+     *
+     * @param Lightning\ApiBundle\Entity\Item $item
+     * @return Log
+     */
+    public function setAccount(Account $account = null)
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return Lightning\ApiBundle\Entity\Account 
+     */
+    public function getAccount()
+    {
+        return $this->account;
     }
 
     /**

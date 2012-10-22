@@ -20,17 +20,21 @@ class AccountListController
 {
     protected $manager;
 
+    protected $push;
+
     protected $router;
 
     /**
      * @InjectParams({
-     *     "manager" = @Inject("lightning.api_bundle.service.list_manager"),
+     *     "manager" = @Inject("lightning.api_bundle.service.account_list_manager"),
+     *     "push" = @Inject("lightning.api_bundle.service.push"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($manager, $router)
+    public function __construct($manager, $push, $router)
     {
         $this->manager = $manager;
+        $this->push = $push;
         $this->router = $router;
     }
 
@@ -65,6 +69,26 @@ class AccountListController
         }
 
         return array('lists' => $lists);
+    }
+
+    /**
+     * @Route("/accounts/{account}/lists/{list}/push.{_format}", defaults={"_format" = "json"})
+     * @Method("POST")
+     * @View(statusCode=204)
+     */
+    public function pushAction($account, $list)
+    {
+        $this->push->send($account, $list);
+    }
+
+    /**
+     * @Route("/accounts/{account}/lists/{list}/read.{_format}", defaults={"_format" = "json"})
+     * @Method("PUT")
+     * @View(statusCode=204)
+     */
+    public function readAction($account, $list)
+    {
+        $this->manager->readList($account, $list);
     }
 
     /**

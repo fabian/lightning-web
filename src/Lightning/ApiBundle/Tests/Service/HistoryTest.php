@@ -18,7 +18,26 @@ class HistoryTest extends AbstractTest
     {
         parent::setUp();
 
-        $this->history = new History($this->em);
+        $this->createAccount();
+
+        $doctrine = static::$kernel->getContainer()->get('doctrine');
+
+        $user = $this->getMock('stdClass', array('getUsername'));
+        $user->expects($this->once())
+            ->method('getUsername')
+            ->will($this->returnValue(1));
+
+        $token = $this->getMock('stdClass', array('getUser'));
+        $token->expects($this->once())
+            ->method('getUser')
+            ->will($this->returnValue($user));
+
+        $security = $this->getMock('stdClass', array('getToken'));
+        $security->expects($this->once())
+            ->method('getToken')
+            ->will($this->returnValue($token));
+
+        $this->history = new History($doctrine, $security);
 
         $account = $this->createAccount();
         $list = $this->createList($account)->getList();

@@ -2,6 +2,7 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
+use Lightning\ApiBundle\Entity\Log;
 use Lightning\ApiBundle\Tests\AbstractTest;
 
 class AccountListControllerTest extends AbstractTest
@@ -37,28 +38,6 @@ class AccountListControllerTest extends AbstractTest
         $this->assertEquals(201, $response->getStatusCode());
     }
 
-    public function testCreateWrongOwnerId()
-    {
-        $this->client->request(
-            'POST',
-            '/accounts/99/lists',
-            array('title' => 'Example'),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No account found for id 99."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
-    }
-
     public function testCreateWrongOwnerAccount()
     {
         $this->createAccount();
@@ -81,6 +60,55 @@ class AccountListControllerTest extends AbstractTest
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
+    }
+
+    public function testPush()
+    {
+        $accountList = $this->createList($this->account);
+
+        $account = $this->createAccount();
+        $this->createAccountList($account, $accountList->getList());
+
+        $item = $this->createItem($accountList->getList(), 'Milk');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T12:00:00+02:00');
+
+        $item = $this->createItem($accountList->getList(), 'Bread');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
+        $this->createLog($this->account, $item, Log::ACTION_DELETED, null, '2012-05-25T10:00:00+02:00');
+
+        $item = $this->createItem($accountList->getList(), 'Wine');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
+        $this->createLog($this->account, $item, Log::ACTION_MODIFIED, 'Water', '2012-05-25T10:00:00+02:00');
+
+        $item = $this->createItem($accountList->getList(), 'Cheese');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
+        $this->createLog($this->account, $item, Log::ACTION_COMPLETED, null, '2012-05-25T10:00:00+02:00');
+
+        $this->em->clear();
+
+        $airship = $this->getMockBuilder('Lightning\ApiBundle\Service\UrbanAirship')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $airship->expects($this->once())
+            ->method('push')
+            ->with(array('http://localhost/accounts/2'), 0, 'Added Milk. Changed Water to Wine. Completed Cheese.', 1);
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
+
+        $this->client->request(
+            'POST',
+            '/accounts/1/lists/1/push',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
     }
 
     public function testIndex()
@@ -149,28 +177,6 @@ class AccountListControllerTest extends AbstractTest
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
-    }
-
-    public function testIndexWrongId()
-    {
-        $this->client->request(
-            'GET',
-            '/accounts/999/lists',
-            array(),
-            array(),
-            array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
-                'HTTP_ACCEPT' => 'application/json',
-            )
-        );
-
-        $response = $this->client->getResponse();
-        $this->assertEquals(
-            '{"error":{"code":404,"message":"No account found for id 999."}}',
-            trim($response->getContent())
-        );
-        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
-        $this->assertEquals(404, $response->getStatusCode());
     }
 
     public function testIndexWrongAccount()
