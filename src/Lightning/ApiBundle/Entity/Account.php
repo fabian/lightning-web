@@ -25,6 +25,8 @@ class Account implements UserInterface
     private $id;
 
     /**
+     * Short code for web access.
+     *
      * @var string $code
      *
      * @ORM\Column(name="code", type="string", length=255)
@@ -33,6 +35,9 @@ class Account implements UserInterface
     private $code;
 
     /**
+     * Secret password phrase to access this account, stored
+     * after creation on device.
+     *
      * @var string $secret
      *
      * @ORM\Column(name="secret", type="string", length=255)
