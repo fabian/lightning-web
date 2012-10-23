@@ -164,7 +164,7 @@ class Push
         $text = '';
         $text .= implode(', ', array_slice($array, 0, count($array) - 1));
         $text .= ' and ';
-        $text .= $array[count($array)];
+        $text .= $array[count($array) - 1];
 
         return $text;
     }
