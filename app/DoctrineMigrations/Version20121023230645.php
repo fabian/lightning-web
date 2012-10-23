@@ -11,7 +11,7 @@ class Version20121023230645 extends AbstractMigration
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != "mysql");
         
-        $this->addSql("ALTER TABLE itemlist ADD invitation VARCHAR(255) NOT NULL");
+        $this->addSql("ALTER TABLE ItemList ADD invitation VARCHAR(255) NOT NULL");
     }
 
     public function down(Schema $schema)
