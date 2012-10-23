@@ -96,7 +96,20 @@ class Push
 
         $items = array();
         foreach ($logs as $log) {
+
             $id = $log->getItem()->getId();
+
+            // skip modified if recently added
+            if (isset($items[$id])) {
+
+                $added = $items[$id]->getAction() == Log::ACTION_ADDED;
+                $modified = $log->getAction() == Log::ACTION_MODIFIED;
+
+                if ($added && $modified) {
+                    continue;
+                }
+            }
+
             $items[$id] = $log;
         }
 
@@ -116,7 +129,7 @@ class Push
                     $completed[] = $log->getItem()->getValue();
                     break;
                 case Log::ACTION_DELETED:
-                    // ignore
+                    // ignore deleted
                     break;
             }
         }

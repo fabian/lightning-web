@@ -77,11 +77,9 @@ class AccountListControllerTest extends AbstractTest
         $this->createLog($this->account, $item, Log::ACTION_DELETED, null, '2012-05-25T10:00:00+02:00');
 
         $item = $this->createItem($accountList->getList(), 'Wine');
-        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
         $this->createLog($this->account, $item, Log::ACTION_MODIFIED, 'Water', '2012-05-25T10:00:00+02:00');
 
         $item = $this->createItem($accountList->getList(), 'Cheese');
-        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
         $this->createLog($this->account, $item, Log::ACTION_COMPLETED, null, '2012-05-25T10:00:00+02:00');
 
         $this->em->clear();
