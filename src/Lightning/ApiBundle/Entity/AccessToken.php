@@ -137,19 +137,6 @@ class AccessToken
     }
 
     /**
-     * Set account
-     *
-     * @param  null|Account $account
-     * @return AccessToken
-     */
-    public function setAccount(\Lightning\ApiBundle\Entity\Account $account = null)
-    {
-        $this->account = $account;
-
-        return $this;
-    }
-
-    /**
      * Get account
      *
      * @return Account|null

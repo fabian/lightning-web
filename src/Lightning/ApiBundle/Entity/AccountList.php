@@ -245,19 +245,6 @@ class AccountList
     }
 
     /**
-     * Set account
-     *
-     * @param  null|Account $account
-     * @return AccountList
-     */
-    public function setAccount(Account $account = null)
-    {
-        $this->account = $account;
-
-        return $this;
-    }
-
-    /**
      * Get account
      *
      * @return Account|null
@@ -265,19 +252,6 @@ class AccountList
     public function getAccount()
     {
         return $this->account;
-    }
-
-    /**
-     * Set list
-     *
-     * @param  null|ItemList $list
-     * @return AccountList
-     */
-    public function setList(ItemList $list = null)
-    {
-        $this->list = $list;
-
-        return $this;
     }
 
     /**

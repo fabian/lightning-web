@@ -210,19 +210,6 @@ class Item
     }
 
     /**
-     * Set list
-     *
-     * @param  Lightning\ApiBundle\Entity\ItemList $list
-     * @return Item
-     */
-    public function setList(ItemList $list)
-    {
-        $this->list = $list;
-
-        return $this;
-    }
-
-    /**
      * Get list
      *
      * @return Lightning\ApiBundle\Entity\ItemList

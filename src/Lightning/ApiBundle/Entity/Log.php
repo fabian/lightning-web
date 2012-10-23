@@ -151,19 +151,6 @@ class Log
     }
 
     /**
-     * Set account
-     *
-     * @param Lightning\ApiBundle\Entity\Item $item
-     * @return Log
-     */
-    public function setAccount(Account $account = null)
-    {
-        $this->item = $item;
-
-        return $this;
-    }
-
-    /**
      * Get account
      *
      * @return Lightning\ApiBundle\Entity\Account 
@@ -171,19 +158,6 @@ class Log
     public function getAccount()
     {
         return $this->account;
-    }
-
-    /**
-     * Set item
-     *
-     * @param Lightning\ApiBundle\Entity\Item $item
-     * @return Log
-     */
-    public function setItem(Item $item = null)
-    {
-        $this->item = $item;
-
-        return $this;
     }
 
     /**
