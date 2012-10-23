@@ -72,6 +72,12 @@ class AccountListControllerTest extends AbstractTest
         $item = $this->createItem($accountList->getList(), 'Milk');
         $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T12:00:00+02:00');
 
+        $item = $this->createItem($accountList->getList(), 'Juice');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T13:00:00+02:00');
+
+        $item = $this->createItem($accountList->getList(), 'Eggs');
+        $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T14:00:00+02:00');
+
         $item = $this->createItem($accountList->getList(), 'Bread');
         $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T09:00:00+02:00');
         $this->createLog($this->account, $item, Log::ACTION_DELETED, null, '2012-05-25T10:00:00+02:00');
@@ -89,7 +95,7 @@ class AccountListControllerTest extends AbstractTest
             ->getMock();
         $airship->expects($this->once())
             ->method('push')
-            ->with(array('http://localhost/accounts/2'), 0, 'Added Milk. Changed Water to Wine. Completed Cheese.', 1);
+            ->with(array('http://localhost/accounts/2'), 0, 'Added Milk, Juice and Eggs. Changed Water to Wine. Completed Cheese.', 1);
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
         $this->client->request(
