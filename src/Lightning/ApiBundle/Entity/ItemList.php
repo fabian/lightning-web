@@ -30,6 +30,16 @@ class ItemList
     private $title;
 
     /**
+     * Invitation code for sharing list with others.
+     *
+     * @var string $invitation
+     *
+     * @ORM\Column(name="invitation", type="string", length=255)
+     * @Exclude
+     */
+    private $invitation;
+
+    /**
      * @var \DateTime $created
      *
      * @ORM\Column(name="created", type="datetime")
@@ -150,5 +160,28 @@ class ItemList
     public function getAccounts()
     {
         return $this->accounts;
+    }
+
+    /**
+     * Set invitation
+     *
+     * @param string $invitation
+     * @return ItemList
+     */
+    public function setInvitation($invitation)
+    {
+        $this->invitation = $invitation;
+
+        return $this;
+    }
+
+    /**
+     * Get invitation
+     *
+     * @return string 
+     */
+    public function getInvitation()
+    {
+        return $this->invitation;
     }
 }

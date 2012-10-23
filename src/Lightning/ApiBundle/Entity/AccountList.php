@@ -96,6 +96,11 @@ class AccountList
     public $title;
 
     /**
+     * @var string $invitation
+     */
+    public $invitation;
+
+    /**
      * @var string $url
      */
     public $url;

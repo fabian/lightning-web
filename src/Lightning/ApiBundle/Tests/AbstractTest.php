@@ -64,6 +64,7 @@ abstract class AbstractTest extends WebTestCase
     {
         $list = new ItemList();
         $list->setTitle('Groceries');
+        $list->setInvitation('Welcome123');
         $list->setCreated(new \DateTime('now'));
         $list->setModified(new \DateTime('now'));
 

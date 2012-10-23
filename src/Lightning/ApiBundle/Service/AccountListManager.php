@@ -19,6 +19,8 @@ class AccountListManager
 {
     protected $accountManager;
 
+    protected $random;
+
     protected $doctrine;
 
     protected $security;
@@ -26,13 +28,15 @@ class AccountListManager
     /**
      * @InjectParams({
      *     "accountManager" = @Inject("lightning.api_bundle.service.account_manager"),
+     *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "security" = @Inject("security.context")
      * })
      */
-    public function __construct($accountManager, $doctrine, $security)
+    public function __construct($accountManager, $random, $doctrine, $security)
     {
         $this->accountManager = $accountManager;
+        $this->random = $random;
         $this->doctrine = $doctrine;
         $this->security = $security;
     }
@@ -51,6 +55,10 @@ class AccountListManager
         $account = $this->accountManager->checkAccount($accountId);
 
         $list = new ItemList();
+
+        // generate invitation code
+        $list->setInvitation($this->random->code());
+
         $list->setTitle($title);
         $list->setCreated(new \DateTime('now'));
         $list->setModified(new \DateTime('now'));
@@ -78,6 +86,35 @@ class AccountListManager
         $lists = $account->getLists();
 
         return $lists;
+    }
+
+    public function joinList($accountId, $listId, $invitation)
+    {
+        $account = $this->accountManager->checkAccount($accountId);
+
+        $list = $this->doctrine
+            ->getRepository('LightningApiBundle:List')
+            ->find($listId);
+
+        if (!$list) {
+            throw new NotFoundHttpException('List ' . $listId . ' not found.');
+        }
+
+        if ($list->getInvitation() !== $invitation) {
+            throw new AccessDeniedHttpException('Invitation ' . $invitation . ' doesn\'t match invitation for list.');
+        }
+
+        // invitation matched, add guest permission
+        $accountList = new AccountList($account, $list);
+        $accountList->setPermission(AccountList::PERMISSION_GUEST);
+        $accountList->setRead(new \DateTime('now'));
+        $accountList->setPushed(new \DateTime('now'));
+        $accountList->setCreated(new \DateTime('now'));
+        $accountList->setModified(new \DateTime('now'));
+
+        $em = $this->doctrine->getManager();
+        $em->persist($accountList);
+        $em->flush();
     }
 
     public function readList($accountId, $listId)

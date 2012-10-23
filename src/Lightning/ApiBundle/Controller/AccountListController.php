@@ -72,6 +72,18 @@ class AccountListController
     }
 
     /**
+     * @Route("/accounts/{account}/lists/{list}.{_format}", defaults={"_format" = "json"})
+     * @Method("PUT")
+     * @View(statusCode=204)
+     */
+    public function joinAction($account, $list, Request $request)
+    {
+        $invitation = $request->request->get('invitation');
+
+        $this->manager->joinList($account, $list, $invitation);
+    }
+
+    /**
      * @Route("/accounts/{account}/lists/{list}/push.{_format}", defaults={"_format" = "json"})
      * @Method("POST")
      * @View(statusCode=204)
@@ -99,6 +111,7 @@ class AccountListController
         $list = $accountList->getList();
         $accountList->id = $list->getId();
         $accountList->title = $list->getTitle();
+        $accountList->invitation = $list->getInvitation();
         $accountList->url = $this->router->generate(
             'lightning_api_list_show',
             array(

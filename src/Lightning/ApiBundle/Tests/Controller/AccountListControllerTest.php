@@ -18,6 +18,12 @@ class AccountListControllerTest extends AbstractTest
 
     public function testCreate()
     {
+        $random = $this->getMock('Lightning\ApiBundle\Service\Random');
+        $random->expects($this->any())
+            ->method('code')
+            ->will($this->returnValue('abc'));
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
+
         $this->client->request(
             'POST',
             '/accounts/1/lists',
@@ -31,7 +37,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"id":1,"title":"Example","url":"http:\/\/localhost\/lists\/1"}',
+            '{"permission":"owner","deleted":false,"id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -133,7 +139,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","url":"http:\/\/localhost\/lists\/1"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
