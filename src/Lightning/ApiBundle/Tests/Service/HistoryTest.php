@@ -12,6 +12,8 @@ use Lightning\ApiBundle\Tests\AbstractTest;
 
 class HistoryTest extends AbstractTest
 {
+    protected $history;
+
     protected $item;
 
     public function setUp()
