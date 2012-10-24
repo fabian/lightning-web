@@ -93,7 +93,7 @@ class AccountListManager
         $account = $this->accountManager->checkAccount($accountId);
 
         $list = $this->doctrine
-            ->getRepository('LightningApiBundle:List')
+            ->getRepository('LightningApiBundle:ItemList')
             ->find($listId);
 
         if (!$list) {
