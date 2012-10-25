@@ -92,6 +92,15 @@ class AccountListManager
     {
         $account = $this->accountManager->checkAccount($accountId);
 
+        $accountList = $this->doctrine
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findOneBy(array('account' => $accountId, 'list' => $listId, 'deleted' => false));
+
+        if ($accountList) {
+            // account already has access to list
+            return;
+        }
+
         $list = $this->doctrine
             ->getRepository('LightningApiBundle:ItemList')
             ->find($listId);

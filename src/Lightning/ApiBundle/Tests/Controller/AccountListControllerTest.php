@@ -243,18 +243,47 @@ class AccountListControllerTest extends AbstractTest
         $this->assertEquals(204, $response->getStatusCode());
     }
 
-    public function testJoinWrongList()
+    public function testJoinSameAccount()
     {
         $this->createList($this->account);
         $this->em->clear();
 
         $this->client->request(
             'PUT',
-            '/accounts/1/lists/999',
+            '/accounts/1/lists/1',
             array('invitation' => 'Welcome123'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $accountList = $this->em
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findOneBy(array('list' => 1, 'account' => 1));
+
+        $this->assertEquals(AccountList::PERMISSION_OWNER, $accountList->getPermission());
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testJoinWrongList()
+    {
+        $this->createList($this->account);
+        $this->createAccount();
+        $this->em->clear();
+
+        $this->client->request(
+            'PUT',
+            '/accounts/2/lists/999',
+            array('invitation' => 'Welcome123'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/2?secret=123',
                 'HTTP_ACCEPT' => 'application/json',
             )
         );
@@ -271,15 +300,16 @@ class AccountListControllerTest extends AbstractTest
     public function testJoinWrongInvitation()
     {
         $this->createList($this->account);
+        $this->createAccount();
         $this->em->clear();
     
         $this->client->request(
             'PUT',
-            '/accounts/1/lists/1',
+            '/accounts/2/lists/1',
             array('invitation' => 'Foobar'),
             array(),
             array(
-                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/2?secret=123',
                 'HTTP_ACCEPT' => 'application/json',
             )
         );
