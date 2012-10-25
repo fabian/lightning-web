@@ -302,7 +302,7 @@ class AccountListControllerTest extends AbstractTest
         $this->createList($this->account);
         $this->createAccount();
         $this->em->clear();
-    
+
         $this->client->request(
             'PUT',
             '/accounts/2/lists/1',
