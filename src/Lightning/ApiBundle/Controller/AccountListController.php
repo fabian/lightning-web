@@ -98,9 +98,10 @@ class AccountListController
      * @Method("PUT")
      * @View(statusCode=204)
      */
-    public function readAction($account, $list)
+    public function readAction($account, $list, Request $request)
     {
-        $this->manager->readList($account, $list);
+        $read = $request->request->get('read');
+        $this->manager->readList($account, $list, $read);
     }
 
     /**

@@ -126,11 +126,14 @@ class AccountListManager
         $em->flush();
     }
 
-    public function readList($accountId, $listId)
+    public function readList($accountId, $listId, $read)
     {
         $accountList = $this->checkAccountList($accountId, $listId);
 
-        $accountList->setRead(new \DateTime());
+        $read = new \DateTime($read);
+        if ($read > $accountList->getRead()) {
+            $accountList->setRead($read);
+        }
 
         $em = $this->doctrine->getManager();
         $em->flush();
