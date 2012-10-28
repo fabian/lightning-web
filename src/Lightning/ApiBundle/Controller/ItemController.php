@@ -48,7 +48,7 @@ class ItemController
             $this->addUrl($item);
         }
 
-        return array('items' => $item);
+        return array('items' => $items);
     }
 
     /**
