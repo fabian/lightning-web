@@ -1,6 +1,6 @@
 {% twig_js name="Lightning.templates.lists" %}
-<ul>
+<ul class="lists">
     {% for list in lists %}
-       <li><a href="{{ list.url }}">{{ list.title }}</a></li>
+       <li><a href="{{ list.url_items }}">{{ list.title }}</a></li>
     {% endfor %}
 </ul>
