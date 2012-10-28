@@ -322,4 +322,91 @@ class AccountListControllerTest extends AbstractTest
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
     }
+
+    public function testRead()
+    {
+        $this->createList($this->account);
+        $this->em->clear();
+
+        $this->client->request(
+            'PUT',
+            '/accounts/1/lists/1/read',
+            array('read' => '2012-03-01T12:00:00+02:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $accountList = $this->em
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findOneBy(array('list' => 1, 'account' => 1));
+
+        $this->assertEquals('2012-03-01T12:00:00+02:00', $accountList->getRead()->format('c'));
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testReadOld()
+    {
+        $this->createList($this->account);
+        $this->em->clear();
+
+        $this->client->request(
+            'PUT',
+            '/accounts/1/lists/1/read',
+            array('read' => '2012-02-01T12:00:00+02:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $accountList = $this->em
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findOneBy(array('list' => 1, 'account' => 1));
+
+        $this->assertEquals('2012-02-29T12:00:00+01:00', $accountList->getRead()->format('c'));
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
+    }
+
+    public function testReadWrongAccount()
+    {
+        $this->createList($this->account);
+        $this->em->clear();
+
+        $this->client->request(
+            'PUT',
+            '/accounts/2/lists/1/read',
+            array('read' => '2012-02-01T12:00:00+02:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $accountList = $this->em
+            ->getRepository('LightningApiBundle:AccountList')
+            ->findOneBy(array('list' => 1, 'account' => 1));
+
+        $this->assertEquals('2012-02-29T12:00:00+01:00', $accountList->getRead()->format('c'));
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(403, $response->getStatusCode());
+    }
 }
