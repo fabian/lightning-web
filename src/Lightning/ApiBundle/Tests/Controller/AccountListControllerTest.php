@@ -399,7 +399,7 @@ class AccountListControllerTest extends AbstractTest
             ->getRepository('LightningApiBundle:AccountList')
             ->findOneBy(array('list' => 1, 'account' => 1));
 
-        $this->assertEquals('2012-02-29T12:00:00+01:00', $accountList->getRead()->format('c'));
+        $this->assertEquals('2012-02-29 12:00:00', $accountList->getRead()->format('Y-m-d H:i:s'));
 
         $response = $this->client->getResponse();
         $this->assertEquals(
