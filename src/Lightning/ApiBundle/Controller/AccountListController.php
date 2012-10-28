@@ -120,5 +120,12 @@ class AccountListController
             ),
             true
         );
+        $accountList->urlItems = $this->router->generate(
+            'lightning_api_item_index',
+            array(
+                'id' => $list->getId(),
+            ),
+            true
+        );
     }
 }

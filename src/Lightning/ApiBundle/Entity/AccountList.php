@@ -105,6 +105,11 @@ class AccountList
      */
     public $url;
 
+    /**
+     * @var string $urlItems
+     */
+    public $urlItems;
+
     public function __construct(Account $account, ItemList $list)
     {
         $this->account = $account;

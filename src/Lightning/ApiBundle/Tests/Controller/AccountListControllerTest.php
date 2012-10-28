@@ -38,7 +38,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1"}',
+            '{"permission":"owner","deleted":false,"id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -140,7 +140,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
