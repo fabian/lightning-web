@@ -77,6 +77,7 @@ class ItemManager
 
         $item->setValue($value);
         $item->setDone($done);
+        $item->getList()->setModified($modified);
 
         $em = $this->doctrine->getManager();
         $em->flush();
