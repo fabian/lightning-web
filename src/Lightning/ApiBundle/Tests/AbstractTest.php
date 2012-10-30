@@ -60,13 +60,13 @@ abstract class AbstractTest extends WebTestCase
     /**
      * @param Account $account
      */
-    protected function createList($account)
+    protected function createList($account, $modified = null)
     {
         $list = new ItemList();
         $list->setTitle('Groceries');
         $list->setInvitation('Welcome123');
         $list->setCreated(new \DateTime('now'));
-        $list->setModified(new \DateTime('now'));
+        $list->setModified($modified ?: new \DateTime('now'));
 
         $date = new \DateTime('2012-02-29T12:00:00+02:00');
         $accountList = new AccountList($account, $list);

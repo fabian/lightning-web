@@ -75,6 +75,7 @@ class AccountListControllerTest extends AbstractTest
 
         $account = $this->createAccount();
         $this->createAccountList($account, $accountList->getList());
+        $this->createList($account, new \DateTime('2012-05-25T12:00:00+02:00'));
 
         $item = $this->createItem($accountList->getList(), 'Milk');
         $this->createLog($this->account, $item, Log::ACTION_ADDED, null, '2012-05-25T12:00:00+02:00');
@@ -102,7 +103,7 @@ class AccountListControllerTest extends AbstractTest
             ->getMock();
         $airship->expects($this->once())
             ->method('push')
-            ->with(array('http://localhost/accounts/2'), 0, 'Added Milk, Juice and Eggs. Changed Water to Wine. Completed Cheese.', 1);
+            ->with(array('http://localhost/accounts/2'), 2, 'Added Milk, Juice and Eggs. Changed Water to Wine. Completed Cheese.', 1);
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
         $this->client->request(
