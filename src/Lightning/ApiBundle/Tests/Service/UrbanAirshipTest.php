@@ -21,7 +21,7 @@ class UrbanAirshipTest extends \PHPUnit_Framework_TestCase
 
     public function testRegister()
     {
-        $request = new Request('PUT', 'https://go.urbanairship.com/api/device_token/ABC123');
+        $request = new Request('PUT', 'https://go.urbanairship.com/api/device_tokens/ABC123');
         $request->addHeader('Authorization: Basic QUJDOjEyMw==');
         $request->addHeader('Content-Type: application/json');
         $request->setContent('{"alias":"1"}');
