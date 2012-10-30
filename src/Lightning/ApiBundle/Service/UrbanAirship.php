@@ -68,7 +68,7 @@ class UrbanAirship
             'alias' => $alias,
         );
 
-        $this->request(RequestInterface::METHOD_PUT, '/device_token/' . $deviceToken, $payload);
+        $this->request(RequestInterface::METHOD_PUT, '/device_tokens/' . $deviceToken, $payload);
     }
 
     /**
