@@ -171,7 +171,7 @@ class ItemControllerTest extends AbstractTest
         $this->client->request(
             'PUT',
             '/items/1',
-            array('value' => 'Coffee', 'done' => '1'),
+            array('value' => 'Coffee', 'done' => '1', 'modified' => '2012-02-29T13:00:00+02:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -185,6 +185,7 @@ class ItemControllerTest extends AbstractTest
 
         $this->assertEquals('Coffee', $item->getValue());
         $this->assertTrue($item->getDone());
+        $this->assertEquals('2012-02-29 13:00:00', $item->getList()->getModified()->format('Y-m-d H:i:s'));
 
         $response = $this->client->getResponse();
         $this->assertEquals(

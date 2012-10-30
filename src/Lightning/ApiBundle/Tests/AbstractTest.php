@@ -105,11 +105,12 @@ abstract class AbstractTest extends WebTestCase
 
     protected function createItem($list, $value = 'Milk', $deleted = false)
     {
+        $date = new \DateTime('2012-02-29T12:00:00+02:00');
         $item = new Item($list);
         $item->setValue($value);
         $item->setDeleted($deleted);
-        $item->setCreated(new \DateTime('now'));
-        $item->setModified(new \DateTime('now'));
+        $item->setCreated($date);
+        $item->setModified($date);
 
         $this->em->persist($item);
         $this->em->flush();
