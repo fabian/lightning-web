@@ -54,7 +54,7 @@ class Push
                 // unread count
                 $count = 0;
                 foreach ($accountList->getAccount()->getLists() as $list) {
-                    if ($list->getModified() > $accountList->getRead()) {
+                    if ($list->getList()->getModified() > $list->getRead()) {
                         $count++;
                     }
                 }
