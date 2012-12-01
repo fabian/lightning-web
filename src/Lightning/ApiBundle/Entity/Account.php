@@ -76,6 +76,12 @@ class Account implements UserInterface
     protected $lists;
 
     /**
+     * @ORM\OneToMany(targetEntity="AccessToken", mappedBy="account", cascade={"persist", "remove"})
+     * @Exclude
+     */
+    protected $accessTokens;
+
+    /**
      * @var string $url
      */
     public $url;
@@ -271,5 +277,15 @@ class Account implements UserInterface
     public function getLists()
     {
         return $this->lists;
+    }
+
+    /**
+     * Get access tokens
+     *
+     * @return ArrayCollection
+     */
+    public function getAccessTokens()
+    {
+        return $this->accessTokens;
     }
 }

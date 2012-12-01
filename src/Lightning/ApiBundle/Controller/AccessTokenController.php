@@ -51,9 +51,9 @@ class AccessTokenController
      */
     public function accessTokenAction($id, $code)
     {
-        $challenge = $this->manager->createAccessToken($id, $code);
+        $token = $this->manager->createAccessToken($id, $code);
 
-        return array('challenge' => $challenge);
+        return $token;
     }
 
     /**

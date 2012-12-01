@@ -42,7 +42,7 @@ class AccessTokenControllerTest extends AbstractTest
         $this->assertEquals(9876, $token->getChallenge());
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"challenge":"9876"}', $response->getContent());
+        $this->assertEquals('{"id":1,"challenge":"9876"}', $response->getContent());
         $this->assertEquals(200, $response->getStatusCode());
     }
 

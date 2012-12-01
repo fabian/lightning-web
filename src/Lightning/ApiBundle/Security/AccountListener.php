@@ -29,11 +29,32 @@ class AccountListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        if (false === $account = $request->headers->get('account', false)) {
-            throw new HttpException(401, 'Account header not found.');
+        $accessToken = $request->headers->get('accesstoken', false);
+
+        $regex = '#http://.*/accounts/(.*)/access_tokens/(.*)\?challenge=(.*)#';
+        if (preg_match($regex, $accessToken, $matches)) {
+
+            $token = new AccessToken();
+            $token->setUser($matches[1]);
+            $token->setToken($matches[2]);
+            $token->setChallenge($matches[3]);
+
+            try {
+                $returnValue = $this->authenticationManager->authenticate($token);
+
+                if ($returnValue instanceof TokenInterface) {
+                    return $this->securityContext->setToken($returnValue);
+                }
+            } catch (AuthenticationException $e) {
+                // throw exception below
+            }
         }
 
         $account = $request->headers->get('account', false);
+
+        if (false === $account) {
+            throw new HttpException(401, 'Account header not found.');
+        }
 
         $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
         if (preg_match($regex, $account, $matches)) {

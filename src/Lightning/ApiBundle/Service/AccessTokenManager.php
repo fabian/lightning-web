@@ -41,6 +41,10 @@ class AccessTokenManager
     {
         $challenge = $this->random->challenge();
 
+        $token = new AccessToken();
+        $token->setChallenge($challenge);
+        $token->setCreated(new \DateTime('now'));
+
         $account = $this->doctrine
             ->getRepository('LightningApiBundle:Account')
             ->findOneBy(array('id' => $accountId, 'code' => $code));
@@ -48,18 +52,16 @@ class AccessTokenManager
         // note: for security reasons we keep secret if no account was found
         if ($account) {
 
-            $token = new AccessToken($account);
-            $token->setChallenge($challenge);
-            $token->setCreated(new \DateTime('now'));
-
-            $em = $this->doctrine->getManager();
-            $em->persist($token);
-            $em->flush();
+            $token->setAccount($account);
 
             // TODO send push notification
         }
 
-        return $challenge;
+        $em = $this->doctrine->getManager();
+        $em->persist($token);
+        $em->flush();
+
+        return $token;
     }
 
     public function approveAccessToken($accountId, $tokenId, $challenge)

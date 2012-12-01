@@ -2,52 +2,86 @@ var Lightning = Lightning || {};
 
 Lightning.App = function () {
 
+    this.interval = 1000;
+
     this.container = $('#container');
     this.loading = $('.loading');
 
     $(document).on('click', 'ul.lists a', $.proxy(this.getList, this));
     $(document).on('click', 'ul.items a', function () { return false; });
 
-    this.container.html(Twig.render(Lightning.templates.welcome, {href: Lightning.URL_ACCOUNT}));
+    this.container.html(Twig.render(Lightning.templates.welcome, {href: ''}));
 
     $('.send-request').click($.proxy(this.sendRequest, this));
 };
 
-Lightning.App.prototype.load = function (loading) {
+Lightning.App.prototype.setLoading = function (loading) {
     this.loading.css('visibility', loading ? 'visible' : 'hidden');
 };
 
-Lightning.App.prototype.sendRequest = function () {
+Lightning.App.prototype.sendRequest = function (data) {
 
-    this.load(true);
-    this.container.html('<p>Please allow access on your mobile phone<p>');
+    this.setLoading(true);
 
-    this.poll();
+    $.ajax({
+        type: 'POST',
+        url: Lightning.URL_ACCESS_TOKEN,
+        dataType: 'json',
+        headers: {
+            Accept: 'application/json; charset=utf-8',
+        },
+        success: $.proxy(this.showRequest, this)
+    });
 
     return false;
 };
 
-Lightning.App.prototype.poll = function () {
+Lightning.App.prototype.showRequest = function (data) {
+
+    this.token = data;
+
+    this.setLoading(true);
+
+    this.container.html('<p>Please allow access on your mobile phone: ' + this.token.challenge + '<p>');
+
+    this.pollLists();
+
+    return false;
+};
+
+Lightning.App.prototype.pollLists = function () {
+
+    clearTimeout(this.timeout);
+
+    this.timeout = setTimeout($.proxy(this.loadLists, this), this.interval);
+};
+
+Lightning.App.prototype.getTokenUrl = function () {
+    return Lightning.URL_ACCOUNT + '/access_tokens/' + this.token.id + '?challenge=' + this.token.challenge;
+};
+
+Lightning.App.prototype.loadLists = function () {
 
     $.ajax({
         url: Lightning.URL_LISTS,
         dataType: 'json',
         headers: {
             Accept: 'application/json; charset=utf-8',
-            Account: 'http://localhost:8000/accounts/6?secret=3cba86e5c3d02d0ddffcce7c42f4a685'
+            AccessToken: this.getTokenUrl()
         },
-        success: $.proxy(this.lists, this)
+        success: $.proxy(this.lists, this),
+        error: $.proxy(this.pollLists, this),
     });
 };
 
 Lightning.App.prototype.lists = function (data) {
 
-    this.load(false);
+    this.setLoading(false);
     this.container.html(Twig.render(Lightning.templates.lists, data));
 
     $('#user').html('<a href="">Logout</a>');
 
-    this.timeout = setTimeout($.proxy(this.poll, this), 1000);
+    this.pollLists();
 };
 
 Lightning.App.prototype.getList = function (e) {
@@ -66,7 +100,7 @@ Lightning.App.prototype.getList = function (e) {
         success: $.proxy(this.list, this)
     });
 
-    this.load(true);
+    this.setLoading(true);
     this.container.html('');
 
     return false;
@@ -74,7 +108,7 @@ Lightning.App.prototype.getList = function (e) {
 
 Lightning.App.prototype.list = function (data) {
 
-    this.load(false);
+    this.setLoading(false);
     this.container.html(Twig.render(Lightning.templates.list, data));
 };
 

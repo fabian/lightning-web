@@ -24,17 +24,40 @@ class AccountProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
-        $valid = $this->encoderFactory->getEncoder($user)->isPasswordValid(
-            $user->getPassword(),
-            $token->getCredentials(),
-            $user->getSalt()
-        );
+        
+        if ($user) {
 
-        if ($user && $valid) {
-            $authenticatedToken = new AccountToken($user->getRoles());
-            $authenticatedToken->setUser($user);
+            if ($token instanceof AccessToken) {
 
-            return $authenticatedToken;
+                foreach ($user->getAccessTokens() as $accessToken) {
+
+                    $match = $accessToken->getId() == $token->getToken();
+                    $valid = $accessToken->getChallenge() === $token->getCredentials();
+                    $approved = $accessToken->getApproved();
+
+                    if ($match && $valid && $approved) {
+
+                        $authenticatedToken = new AccountToken($user->getRoles());
+                        $authenticatedToken->setUser($user);
+                        
+                        return $authenticatedToken;
+                    }
+                }
+            }
+
+            $valid = $this->encoderFactory->getEncoder($user)->isPasswordValid(
+                $user->getPassword(),
+                $token->getCredentials(),
+                $user->getSalt()
+            );
+
+            if ($valid) {
+
+                $authenticatedToken = new AccountToken($user->getRoles());
+                $authenticatedToken->setUser($user);
+
+                return $authenticatedToken;
+            }
         }
 
         throw new AuthenticationException('The Account authentication failed.');
@@ -42,6 +65,6 @@ class AccountProvider implements AuthenticationProviderInterface
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AccountToken;
+        return $token instanceof AccountToken || $token instanceof AccessToken;
     }
 }

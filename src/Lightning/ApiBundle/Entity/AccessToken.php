@@ -26,7 +26,6 @@ class AccessToken
      * @var string $challenge
      *
      * @ORM\Column(name="challenge", type="string", length=255)
-     * @Exclude
      */
     private $challenge;
 
@@ -49,13 +48,9 @@ class AccessToken
      * @var boolean $approved
      *
      * @ORM\Column(name="approved", type="boolean")
+     * @Exclude
      */
     private $approved = false;
-
-    public function __construct(Account $account)
-    {
-        $this->account = $account;
-    }
 
     /**
      * Get id
@@ -134,6 +129,19 @@ class AccessToken
     public function getApproved()
     {
         return $this->approved;
+    }
+
+    /**
+     * Set account
+     *
+     * @param  Account   $account
+     * @return AccessToken
+     */
+    public function setAccount($account)
+    {
+        $this->account = $account;
+    
+        return $this;
     }
 
     /**
