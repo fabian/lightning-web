@@ -9,8 +9,8 @@ before_script:
   - php composer.phar install --dev --prefer-dist
 
 script:
-  - bin/phpunit -c app/ --coverage-text
-  - bin/phpcs --standard=PSR2 -n src/
+  - vendor/bin/phpunit -c app/ --coverage-text
+  - vendor/bin/phpcs --standard=PSR2 -n src/
 
 notifications:
   webhooks:

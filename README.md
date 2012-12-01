@@ -32,17 +32,17 @@ php app/console server:run
 To execute the unit tests run the following command:
 
 ```
-bin/phpunit -c app/
+vendor/bin/phpunit -c app/
 ```
 
 Make sure to follow the [PSR-2 coding guidelines](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md) - warnings are okay, errors not. You can easily check them on the command line:
 
 ```
-bin/phpcs --standard=PSR2 src/
+vendor/bin/phpcs --standard=PSR2 src/
 ```
 
 For generating the API documentation execute:
 
 ```
-bin/phpdoc.php -d src/ --template data/templates/responsive/ -t docs/
+vendor/bin/phpdoc.php -d src/ --template data/templates/responsive/ -t docs/
 ```
