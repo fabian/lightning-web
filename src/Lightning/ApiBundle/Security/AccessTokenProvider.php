@@ -7,9 +7,8 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Lightning\ApiBundle\Security\AccountToken;
 
-class AccountProvider implements AuthenticationProviderInterface
+class AccessTokenProvider implements AuthenticationProviderInterface
 {
     private $userProvider;
 
@@ -27,26 +26,27 @@ class AccountProvider implements AuthenticationProviderInterface
 
         if ($user) {
 
-            $valid = $this->encoderFactory->getEncoder($user)->isPasswordValid(
-                $user->getPassword(),
-                $token->getCredentials(),
-                $user->getSalt()
-            );
+            foreach ($user->getAccessTokens() as $accessToken) {
 
-            if ($valid) {
+                $match = $accessToken->getId() == $token->getToken();
+                $valid = $accessToken->getChallenge() === $token->getCredentials();
+                $approved = $accessToken->getApproved();
 
-                $authenticatedToken = new AccountToken($user->getRoles());
-                $authenticatedToken->setUser($user);
+                if ($match && $valid && $approved) {
 
-                return $authenticatedToken;
+                    $authenticatedToken = new AccessToken($user->getRoles());
+                    $authenticatedToken->setUser($user);
+
+                    return $authenticatedToken;
+                }
             }
         }
 
-        throw new AuthenticationException('The Account authentication failed.');
+        throw new AuthenticationException('The Access Token authentication failed.');
     }
 
     public function supports(TokenInterface $token)
     {
-        return $token instanceof AccountToken;
+        return $token instanceof AccessToken;
     }
 }

@@ -16,5 +16,15 @@
             <argument type="service" id="security.context"/>
             <argument type="service" id="security.authentication.manager" />
         </service>
+
+        <service id="access_token.security.authentication.provider" class="Lightning\ApiBundle\Security\AccessTokenProvider" public="false">
+            <argument /> <!-- User Provider -->
+            <argument type="service" id="security.encoder_factory" />
+        </service>
+
+        <service id="access_token.security.authentication.listener" class="Lightning\ApiBundle\Security\AccessTokenListener" public="false">
+            <argument type="service" id="security.context"/>
+            <argument type="service" id="security.authentication.manager" />
+        </service>
     </services>
 </container>

@@ -34,6 +34,7 @@ security:
         default:
             pattern:  ^/
             account: true
+            access_token: true
             stateless: true
 
     access_control:

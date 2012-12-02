@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class AccountListener implements ListenerInterface
+class AccessTokenListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
@@ -28,24 +28,15 @@ class AccountListener implements ListenerInterface
     {
         $request = $event->getRequest();
 
-        $account = $request->headers->get('account', false);
+        $accessToken = $request->headers->get('accesstoken', false);
 
-        if (null !== $token = $this->securityContext->getToken()) {
-            if ($token instanceof AccessToken && $token->isAuthenticated()) {
-                return;
-            }
-        }
+        $regex = '#http://.*/accounts/(.*)/access_tokens/(.*)\?challenge=(.*)#';
+        if (preg_match($regex, $accessToken, $matches)) {
 
-        if (false === $account) {
-            throw new HttpException(401, 'Account header not found.');
-        }
-
-        $regex = '#http://.*/accounts/(.*)\?secret=(.*)#';
-        if (preg_match($regex, $account, $matches)) {
-
-            $token = new AccountToken();
+            $token = new AccessToken();
             $token->setUser($matches[1]);
-            $token->setSecret($matches[2]);
+            $token->setToken($matches[2]);
+            $token->setChallenge($matches[3]);
 
             try {
                 $returnValue = $this->authenticationManager->authenticate($token);
@@ -54,10 +45,8 @@ class AccountListener implements ListenerInterface
                     return $this->securityContext->setToken($returnValue);
                 }
             } catch (AuthenticationException $e) {
-                // throw exception below
+                // ignore
             }
         }
-
-        throw new AccessDeniedHttpException('Account header authentication failed.');
     }
 }
