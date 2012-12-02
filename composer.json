@@ -9,7 +9,7 @@
         "symfony/symfony": "2.1.*",
         "doctrine/orm": ">=2.2.3,<2.4-dev",
         "doctrine/doctrine-bundle": "1.0.*",
-        "twig/extensions": "1.0.*",
+        "twig/extensions": "1.0.*@dev",
         "symfony/assetic-bundle": "2.1.*",
         "symfony/swiftmailer-bundle": "2.1.*",
         "symfony/monolog-bundle": "2.1.*",
@@ -18,12 +18,15 @@
         "sensio/generator-bundle": "2.1.*",
         "jms/security-extra-bundle": "1.2.*",
         "jms/di-extra-bundle": "1.1.*",
+        "kriswallsmith/assetic": "1.1.*@dev",
         "friendsofsymfony/rest-bundle": "0.9.*",
         "leafo/lessphp": "dev-master",
         "sonata-project/jquery-bundle": "dev-master",
         "doctrine/doctrine-migrations-bundle": "dev-master",
+        "doctrine/migrations": "dev-master",
         "kriswallsmith/buzz": "dev-master",
-        "jms/twig-js-bundle": "dev-master"
+        "jms/twig-js-bundle": "dev-master",
+        "jms/twig-js": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -39,7 +42,6 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
         ]
     },
-    "minimum-stability": "dev",
     "extra": {
         "symfony-app-dir": "app",
         "symfony-web-dir": "web"
@@ -47,6 +49,11 @@
     "require-dev": {
         "phpunit/phpunit": "3.7.*",
         "zerkalica/php-code-sniffer": "dev-master",
-        "phpdocumentor/phpdocumentor": "dev-master"
+        "phpdocumentor/phpdocumentor": "dev-develop",
+        "phpdocumentor/graphviz": "1.*@beta",
+        "phpdocumentor/fileset": "1.0.0-beta2",
+        "phpdocumentor/reflection-docblock": "2.0.0a1",
+        "nikic/php-parser": "dev-master",
+        "cilex/cilex": "dev-master"
     }
 }
