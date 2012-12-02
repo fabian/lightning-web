@@ -4,7 +4,6 @@ namespace Lightning\ApiBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-
 use Lightning\ApiBundle\DependencyInjection\Security\AccountFactory;
 use Lightning\ApiBundle\DependencyInjection\Security\AccessTokenFactory;
 
