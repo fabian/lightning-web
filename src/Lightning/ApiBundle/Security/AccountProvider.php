@@ -24,7 +24,7 @@ class AccountProvider implements AuthenticationProviderInterface
     public function authenticate(TokenInterface $token)
     {
         $user = $this->userProvider->loadUserByUsername($token->getUsername());
-        
+
         if ($user) {
 
             if ($token instanceof AccessToken) {
@@ -39,7 +39,7 @@ class AccountProvider implements AuthenticationProviderInterface
 
                         $authenticatedToken = new AccountToken($user->getRoles());
                         $authenticatedToken->setUser($user);
-                        
+
                         return $authenticatedToken;
                     }
                 }

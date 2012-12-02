@@ -140,7 +140,7 @@ class AccessToken
     public function setAccount($account)
     {
         $this->account = $account;
-    
+
         return $this;
     }
 
