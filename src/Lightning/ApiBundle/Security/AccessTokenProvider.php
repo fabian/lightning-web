@@ -7,17 +7,29 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 
+/**
+ * @Service(public = false)
+ */
 class AccessTokenProvider implements AuthenticationProviderInterface
 {
     private $userProvider;
 
-    private $encoderFactory;
+    private $manager;
 
-    public function __construct(UserProviderInterface $userProvider, EncoderFactoryInterface $encoderFactory)
+    /**
+     * @InjectParams({
+     *     "userProvider" = @Inject(required = false),
+     *     "manager" = @Inject("lightning.api_bundle.service.authentication_manager")
+     * })
+     */
+    public function __construct(UserProviderInterface $userProvider, $manager)
     {
         $this->userProvider = $userProvider;
-        $this->encoderFactory = $encoderFactory;
+        $this->manager = $manager;
     }
 
     public function authenticate(TokenInterface $token)
@@ -26,19 +38,18 @@ class AccessTokenProvider implements AuthenticationProviderInterface
 
         if ($user) {
 
-            foreach ($user->getAccessTokens() as $accessToken) {
+            $accessToken = $this->manager->getAccessToken(
+                $user->getUsername(),
+                $token->getToken(),
+                $token->getCredentials()
+            );
 
-                $match = $accessToken->getId() == $token->getToken();
-                $valid = $accessToken->getChallenge() === $token->getCredentials();
-                $approved = $accessToken->getApproved();
+            if ($accessToken) {
 
-                if ($match && $valid && $approved) {
+                $authenticatedToken = new AccessToken($user->getRoles());
+                $authenticatedToken->setUser($user);
 
-                    $authenticatedToken = new AccessToken($user->getRoles());
-                    $authenticatedToken->setUser($user);
-
-                    return $authenticatedToken;
-                }
+                return $authenticatedToken;
             }
         }
 

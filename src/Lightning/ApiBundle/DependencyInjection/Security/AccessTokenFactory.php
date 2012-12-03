@@ -19,13 +19,13 @@ class AccessTokenFactory implements SecurityFactoryInterface
     {
         $providerId = 'security.authentication.provider.access_token.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('access_token.security.authentication.provider'))
+            ->setDefinition($providerId, new DefinitionDecorator('lightning.api_bundle.security.access_token_provider'))
             ->replaceArgument(0, new Reference($userProvider));
 
         $listenerId = 'security.authentication.listener.access_token.'.$id;
         $container->setDefinition(
             $listenerId,
-            new DefinitionDecorator('access_token.security.authentication.listener')
+            new DefinitionDecorator('lightning.api_bundle.security.access_token_listener')
         );
 
         return array($providerId, $listenerId, $defaultEntryPoint);

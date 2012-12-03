@@ -6,25 +6,5 @@
 
     <services>
         <service id="lightning.api_bundle.buzz.client" class="Buzz\Client\Curl" />
-
-        <service id="account.security.authentication.provider" class="Lightning\ApiBundle\Security\AccountProvider" public="false">
-            <argument /> <!-- User Provider -->
-            <argument type="service" id="security.encoder_factory" />
-        </service>
-
-        <service id="account.security.authentication.listener" class="Lightning\ApiBundle\Security\AccountListener" public="false">
-            <argument type="service" id="security.context"/>
-            <argument type="service" id="security.authentication.manager" />
-        </service>
-
-        <service id="access_token.security.authentication.provider" class="Lightning\ApiBundle\Security\AccessTokenProvider" public="false">
-            <argument /> <!-- User Provider -->
-            <argument type="service" id="security.encoder_factory" />
-        </service>
-
-        <service id="access_token.security.authentication.listener" class="Lightning\ApiBundle\Security\AccessTokenListener" public="false">
-            <argument type="service" id="security.context"/>
-            <argument type="service" id="security.authentication.manager" />
-        </service>
     </services>
 </container>

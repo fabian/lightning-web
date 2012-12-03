@@ -10,12 +10,24 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterfac
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 
+/**
+ * @Service(public = false)
+ */
 class AccountListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
 
+    /**
+     * @InjectParams({
+     *     "securityContext" = @Inject("security.context"),
+     *     "authenticationManager" = @Inject("security.authentication.manager")
+     * })
+     */
     public function __construct (
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager

@@ -19,13 +19,13 @@ class AccountFactory implements SecurityFactoryInterface
     {
         $providerId = 'security.authentication.provider.account.'.$id;
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('account.security.authentication.provider'))
+            ->setDefinition($providerId, new DefinitionDecorator('lightning.api_bundle.security.account_provider'))
             ->replaceArgument(0, new Reference($userProvider));
 
         $listenerId = 'security.authentication.listener.account.'.$id;
         $container->setDefinition(
             $listenerId,
-            new DefinitionDecorator('account.security.authentication.listener')
+            new DefinitionDecorator('lightning.api_bundle.security.account_listener')
         );
 
         return array($providerId, $listenerId, $defaultEntryPoint);

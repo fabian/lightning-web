@@ -8,12 +8,24 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\InjectParams;
 
+/**
+ * @Service(public = false)
+ */
 class AccessTokenListener implements ListenerInterface
 {
     protected $securityContext;
     protected $authenticationManager;
 
+    /**
+     * @InjectParams({
+     *     "securityContext" = @Inject("security.context"),
+     *     "authenticationManager" = @Inject("security.authentication.manager")
+     * })
+     */
     public function __construct (
         SecurityContextInterface $securityContext,
         AuthenticationManagerInterface $authenticationManager

@@ -113,6 +113,7 @@ class Account implements UserInterface
     public function __construct()
     {
         $this->lists = new ArrayCollection();
+        $this->accessTokens = new ArrayCollection();
     }
 
     /**
