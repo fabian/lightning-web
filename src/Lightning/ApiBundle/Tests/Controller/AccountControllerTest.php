@@ -124,6 +124,109 @@ class AccountControllerTest extends AbstractTest
         $this->assertEquals(403, $response->getStatusCode());
     }
 
+    public function testAccessToken()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account);
+
+        $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/1?challenge=6789',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testAccessTokenNotApproved()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account, false);
+
+        $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/1?challenge=6789',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testAccessTokenWrongChallenge()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account);
+
+        $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/1?challenge=1111',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testAccessTokenWrongId()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account);
+
+        $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/2?challenge=6789',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
+    public function testAccessTokenWrongAccount()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account);
+
+        $this->createAccount();
+
+        $this->client->request(
+            'GET',
+            '/accounts/2',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/1?challenge=6789',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals(403, $response->getStatusCode());
+    }
+
     public function testDeviceToken()
     {
         $this->createAccount();

@@ -7,6 +7,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Entity\AccountList;
+use Lightning\ApiBundle\Entity\AccessToken;
 use Lightning\ApiBundle\Entity\Item;
 use Lightning\ApiBundle\Entity\ItemList;
 use Lightning\ApiBundle\Entity\Log;
@@ -55,6 +56,20 @@ abstract class AbstractTest extends WebTestCase
         $this->em->flush();
 
         return $account;
+    }
+
+    protected function createAccessToken($account, $approved = true)
+    {
+        $token = new AccessToken();
+        $token->setAccount($account);
+        $token->setApproved($approved);
+        $token->setChallenge('6789');
+        $token->setCreated(new \DateTime('now'));
+
+        $this->em->persist($token);
+        $this->em->flush();
+
+        return $token;
     }
 
     /**
