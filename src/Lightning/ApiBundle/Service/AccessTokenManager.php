@@ -23,18 +23,26 @@ class AccessTokenManager
 
     protected $random;
 
+    protected $router;
+
+    protected $airship;
+
     /**
      * @InjectParams({
      *     "accountManager" = @Inject("lightning.api_bundle.service.account_manager"),
      *     "random" = @Inject("lightning.api_bundle.service.random"),
-     *     "doctrine" = @Inject("doctrine")
+     *     "doctrine" = @Inject("doctrine"),
+     *     "router" = @Inject("router"),
+     *     "airship" = @Inject("lightning.api_bundle.service.urban_airship")
      * })
      */
-    public function __construct($accountManager, $random, $doctrine)
+    public function __construct($accountManager, $random, $doctrine, $router, $airship)
     {
         $this->accountManager = $accountManager;
         $this->random = $random;
         $this->doctrine = $doctrine;
+        $this->router = $router;
+        $this->airship = $airship;
     }
 
     public function createAccessToken($accountId, $code)
@@ -53,13 +61,24 @@ class AccessTokenManager
         if ($account) {
 
             $token->setAccount($account);
-
-            // TODO send push notification
         }
 
         $em = $this->doctrine->getManager();
         $em->persist($token);
         $em->flush();
+
+        if ($account) {
+
+            $url = $this->router->generate(
+                'lightning_api_account_show',
+                array(
+                    'id' => $account->getId(),
+                ),
+                true
+            );
+
+            $this->airship->push(array($url), null, 'Please approve access token.', null, $token->getId());
+        }
 
         return $token;
     }

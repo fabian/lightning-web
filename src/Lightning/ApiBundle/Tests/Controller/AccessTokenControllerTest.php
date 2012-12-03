@@ -30,6 +30,14 @@ class AccessTokenControllerTest extends AbstractTest
             ->will($this->returnValue('9876'));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.random', $random);
 
+        $airship = $this->getMockBuilder('Lightning\ApiBundle\Service\UrbanAirship')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $airship->expects($this->once())
+            ->method('push')
+            ->with(array('http://localhost/accounts/1'), null, 'Please approve access token.', null, 1);
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
+
         $this->client->request(
             'POST',
             '/1/abc'

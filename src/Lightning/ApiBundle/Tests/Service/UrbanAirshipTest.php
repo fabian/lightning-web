@@ -40,7 +40,7 @@ class UrbanAirshipTest extends \PHPUnit_Framework_TestCase
         $request = new Request('POST', 'https://go.urbanairship.com/api/push/');
         $request->addHeader('Authorization: Basic QUJDOjEyMw==');
         $request->addHeader('Content-Type: application/json');
-        $request->setContent('{"aliases":["ABC123"],"aps":{"badge":"2","alert":"Test","lightning_list":"1"}}');
+        $request->setContent('{"aliases":["ABC123"],"aps":{"badge":"2","alert":"Test","lightning_list":"1","lightning_access_token":null}}');
 
         $response = new Response();
 

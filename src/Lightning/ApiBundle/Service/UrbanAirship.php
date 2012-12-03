@@ -76,8 +76,9 @@ class UrbanAirship
      * @param string        $badge
      * @param string        $alert
      * @param string        $list
+     * @param string        $accessToken
      */
-    public function push($aliases, $badge, $alert, $list)
+    public function push($aliases, $badge, $alert, $list = null, $accessToken = null)
     {
         $payload = array(
             'aliases' => $aliases,
@@ -85,6 +86,7 @@ class UrbanAirship
                 'badge' => $badge,
                 'alert' => $alert,
                 'lightning_list' => $list,
+                'lightning_access_token' => $accessToken,
             ),
         );
 
