@@ -42,7 +42,7 @@ Lightning.App.prototype.showRequest = function (data) {
 
     this.setLoading(true);
 
-    this.container.html('<p>Please allow access on your mobile phone: ' + this.token.challenge + '<p>');
+    this.container.html('<p>Please allow access on your mobile phone by typing the following numbers:</p><p class="challenge">' + this.token.challenge + '<p>');
 
     this.pollLists();
 
@@ -95,7 +95,7 @@ Lightning.App.prototype.getList = function (e) {
         dataType: 'json',
         headers: {
             Accept: 'application/json; charset=utf-8',
-            Account: 'http://localhost:8000/accounts/6?secret=3cba86e5c3d02d0ddffcce7c42f4a685'
+            AccessToken: this.getTokenUrl()
         },
         success: $.proxy(this.list, this)
     });
