@@ -30,10 +30,27 @@ body {
 
 h1 {
     font-weight: @font-weight;
-    font-size: 2em;
+    font-size: 2.5em;
+    margin-top: 0.1em;
+}
+
+.back {
+    margin: 1.5em 0 0 0;
+    visibility: hidden;
 
     a {
-        .link-black;
+        display: block;
+        height: 25px;
+        width: 25px;
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        background-image: url('/bundles/lightningapi/images/back_black.png');
+        background-size: 25px 25px;
+    
+        &:hover {
+            background-image: url('/bundles/lightningapi/images/back_blue.png');
+        }
     }
 }
 
@@ -83,7 +100,7 @@ ul {
 
 #user {
     position: absolute;
-    top: 2.5em;
+    top: 2.2em;
     right: 2em;
 
     a {

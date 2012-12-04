@@ -6,9 +6,12 @@ Lightning.App = function () {
 
     this.container = $('#container');
     this.loading = $('.loading');
+    this.back = $('.back');
+    this.title = $('.title');
 
     $(document).on('click', 'ul.lists a', $.proxy(this.getList, this));
     $(document).on('click', 'ul.items a', function () { return false; });
+    $(document).on('click', '.back a', $.proxy(this.loadLists, this));
 
     this.container.html(Twig.render(Lightning.templates.welcome, {href: ''}));
 
@@ -17,6 +20,10 @@ Lightning.App = function () {
 
 Lightning.App.prototype.setLoading = function (loading) {
     this.loading.css('visibility', loading ? 'visible' : 'hidden');
+};
+
+Lightning.App.prototype.setBack = function (loading) {
+    this.back.css('visibility', loading ? 'visible' : 'hidden');
 };
 
 Lightning.App.prototype.sendRequest = function (data) {
@@ -49,7 +56,7 @@ Lightning.App.prototype.showRequest = function (data) {
     return false;
 };
 
-Lightning.App.prototype.pollLists = function () {
+Lightning.App.prototype.pollLists = function (e) {
 
     clearTimeout(this.timeout);
 
@@ -62,21 +69,27 @@ Lightning.App.prototype.getTokenUrl = function () {
 
 Lightning.App.prototype.loadLists = function () {
 
-    $.ajax({
+    this.ajax = $.ajax({
         url: Lightning.URL_LISTS,
         dataType: 'json',
         headers: {
             Accept: 'application/json; charset=utf-8',
             AccessToken: this.getTokenUrl()
         },
-        success: $.proxy(this.lists, this),
-        error: $.proxy(this.pollLists, this),
+        success: $.proxy(this.renderLists, this),
+        statusCode: {
+            401: $.proxy(this.pollLists, this)
+        }
     });
+
+    return false;
 };
 
-Lightning.App.prototype.lists = function (data) {
+Lightning.App.prototype.renderLists = function (data) {
 
+    this.setBack(false);
     this.setLoading(false);
+    this.title.text('Lightning');
     this.container.html(Twig.render(Lightning.templates.lists, data));
 
     $('#user').html('<a href="">Logout</a>');
@@ -87,8 +100,10 @@ Lightning.App.prototype.lists = function (data) {
 Lightning.App.prototype.getList = function (e) {
 
     clearTimeout(this.timeout);
+    this.ajax.abort();
 
-    var url = $(e.target).attr('href');
+    this.list = $(e.target);
+    var url = this.list.attr('href');
 
     var ajax = $.ajax({
         url: url,
@@ -97,7 +112,7 @@ Lightning.App.prototype.getList = function (e) {
             Accept: 'application/json; charset=utf-8',
             AccessToken: this.getTokenUrl()
         },
-        success: $.proxy(this.list, this)
+        success: $.proxy(this.renderList, this)
     });
 
     this.setLoading(true);
@@ -106,9 +121,11 @@ Lightning.App.prototype.getList = function (e) {
     return false;
 };
 
-Lightning.App.prototype.list = function (data) {
+Lightning.App.prototype.renderList = function (data) {
 
+    this.setBack(true);
     this.setLoading(false);
+    this.title.text(this.list.text());
     this.container.html(Twig.render(Lightning.templates.list, data));
 };
 
