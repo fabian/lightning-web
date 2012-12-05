@@ -58,7 +58,7 @@ Lightning.App.prototype.sendRequest = function (data) {
 Lightning.App.prototype.showRequest = function (data) {
 
     this.token = data.url;
-    this.writeCookie(Lightning.COOKIE_TOKEN, this.token);
+    this.writeCookie(Lightning.COOKIE_TOKEN, this.token, 1);
 
     this.setLoading(true);
 
