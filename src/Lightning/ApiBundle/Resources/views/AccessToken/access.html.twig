@@ -23,7 +23,6 @@
             var Lightning = Lightning || {};
             Lightning.URL_ACCESS_TOKEN = '{{ url('lightning_api_accesstoken_accesstoken', {'id': id, 'code': code}) }}';
             Lightning.URL_LISTS = '{{ url('lightning_api_accountlist_index', {'id': id}) }}';
-            Lightning.URL_ACCOUNT = '{{ url('lightning_api_account_show', {'id': id}) }}';
         </script>
         {% javascripts
             '@SonatajQueryBundle/Resources/public/jquery-1.8.0.js'

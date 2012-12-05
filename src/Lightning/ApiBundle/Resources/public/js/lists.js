@@ -1,5 +1,7 @@
 var Lightning = Lightning || {};
 
+Lightning.COOKIE_TOKEN = 'lightning_access_token';
+
 Lightning.App = function () {
 
     this.interval = 1000;
@@ -13,9 +15,19 @@ Lightning.App = function () {
     $(document).on('click', 'ul.items a', function () { return false; });
     $(document).on('click', '.back a', $.proxy(this.loadLists, this));
 
-    this.container.html(Twig.render(Lightning.templates.welcome, {href: ''}));
+    var token = this.readCookie(Lightning.COOKIE_TOKEN);
+    if (token) {
 
-    $('.send-request').click($.proxy(this.sendRequest, this));
+        this.token = token;
+
+        this.pollLists();
+
+    } else {
+
+        this.container.html(Twig.render(Lightning.templates.welcome, {href: ''}));
+
+        $('.send-request').click($.proxy(this.sendRequest, this));
+    }
 };
 
 Lightning.App.prototype.setLoading = function (loading) {
@@ -45,15 +57,42 @@ Lightning.App.prototype.sendRequest = function (data) {
 
 Lightning.App.prototype.showRequest = function (data) {
 
-    this.token = data;
+    this.token = data.url;
+    this.writeCookie(Lightning.COOKIE_TOKEN, this.token);
 
     this.setLoading(true);
 
-    this.container.html('<p>Please allow access on your mobile phone by typing the following numbers:</p><p class="challenge">' + this.token.challenge + '<p>');
+    this.container.html('<p>Please allow access on your mobile phone by typing the following numbers:</p><p class="challenge">' + data.challenge + '<p>');
 
     this.pollLists();
 
     return false;
+};
+
+Lightning.App.prototype.writeCookie = function (name, value, days) {
+
+    var date = new Date(),
+        expires;
+
+    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+    expires = '; expires=' + date.toGMTString();
+
+    document.cookie = name + '=' + value + expires + '; path=/';
+};
+
+Lightning.App.prototype.readCookie = function (name) {
+    var nameEQ = name + '=';
+    var ca = document.cookie.split(';');
+    for (var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+};
+
+Lightning.App.prototype.eraseCookie = function(name) {
+    createCookie(name, '', -1);
 };
 
 Lightning.App.prototype.pollLists = function (e) {
@@ -63,10 +102,6 @@ Lightning.App.prototype.pollLists = function (e) {
     this.timeout = setTimeout($.proxy(this.loadLists, this), this.interval);
 };
 
-Lightning.App.prototype.getTokenUrl = function () {
-    return Lightning.URL_ACCOUNT + '/access_tokens/' + this.token.id + '?challenge=' + this.token.challenge;
-};
-
 Lightning.App.prototype.loadLists = function () {
 
     this.ajax = $.ajax({
@@ -74,7 +109,7 @@ Lightning.App.prototype.loadLists = function () {
         dataType: 'json',
         headers: {
             Accept: 'application/json; charset=utf-8',
-            AccessToken: this.getTokenUrl()
+            AccessToken: this.token
         },
         success: $.proxy(this.renderLists, this),
         statusCode: {
@@ -93,8 +128,6 @@ Lightning.App.prototype.renderLists = function (data) {
     this.container.html(Twig.render(Lightning.templates.lists, data));
 
     $('#user').html('<a href="">Logout</a>');
-
-    this.pollLists();
 };
 
 Lightning.App.prototype.getList = function (e) {
@@ -110,7 +143,7 @@ Lightning.App.prototype.getList = function (e) {
         dataType: 'json',
         headers: {
             Accept: 'application/json; charset=utf-8',
-            AccessToken: this.getTokenUrl()
+            AccessToken: this.token
         },
         success: $.proxy(this.renderList, this)
     });
