@@ -53,6 +53,11 @@ class AccessToken
     private $approved = false;
 
     /**
+     * @var string $url
+     */
+    public $url;
+
+    /**
      * Get id
      *
      * @return integer

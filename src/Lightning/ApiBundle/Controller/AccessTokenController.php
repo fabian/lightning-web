@@ -53,6 +53,8 @@ class AccessTokenController
     {
         $token = $this->manager->createAccessToken($id, $code);
 
+        $this->addUrl($token);
+
         return $token;
     }
 
@@ -67,5 +69,22 @@ class AccessTokenController
         $challenge = $request->get('challenge');
 
         $this->manager->approveAccessToken($accountId, $tokenId, $challenge);
+    }
+
+    /**
+     * @param AccessToken $token
+     */
+    protected function addUrl($token)
+    {
+        // access token url
+        $token->url = $this->router->generate(
+            'lightning_api_accesstoken_approve',
+            array(
+                'accountId' => $token->getAccount()->getId(),
+                'tokenId' => $token->getId(),
+                'challenge' => $token->getChallenge(),
+            ),
+            true
+        );
     }
 }
