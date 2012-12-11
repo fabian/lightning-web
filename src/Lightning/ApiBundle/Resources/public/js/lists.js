@@ -14,13 +14,17 @@ Lightning.App = function () {
     $(document).on('click', 'ul.lists a', $.proxy(this.getList, this));
     $(document).on('click', 'ul.items a', function () { return false; });
     $(document).on('click', '.back a', $.proxy(this.loadLists, this));
+    $(document).on('click', '#user a', $.proxy(this.logout, this));
 
     var token = this.readCookie(Lightning.COOKIE_TOKEN);
     if (token) {
 
         this.token = token;
 
+        this.setLoading(true);
+
         this.pollLists();
+        this.renderLogout();
 
     } else {
 
@@ -51,6 +55,16 @@ Lightning.App.prototype.sendRequest = function (data) {
         },
         success: $.proxy(this.showRequest, this)
     });
+
+    return false;
+};
+
+Lightning.App.prototype.logout = function (data) {
+
+    this.eraseCookie(Lightning.COOKIE_TOKEN);
+
+    window.location.reload(true); 
+
 
     return false;
 };
@@ -96,7 +110,7 @@ Lightning.App.prototype.readCookie = function (name) {
 };
 
 Lightning.App.prototype.eraseCookie = function(name) {
-    createCookie(name, '', -1);
+    this.writeCookie(name, '', -1);
 };
 
 Lightning.App.prototype.pollLists = function (e) {
@@ -117,11 +131,17 @@ Lightning.App.prototype.loadLists = function () {
         },
         success: $.proxy(this.renderLists, this),
         statusCode: {
-            401: $.proxy(this.pollLists, this)
+            401: $.proxy(this.pollLists, this),
+            403: $.proxy(this.renderError, this)
         }
     });
 
     return false;
+};
+
+Lightning.App.prototype.renderError = function (data) {
+
+    this.container.html('<p>Error ' + data.status + ': ' + data.statusText + '</p>');
 };
 
 Lightning.App.prototype.renderLists = function (data) {
@@ -130,6 +150,11 @@ Lightning.App.prototype.renderLists = function (data) {
     this.setLoading(false);
     this.title.text('Lightning');
     this.container.html(Twig.render(Lightning.templates.lists, data));
+
+    this.renderLogout();
+};
+
+Lightning.App.prototype.renderLogout = function (data) {
 
     $('#user').html('<a href="">Logout</a>');
 };
