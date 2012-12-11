@@ -25,6 +25,7 @@ class AppKernel extends Kernel
             new JMS\TwigJsBundle\JMSTwigJsBundle(),
             new Sonata\jQueryBundle\SonatajQueryBundle(),
             new Lightning\ApiBundle\LightningApiBundle(),
+            new Lightning\WebBundle\LightningWebBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

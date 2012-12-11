@@ -22,7 +22,7 @@ sensio_framework_extra:
 
 jms_di_extra:
     locations:
-        bundles: [LightningApiBundle]
+        bundles: [ LightningApiBundle, LightningWebBundle ]
 
 fos_rest:
     view:
@@ -44,7 +44,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ LightningApiBundle ]
+    bundles:        [ LightningApiBundle, LightningWebBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

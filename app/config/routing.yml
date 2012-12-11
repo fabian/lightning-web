@@ -1,3 +1,8 @@
+lightning_web:
+    resource: "@LightningWebBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 lightning_api:
     resource: "@LightningApiBundle/Controller/"
     type:     annotation

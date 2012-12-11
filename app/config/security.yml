@@ -23,6 +23,10 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        web:
+            pattern:  ^/$
+            security: false
+
         front:
             pattern:  ^/\d+/
             security: false
