@@ -63,7 +63,7 @@ Lightning.App.prototype.logout = function (data) {
 
     this.eraseCookie(Lightning.COOKIE_TOKEN);
 
-    window.location.reload(true); 
+    window.location.reload(true);
 
 
     return false;
