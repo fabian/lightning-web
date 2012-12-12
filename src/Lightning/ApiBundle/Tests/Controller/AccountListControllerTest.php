@@ -123,6 +123,40 @@ class AccountListControllerTest extends AbstractTest
         $this->assertEquals(204, $response->getStatusCode());
     }
 
+    public function testPushEmpty()
+    {
+        $accountList = $this->createList($this->account);
+
+        $account = $this->createAccount();
+        $this->createAccountList($account, $accountList->getList());
+        $this->createList($account, new \DateTime('2012-05-25T12:00:00+02:00'));
+
+        $this->em->clear();
+
+        $airship = $this->getMockBuilder('Lightning\ApiBundle\Service\UrbanAirship')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $airship->expects($this->never())
+            ->method('push');
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
+
+        $this->client->request(
+            'POST',
+            '/accounts/1/lists/1/push',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(204, $response->getStatusCode());
+    }
+
     public function testIndex()
     {
         $this->createList($this->account);

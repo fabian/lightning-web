@@ -51,23 +51,26 @@ class Push
 
                 $notification = $this->getNotification($accountList);
 
-                // unread count
-                $count = 0;
-                foreach ($accountList->getAccount()->getLists() as $list) {
-                    if ($list->getList()->getModified() > $list->getRead()) {
-                        $count++;
+                if ($notification) {
+
+                    // unread count
+                    $count = 0;
+                    foreach ($accountList->getAccount()->getLists() as $list) {
+                        if ($list->getList()->getModified() > $list->getRead()) {
+                            $count++;
+                        }
                     }
+
+                    $url = $this->router->generate(
+                        'lightning_api_account_show',
+                        array(
+                            'id' => $id,
+                        ),
+                        true
+                    );
+
+                    $this->airship->push(array($url), $count, $notification, $accountList->getList()->getId());
                 }
-
-                $url = $this->router->generate(
-                    'lightning_api_account_show',
-                    array(
-                        'id' => $id,
-                    ),
-                    true
-                );
-
-                $this->airship->push(array($url), $count, $notification, $accountList->getList()->getId());
 
                 $accountList->setPushed(new \DateTime());
             }
@@ -145,8 +148,11 @@ class Push
             $notifications[] = 'Completed ' . $this->arrayToText($completed);
         }
 
-        $notification = implode('. ', $notifications);
-        $notification .= '.';
+        $notification = '';
+        if (count($notifications)) {
+            $notification = implode('. ', $notifications);
+            $notification .= '.';
+        }
 
         return $notification;
     }
