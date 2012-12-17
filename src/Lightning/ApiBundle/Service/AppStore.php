@@ -60,8 +60,8 @@ class AppStore
         }
 
         return array(
-            'id' => $data->receipt->product_id,
-            'purchased' => date('c', strtotime($data->receipt->purchase_date)),
+            $data->receipt->product_id,
+            new \DateTime($data->receipt->purchase_date),
         );
     }
 }

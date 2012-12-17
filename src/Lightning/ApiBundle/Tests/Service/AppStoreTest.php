@@ -39,14 +39,9 @@ class AppStoreTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-        $receipt = $this->appStore->verify('ABC123');
+        list($id, $purchased) = $this->appStore->verify('ABC123');
 
-        $this->assertEquals(
-            array(
-                'id' => 'ch.lightningapp.oneyear',
-                'purchased' => '2011-09-23T17:18:22+02:00',
-            ),
-            $receipt
-        );
+        $this->assertEquals('ch.lightningapp.oneyear', $id);
+        $this->assertEquals('2011-09-23 17:18:22', $purchased->format('Y-m-d H:i:s'));
     }
 }
