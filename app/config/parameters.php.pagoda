@@ -18,3 +18,4 @@ $container->setParameter('secret', isset($_SERVER["FRAMEWORK_SECRET"]) ? $_SERVE
 
 $container->setParameter('urbanairship_key', isset($_SERVER["URBANAIRSHIP_KEY"]) ? $_SERVER["URBANAIRSHIP_KEY"] : '');
 $container->setParameter('urbanairship_secret', isset($_SERVER["URBANAIRSHIP_SECRET"]) ? $_SERVER["URBANAIRSHIP_SECRET"] : '');
+$container->setParameter('appstore_verify_url', isset($_SERVER["APPSTORE_VERIFY_URL"]) ? $_SERVER["APPSTORE_VERIFY_URL"] : '');

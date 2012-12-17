@@ -9,6 +9,7 @@ framework:
 lightning_api:
     urbanairship_key: ABC123
     urbanairship_secret: DEF987
+    appstore_verify_url: http://example.com/verifyReceipt
 
 doctrine:
     dbal:

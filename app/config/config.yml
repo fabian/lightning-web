@@ -34,6 +34,7 @@ fos_rest:
 lightning_api:
     urbanairship_key: %urbanairship_key%
     urbanairship_secret: %urbanairship_secret%
+    appstore_verify_url: %appstore_verify_url%
 
 # Twig Configuration
 twig:

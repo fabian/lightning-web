@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->scalarNode('urbanairship_key')->defaultValue('')->end()
             ->scalarNode('urbanairship_secret')->defaultValue('')->end()
+            ->scalarNode('appstore_verify_url')->defaultValue('')->end()
             ->end();
 
         return $treeBuilder;

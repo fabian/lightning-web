@@ -18,3 +18,4 @@ $container->setParameter('secret', '579f85a6a7cb52df9101107ba82714f509');
 
 $container->setParameter('urbanairship_key', '');
 $container->setParameter('urbanairship_secret', '');
+$container->setParameter('appstore_verify_url', 'https://sandbox.itunes.apple.com/verifyReceipt');
