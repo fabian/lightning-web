@@ -312,4 +312,34 @@ class AccountControllerTest extends AbstractTest
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
         $this->assertEquals(403, $response->getStatusCode());
     }
+
+    public function testVerify()
+    {
+        $this->createAccount();
+
+        $appStore = $this->getMockBuilder('Lightning\ApiBundle\Service\AppStore')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $appStore->expects($this->once())
+            ->method('verify')
+            ->with('ABC123');
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.app_store', $appStore);
+
+        $this->client->request(
+            'PUT',
+            '/accounts/1/receipt',
+            array(
+                'data' => 'ABC123',
+            ),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('', $response->getContent());
+        $this->assertEquals(204, $response->getStatusCode());
+    }
 }
