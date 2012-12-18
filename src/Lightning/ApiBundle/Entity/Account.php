@@ -54,6 +54,14 @@ class Account implements UserInterface
     private $salt;
 
     /**
+     * @var \DateTime $expiry
+     *
+     * @ORM\Column(name="expiry", type="datetime", nullable=true)
+     * @Exclude
+     */
+    private $expiry;
+
+    /**
      * @var \DateTime $created
      *
      * @ORM\Column(name="created", type="datetime")
