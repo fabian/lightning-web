@@ -80,7 +80,7 @@ class UrbanAirship
      * @param string        $list
      * @param string        $accessToken
      */
-    public function push($aliases, $badge, $alert, $list = null, $accessToken = null)
+    public function push($aliases, $badge, $alert, $list = '', $accessToken = '')
     {
         $payload = array(
             'aliases' => $aliases,

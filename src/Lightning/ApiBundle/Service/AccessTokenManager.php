@@ -75,7 +75,7 @@ class AccessTokenManager
                 true
             );
 
-            $this->airship->push(array($url), null, 'Please approve access token.', null, $token->getId());
+            $this->airship->push(array($url), null, 'Please approve access token.', '', $token->getId());
         }
 
         return $token;
