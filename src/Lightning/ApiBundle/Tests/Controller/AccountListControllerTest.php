@@ -2,6 +2,7 @@
 
 namespace Lightning\ApiBundle\Tests\Controller;
 
+use Buzz\Message\Response;
 use Lightning\ApiBundle\Entity\Log;
 use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Tests\AbstractTest;
@@ -103,7 +104,8 @@ class AccountListControllerTest extends AbstractTest
             ->getMock();
         $airship->expects($this->once())
             ->method('push')
-            ->with(array('http://localhost/accounts/2'), 2, 'Added Milk, Juice and Eggs. Changed Water to Wine. Completed Cheese.', 1);
+            ->with(array('http://localhost/accounts/2'), 2, 'Added Milk, Juice and Eggs. Changed Water to Wine. Completed Cheese.', 1)
+            ->will($this->returnValue(new Response()));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
         $this->client->request(
@@ -137,7 +139,8 @@ class AccountListControllerTest extends AbstractTest
             ->disableOriginalConstructor()
             ->getMock();
         $airship->expects($this->never())
-            ->method('push');
+            ->method('push')
+            ->will($this->returnValue(new Response()));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.urban_airship', $airship);
 
         $this->client->request(
