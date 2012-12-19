@@ -7,7 +7,6 @@ use JMS\DiExtraBundle\Annotation\Tag;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use Lightning\ApiBundle\Entity\Log;
-use Lightning\ApiBundle\Entity\AccountList;
 
 /**
  * @Service
