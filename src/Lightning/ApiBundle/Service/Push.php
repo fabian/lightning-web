@@ -3,6 +3,7 @@
 namespace Lightning\ApiBundle\Service;
 
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
 use Lightning\ApiBundle\Entity\Log;
@@ -10,6 +11,7 @@ use Lightning\ApiBundle\Entity\AccountList;
 
 /**
  * @Service
+ * @Tag("monolog.logger", attributes = {"channel" = "push"})
  */
 class Push
 {
@@ -17,24 +19,28 @@ class Push
 
     protected $doctrine;
 
+    protected $airship;
+
     protected $router;
 
-    protected $airship;
+    protected $logger;
 
     /**
      * @InjectParams({
      *     "accountListManager" = @Inject("lightning.api_bundle.service.account_list_manager"),
      *     "doctrine" = @Inject("doctrine"),
      *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
-     *     "router" = @Inject("router")
+     *     "router" = @Inject("router"),
+     *     "logger" = @Inject("logger")
      * })
      */
-    public function __construct($accountListManager, $doctrine, $router, $airship)
+    public function __construct($accountListManager, $doctrine, $airship, $router, $logger)
     {
         $this->accountListManager = $accountListManager;
         $this->doctrine = $doctrine;
-        $this->router = $router;
         $this->airship = $airship;
+        $this->router = $router;
+        $this->logger = $logger;
     }
 
     public function send($accountId, $listId)
@@ -69,7 +75,11 @@ class Push
                         true
                     );
 
-                    $this->airship->push(array($url), $count, $notification, $accountList->getList()->getId());
+                    $this->logger->debug('Pushing notification.', array('account' => $url));
+
+                    $response = $this->airship->push(array($url), $count, $notification, $accountList->getList()->getId());
+
+                    $this->logger->debug('Pushed notification.', array('status' => $response->getStatusCode(), 'reason' => $response->getReasonPhrase()));
                 }
 
                 $accountList->setPushed(new \DateTime());
