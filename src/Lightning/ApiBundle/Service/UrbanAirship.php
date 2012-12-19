@@ -56,6 +56,8 @@ class UrbanAirship
         $response = new Response();
 
         $this->client->send($request, $response);
+
+        return $response;
     }
 
     /**
@@ -68,7 +70,7 @@ class UrbanAirship
             'alias' => $alias,
         );
 
-        $this->request(RequestInterface::METHOD_PUT, '/device_tokens/' . $deviceToken, $payload);
+        return $this->request(RequestInterface::METHOD_PUT, '/device_tokens/' . $deviceToken, $payload);
     }
 
     /**
@@ -90,6 +92,6 @@ class UrbanAirship
             ),
         );
 
-        $this->request(RequestInterface::METHOD_POST, '/push/', $payload);
+        return $this->request(RequestInterface::METHOD_POST, '/push/', $payload);
     }
 }
