@@ -43,7 +43,7 @@ class ItemControllerTest extends AbstractTest
 
     public function testCreate()
     {
-	    $this->client->request(
+        $this->client->request(
             'POST',
             '/lists/1/items',
             array('value' => 'Milk'),

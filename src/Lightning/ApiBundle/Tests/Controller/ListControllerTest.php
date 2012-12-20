@@ -7,7 +7,7 @@ use Lightning\ApiBundle\Tests\AbstractTest;
 class ListControllerTest extends AbstractTest
 {
     protected $accountList;
-	protected $modified;
+    protected $modified;
 
     public function setUp()
     {
@@ -15,7 +15,7 @@ class ListControllerTest extends AbstractTest
 
         $account = $this->createAccount();
 		
-		$this->modified = new \DateTime('now');
+        $this->modified = new \DateTime('now');
         $this->accountList = $this->createList($account);
     }
 
