@@ -34,7 +34,7 @@ class ItemControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"items":[{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}]}',
+            '{"items":[{"id":1,"value":"Milk","done":false,"deleted":false,"modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/items\/1"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -43,10 +43,12 @@ class ItemControllerTest extends AbstractTest
 
     public function testCreate()
     {
+		$modified = new \DateTime('now');
+			
         $this->client->request(
             'POST',
             '/lists/1/items',
-            array('value' => 'Milk'),
+            array('value' => 'Milk', 'modified' => $modified->format('Y-m-d\TH:i:sO')),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -56,7 +58,7 @@ class ItemControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            '{"id":1,"value":"Milk","done":false,"deleted":false,"modified":"'.$modified->format('Y-m-d\TH:i:sO').'","url":"http:\/\/localhost\/items\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -110,7 +112,7 @@ class ItemControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"value":"Milk","done":false,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            '{"id":1,"value":"Milk","done":false,"deleted":false,"modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/items\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -189,7 +191,7 @@ class ItemControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"value":"Coffee","done":true,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            '{"id":1,"value":"Coffee","done":true,"deleted":false,"modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/items\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
