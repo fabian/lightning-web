@@ -57,7 +57,6 @@ class Account implements UserInterface
      * @var \DateTime $expiry
      *
      * @ORM\Column(name="expiry", type="datetime", nullable=true)
-     * @Exclude
      */
     private $expiry;
 
@@ -296,5 +295,28 @@ class Account implements UserInterface
     public function getAccessTokens()
     {
         return $this->accessTokens;
+    }
+	
+    /**
+     * Set expiry
+     *
+     * @param  \DateTime $expiry
+     * @return Account
+     */
+    public function setExpiry($expiry)
+    {
+        $this->expiry = $expiry;
+
+        return $this;
+    }
+
+    /**
+     * Get expiry
+     *
+     * @return \DateTime
+     */
+    public function getExpiry()
+    {
+        return $this->expiry;
     }
 }

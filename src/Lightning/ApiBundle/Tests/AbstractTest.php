@@ -43,7 +43,7 @@ abstract class AbstractTest extends WebTestCase
         $tool->createSchema($classes);
     }
 
-    protected function createAccount()
+    protected function createAccount($expiry = null)
     {
         $account = new Account();
         $account->setCode('abc');
@@ -51,6 +51,7 @@ abstract class AbstractTest extends WebTestCase
         $account->setSecret('6607dfa9e28a363016862c8cb03d797c953fa8c7'); // secret 123
         $account->setCreated(new \DateTime('now'));
         $account->setModified(new \DateTime('now'));
+		$account->setExpiry($expiry ?: new \DateTime('now'));
 
         $this->em->persist($account);
         $this->em->flush();
