@@ -4,7 +4,6 @@ namespace Lightning\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\SerializerBundle\Annotation\Exclude;
-
 use Lightning\ApiBundle\Entity\Account;
 use Lightning\ApiBundle\Entity\ItemList;
 
