@@ -20,6 +20,8 @@ class AccountListControllerTest extends AbstractTest
 
     public function testCreate()
     {
+        $modified = new \DateTime('now');
+		
         $random = $this->getMock('Lightning\ApiBundle\Service\Random');
         $random->expects($this->any())
             ->method('code')
@@ -29,7 +31,7 @@ class AccountListControllerTest extends AbstractTest
         $this->client->request(
             'POST',
             '/accounts/1/lists',
-            array('title' => 'Example'),
+            array('title' => 'Example', 'created' => $modified->format('Y-m-d\TH:i:sO')),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -39,7 +41,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
+            '{"permission":"owner","deleted":false,"modified":"'.$modified->format('Y-m-d\TH:i:sO').'","id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -178,7 +180,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"modified":"2012-02-29T12:00:00+0100","id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

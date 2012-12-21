@@ -51,7 +51,6 @@ class ItemList
      * @var \DateTime $modified
      *
      * @ORM\Column(name="modified", type="datetime")
-     * @Exclude
      */
     private $modified;
 
