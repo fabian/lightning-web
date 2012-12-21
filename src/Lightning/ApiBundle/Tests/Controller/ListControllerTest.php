@@ -32,7 +32,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/lists\/1"}',
+            '{"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0000","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -84,7 +84,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"title":"Todos","modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/lists\/1"}',
+            '{"id":1,"title":"Todos","modified":"2012-02-29T12:00:00+0000","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

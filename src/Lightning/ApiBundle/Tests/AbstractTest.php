@@ -13,7 +13,7 @@ use Lightning\ApiBundle\Entity\Log;
 
 abstract class AbstractTest extends WebTestCase
 {
-    const NOW = '2012-02-29T12:00:00+0200';
+    const NOW = '2012-02-29T12:00:00+0000';
 
     protected $client;
 

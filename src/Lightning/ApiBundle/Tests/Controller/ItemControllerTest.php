@@ -171,7 +171,7 @@ class ItemControllerTest extends AbstractTest
         $this->client->request(
             'PUT',
             '/items/1',
-            array('value' => 'Coffee', 'done' => '1', 'modified' => '2012-02-29T13:00:00+02:00'),
+            array('value' => 'Coffee', 'done' => '1', 'modified' => '2012-02-29T13:00:00+00:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',

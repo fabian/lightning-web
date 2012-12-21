@@ -39,7 +39,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"id":1,"title":"Example","modified":"2012-02-29T12:00:00+0200","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
+            '{"permission":"owner","deleted":false,"id":1,"title":"Example","modified":"2012-02-29T12:00:00+0000","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -178,7 +178,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0100","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0000","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -369,7 +369,7 @@ class AccountListControllerTest extends AbstractTest
         $this->client->request(
             'PUT',
             '/accounts/1/lists/1/read',
-            array('read' => '2012-03-01T12:00:00+02:00'),
+            array('read' => '2012-03-01T12:00:00+00:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -381,7 +381,7 @@ class AccountListControllerTest extends AbstractTest
             ->getRepository('LightningApiBundle:AccountList')
             ->findOneBy(array('list' => 1, 'account' => 1));
 
-        $this->assertEquals('2012-03-01 12:00:00', $accountList->getRead()->format('Y-m-d H:i:s'));
+        $this->assertEquals('2012-03-01T12:00:00+00:00', $accountList->getRead()->format('c'));
 
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());
@@ -409,7 +409,7 @@ class AccountListControllerTest extends AbstractTest
             ->getRepository('LightningApiBundle:AccountList')
             ->findOneBy(array('list' => 1, 'account' => 1));
 
-        $this->assertEquals('2012-02-29 12:00:00', $accountList->getRead()->format('Y-m-d H:i:s'));
+        $this->assertEquals('2012-02-29T12:00:00+00:00', $accountList->getRead()->format('c'));
 
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());

@@ -25,9 +25,6 @@
         <server name="KERNEL_DIR" value="/path/to/your/app/" />
     </php>
     -->
-    <php>
-        <ini name="date.timezone" value="Europe/Zurich"/>
-    </php>
 
     <filter>
         <whitelist>
