@@ -70,7 +70,6 @@ class AccountListManager
         $accountList->setRead($this->calendar->createDateTime('now'));
         $accountList->setPushed($this->calendar->createDateTime('now'));
         $accountList->setCreated($this->calendar->createDateTime('now'));
-        $accountList->setModified($this->calendar->createDateTime('now'));
 
         $em = $this->doctrine->getManager();
         $em->persist($list);
@@ -121,7 +120,6 @@ class AccountListManager
         $accountList->setRead($this->calendar->createDateTime('now'));
         $accountList->setPushed($this->calendar->createDateTime('now'));
         $accountList->setCreated($this->calendar->createDateTime('now'));
-        $accountList->setModified($this->calendar->createDateTime('now'));
 
         $em = $this->doctrine->getManager();
         $em->persist($accountList);

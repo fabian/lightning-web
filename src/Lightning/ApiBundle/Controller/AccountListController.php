@@ -112,6 +112,7 @@ class AccountListController
         $list = $accountList->getList();
         $accountList->id = $list->getId();
         $accountList->title = $list->getTitle();
+        $accountList->modified = $list->getModified();
         $accountList->invitation = $list->getInvitation();
         $accountList->url = $this->router->generate(
             'lightning_api_list_show',

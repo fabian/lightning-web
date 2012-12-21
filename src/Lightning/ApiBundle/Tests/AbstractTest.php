@@ -97,7 +97,6 @@ abstract class AbstractTest extends WebTestCase
         $accountList->setRead($date);
         $accountList->setPushed($date);
         $accountList->setCreated($date);
-        $accountList->setModified($date);
 
         $this->em->persist($list);
         $this->em->flush();
@@ -118,7 +117,6 @@ abstract class AbstractTest extends WebTestCase
         $accountList->setRead($date);
         $accountList->setPushed($date);
         $accountList->setCreated($date);
-        $accountList->setModified($date);
 
         $this->em->persist($accountList);
         $this->em->flush();

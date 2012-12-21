@@ -77,13 +77,6 @@ class AccountList
     private $created;
 
     /**
-     * @var \DateTime $modified
-     *
-     * @ORM\Column(name="modified", type="datetime")
-     */
-    private $modified;
-
-    /**
      * @var integer $id
      */
     public $id;
@@ -92,6 +85,11 @@ class AccountList
      * @var string $title
      */
     public $title;
+
+    /**
+     * @var \DateTime $modified
+     */
+    public $modified;
 
     /**
      * @var string $invitation
@@ -227,29 +225,6 @@ class AccountList
     public function getCreated()
     {
         return $this->created;
-    }
-
-    /**
-     * Set modified
-     *
-     * @param  \DateTime   $modified
-     * @return AccountList
-     */
-    public function setModified($modified)
-    {
-        $this->modified = $modified;
-
-        return $this;
-    }
-
-    /**
-     * Get modified
-     *
-     * @return \DateTime
-     */
-    public function getModified()
-    {
-        return $this->modified;
     }
 
     /**

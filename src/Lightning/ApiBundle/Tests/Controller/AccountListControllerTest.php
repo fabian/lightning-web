@@ -39,7 +39,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"permission":"owner","deleted":false,"modified":"2012-02-29T12:00:00+0200","id":1,"title":"Example","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
+            '{"permission":"owner","deleted":false,"id":1,"title":"Example","modified":"2012-02-29T12:00:00+0200","invitation":"abc","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -178,7 +178,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"modified":"2012-02-29T12:00:00+0100","id":1,"title":"Groceries","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0100","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
