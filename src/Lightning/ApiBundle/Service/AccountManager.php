@@ -7,7 +7,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
-
 use Lightning\ApiBundle\Entity\Account;
 
 /**
