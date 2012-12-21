@@ -25,20 +25,24 @@ class AccountListManager
 
     protected $security;
 
+    protected $calendar;
+
     /**
      * @InjectParams({
      *     "accountManager" = @Inject("lightning.api_bundle.service.account_manager"),
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
-     *     "security" = @Inject("security.context")
+     *     "security" = @Inject("security.context"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($accountManager, $random, $doctrine, $security)
+    public function __construct($accountManager, $random, $doctrine, $security, $calendar)
     {
         $this->accountManager = $accountManager;
         $this->random = $random;
         $this->doctrine = $doctrine;
         $this->security = $security;
+        $this->calendar = $calendar;
     }
 
     /**
@@ -60,15 +64,15 @@ class AccountListManager
         $list->setInvitation($this->random->code());
 
         $list->setTitle($title);
-        $list->setCreated(new \DateTime('now'));
-        $list->setModified(new \DateTime('now'));
+        $list->setCreated($this->calendar->createDateTime('now'));
+        $list->setModified($this->calendar->createDateTime('now'));
 
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_OWNER);
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
+        $accountList->setRead($this->calendar->createDateTime('now'));
+        $accountList->setPushed($this->calendar->createDateTime('now'));
+        $accountList->setCreated($this->calendar->createDateTime('now'));
+        $accountList->setModified($this->calendar->createDateTime('now'));
 
         $em = $this->doctrine->getManager();
         $em->persist($list);
@@ -116,10 +120,10 @@ class AccountListManager
         // invitation matched, add guest permission
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_GUEST);
-        $accountList->setRead(new \DateTime('now'));
-        $accountList->setPushed(new \DateTime('now'));
-        $accountList->setCreated(new \DateTime('now'));
-        $accountList->setModified(new \DateTime('now'));
+        $accountList->setRead($this->calendar->createDateTime('now'));
+        $accountList->setPushed($this->calendar->createDateTime('now'));
+        $accountList->setCreated($this->calendar->createDateTime('now'));
+        $accountList->setModified($this->calendar->createDateTime('now'));
 
         $em = $this->doctrine->getManager();
         $em->persist($accountList);

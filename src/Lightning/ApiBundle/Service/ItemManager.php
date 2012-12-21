@@ -26,20 +26,24 @@ class ItemManager
 
     protected $security;
 
+    protected $calendar;
+
     /**
      * @InjectParams({
      *     "listManager" = @Inject("lightning.api_bundle.service.list_manager"),
      *     "history" = @Inject("lightning.api_bundle.service.history"),
      *     "doctrine" = @Inject("doctrine"),
-     *     "security" = @Inject("security.context")
+     *     "security" = @Inject("security.context"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($listManager, $history, $doctrine, $security)
+    public function __construct($listManager, $history, $doctrine, $security, $calendar)
     {
         $this->listManager = $listManager;
         $this->history = $history;
         $this->doctrine = $doctrine;
         $this->security = $security;
+        $this->calendar = $calendar;
     }
 
     public function createItem($listId, $value)
@@ -48,8 +52,8 @@ class ItemManager
 
         $item = new Item($list);
         $item->setValue($value);
-        $item->setCreated(new \DateTime('now'));
-        $item->setModified(new \DateTime('now'));
+        $item->setCreated($this->calendar->createDateTime('now'));
+        $item->setModified($this->calendar->createDateTime('now'));
 
         $this->history->added($item);
 

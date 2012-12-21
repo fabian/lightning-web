@@ -25,20 +25,24 @@ class AccountManager
 
     protected $factory;
 
+    protected $calendar;
+
     /**
      * @InjectParams({
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "security" = @Inject("security.context"),
-     *     "factory" = @Inject("security.encoder_factory")
+     *     "factory" = @Inject("security.encoder_factory"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($random, $doctrine, $security, $factory)
+    public function __construct($random, $doctrine, $security, $factory, $calendar)
     {
         $this->random = $random;
         $this->doctrine = $doctrine;
         $this->security = $security;
         $this->factory = $factory;
+        $this->calendar = $calendar;
     }
 
     /**
@@ -66,8 +70,8 @@ class AccountManager
     public function createAccount()
     {
         $account = new Account();
-        $account->setCreated(new \DateTime('now'));
-        $account->setModified(new \DateTime('now'));
+        $account->setCreated($this->calendar->createDateTime('now'));
+        $account->setModified($this->calendar->createDateTime('now'));
 
         // generate access code
         $account->setCode($this->random->code());

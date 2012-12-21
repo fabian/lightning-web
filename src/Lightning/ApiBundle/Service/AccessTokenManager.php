@@ -25,22 +25,26 @@ class AccessTokenManager
 
     protected $airship;
 
+    protected $calendar;
+
     /**
      * @InjectParams({
      *     "accountManager" = @Inject("lightning.api_bundle.service.account_manager"),
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "router" = @Inject("router"),
-     *     "airship" = @Inject("lightning.api_bundle.service.urban_airship")
+     *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($accountManager, $random, $doctrine, $router, $airship)
+    public function __construct($accountManager, $random, $doctrine, $router, $airship, $calendar)
     {
         $this->accountManager = $accountManager;
         $this->random = $random;
         $this->doctrine = $doctrine;
         $this->router = $router;
         $this->airship = $airship;
+        $this->calendar = $calendar;
     }
 
     public function createAccessToken($accountId, $code)
@@ -49,7 +53,7 @@ class AccessTokenManager
 
         $token = new AccessToken();
         $token->setChallenge($challenge);
-        $token->setCreated(new \DateTime('now'));
+        $token->setCreated($this->calendar->createDateTime('now'));
 
         $account = $this->doctrine
             ->getRepository('LightningApiBundle:Account')
