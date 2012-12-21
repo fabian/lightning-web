@@ -13,6 +13,8 @@ use Lightning\ApiBundle\Entity\Log;
 
 abstract class AbstractTest extends WebTestCase
 {
+    const NOW = '2012-02-29T12:00:00+02:00';
+
     protected $client;
 
     /**
@@ -40,6 +42,12 @@ abstract class AbstractTest extends WebTestCase
         );
         $tool->dropSchema($classes);
         $tool->createSchema($classes);
+
+        $calendar = $this->getMock('Lightning\ApiBundle\Service\Calendar');
+        $calendar->expects($this->any())
+            ->method('createDateTime')
+            ->will($this->returnValue(new \DateTime(self::NOW)));
+        static::$kernel->getContainer()->set('lightning.api_bundle.service.calendar', $calendar);
     }
 
     protected function createAccount($expiry = null)
@@ -48,9 +56,9 @@ abstract class AbstractTest extends WebTestCase
         $account->setCode('abc');
         $account->setSalt('123');
         $account->setSecret('6607dfa9e28a363016862c8cb03d797c953fa8c7'); // secret 123
-        $account->setCreated(new \DateTime('now'));
-        $account->setModified(new \DateTime('now'));
-        $account->setExpiry($expiry ?: new \DateTime('now'));
+        $account->setCreated(new \DateTime(self::NOW));
+        $account->setModified(new \DateTime(self::NOW));
+        $account->setExpiry($expiry ?: new \DateTime(self::NOW));
 
         $this->em->persist($account);
         $this->em->flush();
@@ -64,7 +72,7 @@ abstract class AbstractTest extends WebTestCase
         $token->setAccount($account);
         $token->setApproved($approved);
         $token->setChallenge('6789');
-        $token->setCreated(new \DateTime('now'));
+        $token->setCreated(new \DateTime(self::NOW));
 
         $this->em->persist($token);
         $this->em->flush();
@@ -80,10 +88,10 @@ abstract class AbstractTest extends WebTestCase
         $list = new ItemList();
         $list->setTitle('Groceries');
         $list->setInvitation('Welcome123');
-        $list->setCreated(new \DateTime('now'));
-        $list->setModified($modified ?: new \DateTime('now'));
+        $list->setCreated(new \DateTime(self::NOW));
+        $list->setModified($modified ?: new \DateTime(self::NOW));
 
-        $date = new \DateTime('2012-02-29T12:00:00+02:00');
+        $date = new \DateTime(self::NOW);
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_OWNER);
         $accountList->setRead($date);
@@ -104,7 +112,7 @@ abstract class AbstractTest extends WebTestCase
      */
     protected function createAccountList($account, $list)
     {
-        $date = new \DateTime('2012-02-29T12:00:00+02:00');
+        $date = new \DateTime(self::NOW);
         $accountList = new AccountList($account, $list);
         $accountList->setPermission(AccountList::PERMISSION_GUEST);
         $accountList->setRead($date);
@@ -120,7 +128,7 @@ abstract class AbstractTest extends WebTestCase
 
     protected function createItem($list, $value = 'Milk', $deleted = false)
     {
-        $date = new \DateTime('2012-02-29T12:00:00+02:00');
+        $date = new \DateTime(self::NOW);
         $item = new Item($list);
         $item->setValue($value);
         $item->setDeleted($deleted);
