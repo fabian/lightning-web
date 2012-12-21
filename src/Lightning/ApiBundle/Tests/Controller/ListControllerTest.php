@@ -7,15 +7,13 @@ use Lightning\ApiBundle\Tests\AbstractTest;
 class ListControllerTest extends AbstractTest
 {
     protected $accountList;
-    protected $modified;
 
     public function setUp()
     {
         parent::setUp();
 
         $account = $this->createAccount();
-		
-        $this->modified = new \DateTime('now');
+
         $this->accountList = $this->createList($account);
     }
 
@@ -34,7 +32,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"title":"Groceries","modified":"'.$this->modified->format('Y-m-d\TH:i:sO').'","url":"http:\/\/localhost\/lists\/1"}',
+            '{"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -70,7 +68,7 @@ class ListControllerTest extends AbstractTest
         $this->client->request(
             'PUT',
             '/lists/1',
-            array('title' => 'Todos', 'modified' => $this->modified->format('Y-m-d\TH:i:sO')),
+            array('title' => 'Todos', 'modified' => '2012-05-25T13:00:00+02:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -86,7 +84,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"title":"Todos","modified":"'.$this->modified->format('Y-m-d\TH:i:sO').'","url":"http:\/\/localhost\/lists\/1"}',
+            '{"id":1,"title":"Todos","modified":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/lists\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

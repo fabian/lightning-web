@@ -30,8 +30,7 @@ class AccountControllerTest extends AbstractTest
 
     public function testShow()
     {
-        $expiry = new \DateTime('now');
-        $this->createAccount($expiry);
+        $this->createAccount();
 
         $this->client->request(
             'GET',
@@ -46,7 +45,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"expiry":"'.$expiry->format('Y-m-d\TH:i:sO').'","url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
+            '{"id":1,"expiry":"2012-02-29T12:00:00+0200","url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
