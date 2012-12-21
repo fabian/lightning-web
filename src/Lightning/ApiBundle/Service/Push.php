@@ -24,22 +24,26 @@ class Push
 
     protected $logger;
 
+    protected $calendar;
+
     /**
      * @InjectParams({
      *     "accountListManager" = @Inject("lightning.api_bundle.service.account_list_manager"),
      *     "doctrine" = @Inject("doctrine"),
      *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
      *     "router" = @Inject("router"),
-     *     "logger" = @Inject("logger")
+     *     "logger" = @Inject("logger"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($accountListManager, $doctrine, $airship, $router, $logger)
+    public function __construct($accountListManager, $doctrine, $airship, $router, $logger, $calendar)
     {
         $this->accountListManager = $accountListManager;
         $this->doctrine = $doctrine;
         $this->airship = $airship;
         $this->router = $router;
         $this->logger = $logger;
+        $this->calendar = $calendar;
     }
 
     public function send($accountId, $listId)
@@ -81,7 +85,7 @@ class Push
                     $this->logger->debug('Pushed notification.', array('status' => $response->getStatusCode(), 'reason' => $response->getReasonPhrase()));
                 }
 
-                $accountList->setPushed(new \DateTime());
+                $accountList->setPushed($this->calendar->createDateTime('now'));
             }
         }
 
