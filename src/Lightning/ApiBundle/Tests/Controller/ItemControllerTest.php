@@ -195,20 +195,55 @@ class ItemControllerTest extends AbstractTest
         $this->assertCount(2, $logs);
 
         $log = $logs[0];
-        $this->assertEquals(Log::ACTION_COMPLETED, $log->getAction());
-        $this->assertEquals($item, $log->getItem());
-        $this->assertEquals(null, $log->getOld());
-        $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
-
-        $log = $logs[1];
         $this->assertEquals(Log::ACTION_MODIFIED, $log->getAction());
         $this->assertEquals($item, $log->getItem());
         $this->assertEquals('Milk', $log->getOld());
         $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
 
+        $log = $logs[1];
+        $this->assertEquals(Log::ACTION_COMPLETED, $log->getAction());
+        $this->assertEquals($item, $log->getItem());
+        $this->assertEquals(null, $log->getOld());
+        $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
+
         $response = $this->client->getResponse();
         $this->assertEquals(
             '{"id":1,"value":"Coffee","done":true,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
+            $response->getContent()
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    public function testUpdateOnlyCompleted()
+    {
+        $this->createItem($this->list);
+
+        $this->client->request(
+            'PUT',
+            '/items/1',
+            array('value' => 'Milk', 'done' => '1', 'modified' => '2012-02-29T13:00:00+00:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $logs = $this->em
+            ->getRepository('LightningApiBundle:Log')
+            ->findAll();
+
+        $this->assertCount(1, $logs);
+
+        $log = $logs[0];
+        $this->assertEquals(Log::ACTION_COMPLETED, $log->getAction());
+        $this->assertEquals(null, $log->getOld());
+        $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"id":1,"value":"Milk","done":true,"deleted":false,"url":"http:\/\/localhost\/items\/1"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

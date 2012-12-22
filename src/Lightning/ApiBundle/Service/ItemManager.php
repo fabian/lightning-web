@@ -72,10 +72,12 @@ class ItemManager
         }
 
         // log changes
+        if ($item->getValue() != $value) {
+            $this->history->modified($item, $item->getValue());
+        }
         if (!$item->getDone() && $done) {
             $this->history->completed($item);
         }
-        $this->history->modified($item, $item->getValue());
 
         $item->setValue($value);
         $item->setDone($done);
