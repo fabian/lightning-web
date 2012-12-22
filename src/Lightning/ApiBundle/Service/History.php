@@ -17,18 +17,22 @@ class History
 
     protected $security;
 
+    protected $calendar;
+
     protected $account;
 
     /**
      * @InjectParams({
      *     "doctrine" = @Inject("doctrine"),
-     *     "security" = @Inject("security.context")
+     *     "security" = @Inject("security.context"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct($doctrine, $security)
+    public function __construct($doctrine, $security, $calendar)
     {
         $this->doctrine = $doctrine;
         $this->security = $security;
+        $this->calendar = $calendar;
 
         $id = $this->security->getToken()->getUser()->getUsername();
         $this->account = $this->doctrine
@@ -61,7 +65,7 @@ class History
         $log = new Log($this->account, $item);
         $log->setAction($action);
         $log->setOld($old);
-        $log->setHappened(new \DateTime());
+        $log->setHappened($this->calendar->createDateTime('now'));
 
         $em = $this->doctrine->getManager();
         $em->persist($log);

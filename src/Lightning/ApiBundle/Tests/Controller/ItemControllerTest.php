@@ -3,6 +3,7 @@
 namespace Lightning\ApiBundle\Tests\Controller;
 
 use Lightning\ApiBundle\Tests\AbstractTest;
+use Lightning\ApiBundle\Entity\Log;
 
 class ItemControllerTest extends AbstractTest
 {
@@ -185,7 +186,25 @@ class ItemControllerTest extends AbstractTest
 
         $this->assertEquals('Coffee', $item->getValue());
         $this->assertTrue($item->getDone());
-        $this->assertEquals('2012-02-29 13:00:00', $item->getList()->getModified()->format('Y-m-d H:i:s'));
+        $this->assertEquals('2012-02-29T13:00:00+00:00', $item->getList()->getModified()->format('c'));
+
+        $logs = $this->em
+            ->getRepository('LightningApiBundle:Log')
+            ->findAll();
+
+        $this->assertCount(2, $logs);
+
+        $log = $logs[0];
+        $this->assertEquals(Log::ACTION_COMPLETED, $log->getAction());
+        $this->assertEquals($item, $log->getItem());
+        $this->assertEquals(null, $log->getOld());
+        $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
+
+        $log = $logs[1];
+        $this->assertEquals(Log::ACTION_MODIFIED, $log->getAction());
+        $this->assertEquals($item, $log->getItem());
+        $this->assertEquals('Milk', $log->getOld());
+        $this->assertEquals('2012-02-29T12:00:00+00:00', $log->getHappened()->format('c'));
 
         $response = $this->client->getResponse();
         $this->assertEquals(

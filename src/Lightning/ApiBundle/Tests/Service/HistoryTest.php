@@ -39,7 +39,12 @@ class HistoryTest extends AbstractTest
             ->method('getToken')
             ->will($this->returnValue($token));
 
-        $this->history = new History($doctrine, $security);
+        $calendar = $this->getMock('Lightning\ApiBundle\Service\Calendar');
+        $calendar->expects($this->any())
+            ->method('createDateTime')
+            ->will($this->returnValue(new \DateTime('2012-02-29T12:00:00+0000')));
+
+        $this->history = new History($doctrine, $security, $calendar);
 
         $account = $this->createAccount();
         $list = $this->createList($account)->getList();
