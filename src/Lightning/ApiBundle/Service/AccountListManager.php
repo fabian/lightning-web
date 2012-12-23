@@ -81,11 +81,44 @@ class AccountListManager
         return $accountList;
     }
 
+    protected function checkExpiry($list, $account = null)
+    {
+        foreach ($list->getAccounts() as $accountList) {
+
+            $owner = $accountList->getPermission() == AccountList::PERMISSION_OWNER;
+            $expired = $accountList->getAccount()->getExpiry() < $this->calendar->createDateTime('now');
+
+            if ($owner) {
+
+                if ($account && $accountList->getAccount() == $account) {
+                    // skip account owner check
+                    continue;
+                }
+
+                if ($expired) {
+                    throw new HttpException(402, 'Account expired.');
+                }
+            }
+        }
+    }
+
     public function getLists($accountId)
     {
         $account = $this->accountManager->checkAccount($accountId);
 
-        $lists = $account->getLists();
+        $lists = array();
+        foreach ($account->getLists() as $list) {
+
+            try {
+
+                $this->checkExpiry($list);
+
+                $lists[] = $list;
+
+            } catch (Exception $e) {
+                // list expired, don't show
+            }
+        }
 
         return $lists;
     }
@@ -115,15 +148,7 @@ class AccountListManager
             throw new AccessDeniedHttpException('Invitation ' . $invitation . ' doesn\'t match invitation for list.');
         }
 
-        foreach ($list->getAccounts() as $accountList) {
-
-            $owner = $accountList->getPermission() == AccountList::PERMISSION_OWNER;
-            $expired = $accountList->getAccount()->getExpiry() < $this->calendar->createDateTime('now');
-
-            if ($owner && $expired) {
-                throw new HttpException(402, 'Account expired.');
-            }
-        }
+        $this->checkExpiry($list);
 
         // invitation matched, add guest permission
         $accountList = new AccountList($account, $list);
