@@ -14,7 +14,8 @@ Lightning.App = function () {
     $(document).on('click', 'ul.lists a', $.proxy(this.getList, this));
     $(document).on('click', '.back a', $.proxy(this.loadLists, this));
     $(document).on('click', '#user a', $.proxy(this.logout, this));
-    $(document).on('change', 'ul.items input', $.proxy(this.updateItem, this));
+    $(document).on('change', 'ul.items input.item-edit', $.proxy(this.updateItem, this));
+    $(document).on('change', 'ul.items input.item-new', $.proxy(this.createItem, this));
 
     var token = this.readCookie(Lightning.COOKIE_TOKEN);
     if (token) {
@@ -194,13 +195,14 @@ Lightning.App.prototype.renderList = function (data) {
     this.setLoading(false);
     this.title.text(this.list.text());
     this.container.html(Twig.render(Lightning.templates.list, data));
-};
 
+    this.appendCreateItem();
+};
 
 Lightning.App.prototype.updateItem = function (e) {
 
     var item = $(e.target),
-        url = item.data('href'),
+        url = item.data('url'),
         value = item.val();
 
     $.ajax({
@@ -217,6 +219,56 @@ Lightning.App.prototype.updateItem = function (e) {
     });
 
     return false;
+};
+
+Lightning.App.prototype.createItem = function (e) {
+
+    var item = $(e.target),
+        url = this.list.attr('href'),
+        value = item.val();
+
+    if (value == '') {
+        return false;
+    }
+
+    this.item = item;
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        data: {
+            value: value
+        },
+        headers: {
+            Accept: 'application/json; charset=utf-8',
+            AccessToken: this.token
+        },
+        success: $.proxy(this.updateCreatedItem, this)
+    });
+
+    return false;
+};
+
+Lightning.App.prototype.updateCreatedItem = function (data) {
+
+    var item = this.item;
+
+    item.attr('placeholder', '');
+
+    item.data('url', data.url);
+
+    item.removeClass('item-new');
+    item.addClass('item-edit');
+
+    this.appendCreateItem();
+};
+
+Lightning.App.prototype.appendCreateItem = function () {
+
+    $('ul.items').append('<li><input class="item item-new" placeholder="New entry…" /></li>');
+
+    $('ul.items input.item-new').focus();
 };
 
 $(function () {
