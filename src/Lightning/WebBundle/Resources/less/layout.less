@@ -3,6 +3,12 @@
 @color-blue: #1075b6;
 @padding-body-top: 4em;
 @font-weight: 300;
+@font-family: "Helvetica Neue", Helvetica, sans-serif;
+
+.font {
+    font-family: @font-family;
+    font-weight: @font-weight;
+}
 
 .link-black {
     color: @color-black;
@@ -18,12 +24,12 @@
 }
 
 body {
+    .font;
+
     background-color: @color-white;
     color: @color-black;
     font-size: 1em;
     line-height: 1.6;
-    font-family: "Helvetica Neue", Helvetica, sans-serif;
-    font-weight: @font-weight;
     text-rendering: optimizeLegibility;
     padding: 1em 2em;
 }
@@ -47,7 +53,7 @@ h1 {
         overflow: hidden;
         background-image: url('/bundles/lightningapi/images/back_black.png');
         background-size: 25px 25px;
-    
+
         &:hover {
             background-image: url('/bundles/lightningapi/images/back_blue.png');
         }
@@ -94,6 +100,14 @@ ul {
             display: block;
             padding: 1em 0 1.2em 0;
             .link-black;
+        }
+
+        input.item {
+            .font;
+
+            border: 0;
+            padding: 1em 0 1.2em 0;
+            outline: none;
         }
     }
 }

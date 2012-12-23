@@ -12,9 +12,9 @@ Lightning.App = function () {
     this.title = $('.title');
 
     $(document).on('click', 'ul.lists a', $.proxy(this.getList, this));
-    $(document).on('click', 'ul.items a', function () { return false; });
     $(document).on('click', '.back a', $.proxy(this.loadLists, this));
     $(document).on('click', '#user a', $.proxy(this.logout, this));
+    $(document).on('change', 'ul.items input', $.proxy(this.updateItem, this));
 
     var token = this.readCookie(Lightning.COOKIE_TOKEN);
     if (token) {
@@ -95,17 +95,22 @@ Lightning.App.prototype.writeCookie = function (name, value, days) {
 };
 
 Lightning.App.prototype.readCookie = function (name) {
-    var nameEQ = name + '=';
-    var ca = document.cookie.split(';');
+
+    var nameEQ = name + '=',
+        ca = document.cookie.split(';');
+
     for (var i = 0; i < ca.length; i++) {
+
         var c = ca[i];
         while (c.charAt(0)==' ') {
             c = c.substring(1, c.length);
         }
+
         if (c.indexOf(nameEQ) == 0) {
             return c.substring(nameEQ.length, c.length);
         }
     }
+
     return null;
 };
 
@@ -189,6 +194,29 @@ Lightning.App.prototype.renderList = function (data) {
     this.setLoading(false);
     this.title.text(this.list.text());
     this.container.html(Twig.render(Lightning.templates.list, data));
+};
+
+
+Lightning.App.prototype.updateItem = function (e) {
+
+    var item = $(e.target),
+        url = item.data('href'),
+        value = item.val();
+
+    $.ajax({
+        type: 'PUT',
+        url: url,
+        dataType: 'json',
+        data: {
+            value: value
+        },
+        headers: {
+            Accept: 'application/json; charset=utf-8',
+            AccessToken: this.token
+        }
+    });
+
+    return false;
 };
 
 $(function () {
