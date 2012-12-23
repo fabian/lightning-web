@@ -164,6 +164,16 @@ class AccountListControllerTest extends AbstractTest
     public function testIndex()
     {
         $this->createList($this->account);
+
+        $account = $this->createAccount();
+        $accountList = $this->createList($account);
+        $accountList = $this->createAccountList($this->account, $accountList->getList());
+
+        // expired account
+        $account = $this->createAccount(new \DateTime('2012-01-01T12:00:00+0000'));
+        $accountList = $this->createList($account);
+        $this->createAccountList($this->account, $accountList->getList());
+
         $this->em->clear();
 
         $this->client->request(
@@ -179,7 +189,7 @@ class AccountListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0000","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"}]}',
+            '{"lists":[{"permission":"owner","deleted":false,"id":1,"title":"Groceries","modified":"2012-02-29T12:00:00+0000","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/1","url_items":"http:\/\/localhost\/lists\/1\/items"},{"permission":"guest","deleted":false,"id":2,"title":"Groceries","modified":"2012-02-29T12:00:00+0000","invitation":"Welcome123","url":"http:\/\/localhost\/lists\/2","url_items":"http:\/\/localhost\/lists\/2\/items"}]}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

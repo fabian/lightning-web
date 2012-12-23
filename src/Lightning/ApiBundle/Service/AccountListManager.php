@@ -115,7 +115,7 @@ class AccountListManager
 
                 $lists[] = $list;
 
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 // list expired, don't show
             }
         }
