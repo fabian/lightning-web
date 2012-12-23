@@ -111,7 +111,7 @@ class AccountListManager
 
             try {
 
-                $this->checkExpiry($list);
+                $this->checkExpiry($list->getList(), $account);
 
                 $lists[] = $list;
 
