@@ -4,6 +4,7 @@ namespace Lightning\ApiBundle\Service;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\InjectParams;
@@ -112,6 +113,16 @@ class AccountListManager
 
         if ($list->getInvitation() !== $invitation) {
             throw new AccessDeniedHttpException('Invitation ' . $invitation . ' doesn\'t match invitation for list.');
+        }
+
+        foreach ($list->getAccounts() as $accountList) {
+
+            $owner = $accountList->getPermission() == AccountList::PERMISSION_OWNER;
+            $expired = $accountList->getAccount()->getExpiry() < $this->calendar->createDateTime('now');
+
+            if ($owner && $expired) {
+                throw new HttpException(402, 'Account expired.');
+            }
         }
 
         // invitation matched, add guest permission

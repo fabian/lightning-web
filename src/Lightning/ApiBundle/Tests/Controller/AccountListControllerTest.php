@@ -362,6 +362,32 @@ class AccountListControllerTest extends AbstractTest
         $this->assertEquals(403, $response->getStatusCode());
     }
 
+    public function testJoinExpiredAccount()
+    {
+        $account = $this->createAccount(new \DateTime('2012-01-01T12:00:00+0000'));
+        $this->createList($account);
+        $this->em->clear();
+
+        $this->client->request(
+            'PUT',
+            '/accounts/1/lists/1',
+            array('invitation' => 'Welcome123'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":402,"message":"Account expired."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(402, $response->getStatusCode());
+    }
+
     public function testRead()
     {
         $this->createList($this->account);

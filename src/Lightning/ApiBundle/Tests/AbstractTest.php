@@ -58,7 +58,7 @@ abstract class AbstractTest extends WebTestCase
         $account->setSecret('6607dfa9e28a363016862c8cb03d797c953fa8c7'); // secret 123
         $account->setCreated(new \DateTime(self::NOW));
         $account->setModified(new \DateTime(self::NOW));
-        $account->setExpiry($expiry ?: new \DateTime(self::NOW));
+        $account->setExpiry($expiry ?: new \DateTime('2012-10-01T12:00:00+0000'));
 
         $this->em->persist($account);
         $this->em->flush();
