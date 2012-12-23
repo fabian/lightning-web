@@ -167,7 +167,7 @@ class AccountListControllerTest extends AbstractTest
 
         $account = $this->createAccount();
         $accountList = $this->createList($account);
-        $accountList = $this->createAccountList($this->account, $accountList->getList());
+        $this->createAccountList($this->account, $accountList->getList());
 
         // expired account
         $account = $this->createAccount(new \DateTime('2012-01-01T12:00:00+0000'));
