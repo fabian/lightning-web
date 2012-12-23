@@ -66,13 +66,13 @@ abstract class AbstractTest extends WebTestCase
         return $account;
     }
 
-    protected function createAccessToken($account, $approved = true)
+    protected function createAccessToken($account, $approved = true, $created = null)
     {
         $token = new AccessToken();
         $token->setAccount($account);
         $token->setApproved($approved);
         $token->setChallenge('6789');
-        $token->setCreated(new \DateTime(self::NOW));
+        $token->setCreated($created ?: new \DateTime(self::NOW));
 
         $this->em->persist($token);
         $this->em->flush();

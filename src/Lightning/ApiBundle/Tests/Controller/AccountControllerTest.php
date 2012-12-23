@@ -227,6 +227,27 @@ class AccountControllerTest extends AbstractTest
         $this->assertEquals(403, $response->getStatusCode());
     }
 
+    public function testAccessTokenExpired()
+    {
+        $account = $this->createAccount();
+        $this->createAccessToken($account, true, new \DateTime('2012-01-01T12:00:00+0000'));
+
+        $this->client->request(
+            'GET',
+            '/accounts/1',
+            array(),
+            array(),
+            array(
+                'HTTP_ACCESSTOKEN' => 'http://localhost/accounts/1/access_tokens/1?challenge=6789',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $response = $this->client->getResponse();
+        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($response->getContent()));
+        $this->assertEquals(401, $response->getStatusCode());
+    }
+
     public function testDeviceToken()
     {
         $this->createAccount();

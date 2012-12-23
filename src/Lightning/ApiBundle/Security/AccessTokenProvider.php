@@ -20,16 +20,20 @@ class AccessTokenProvider implements AuthenticationProviderInterface
 
     private $manager;
 
+    private $calendar;
+
     /**
      * @InjectParams({
      *     "userProvider" = @Inject(required = false),
-     *     "manager" = @Inject("lightning.api_bundle.service.authentication_manager")
+     *     "manager" = @Inject("lightning.api_bundle.service.authentication_manager"),
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
      * })
      */
-    public function __construct(UserProviderInterface $userProvider, $manager)
+    public function __construct(UserProviderInterface $userProvider, $manager, $calendar)
     {
         $this->userProvider = $userProvider;
         $this->manager = $manager;
+        $this->calendar = $calendar;
     }
 
     public function authenticate(TokenInterface $token)
@@ -46,10 +50,15 @@ class AccessTokenProvider implements AuthenticationProviderInterface
 
             if ($accessToken) {
 
-                $authenticatedToken = new AccessToken($user->getRoles());
-                $authenticatedToken->setUser($user);
+                $expired = $accessToken->getCreated() < $this->calendar->createDateTime('-1 week');
 
-                return $authenticatedToken;
+                if (!$expired) {
+
+                    $authenticatedToken = new AccessToken($user->getRoles());
+                    $authenticatedToken->setUser($user);
+
+                    return $authenticatedToken;
+                }
             }
         }
 
