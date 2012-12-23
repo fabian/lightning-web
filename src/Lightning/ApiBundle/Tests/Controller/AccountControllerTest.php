@@ -45,7 +45,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"expiry":"2012-02-29T12:00:00+0000","url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
+            '{"id":1,"expiry":"2012-10-01T12:00:00+0000","url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -317,12 +317,15 @@ class AccountControllerTest extends AbstractTest
     {
         $this->createAccount();
 
+        $purchased = new \DateTime('2012-12-31T12:00:00+0000');
+
         $appStore = $this->getMockBuilder('Lightning\ApiBundle\Service\AppStore')
             ->disableOriginalConstructor()
             ->getMock();
         $appStore->expects($this->once())
             ->method('verify')
-            ->with('ABC123');
+            ->with('ABC123')
+            ->will($this->returnValue(array('ch.lightningapp.oneyear', $purchased)));
         static::$kernel->getContainer()->set('lightning.api_bundle.service.app_store', $appStore);
 
         $this->client->request(
@@ -337,6 +340,12 @@ class AccountControllerTest extends AbstractTest
                 'HTTP_ACCEPT' => 'application/json',
             )
         );
+
+        $account = $this->em
+            ->getRepository('LightningApiBundle:Account')
+            ->find(1);
+
+        $this->assertEquals($purchased, $account->getExpiry());
 
         $response = $this->client->getResponse();
         $this->assertEquals('', $response->getContent());

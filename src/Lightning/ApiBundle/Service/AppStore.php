@@ -55,7 +55,6 @@ class AppStore
 
         // ensure the expected data is present
         if (!$data || !isset($data->status) || $data->status !== 0) {
-            var_dump($response);
             throw new \Exception('Invalid receipt: ' . $content);
         }
 

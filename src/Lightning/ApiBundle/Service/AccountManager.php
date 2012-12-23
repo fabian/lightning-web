@@ -16,6 +16,8 @@ use Lightning\ApiBundle\Entity\Account;
  */
 class AccountManager
 {
+    const ID_SUBSCRIPTION_ONE_YEAR = 'ch.lightningapp.oneyear';
+
     protected $random;
 
     protected $doctrine;
@@ -26,22 +28,26 @@ class AccountManager
 
     protected $calendar;
 
+    protected $appStore;
+
     /**
      * @InjectParams({
      *     "random" = @Inject("lightning.api_bundle.service.random"),
      *     "doctrine" = @Inject("doctrine"),
      *     "security" = @Inject("security.context"),
      *     "factory" = @Inject("security.encoder_factory"),
-     *     "calendar" = @Inject("lightning.api_bundle.service.calendar")
+     *     "calendar" = @Inject("lightning.api_bundle.service.calendar"),
+     *     "appStore" = @Inject("lightning.api_bundle.service.app_store")
      * })
      */
-    public function __construct($random, $doctrine, $security, $factory, $calendar)
+    public function __construct($random, $doctrine, $security, $factory, $calendar, $appStore)
     {
         $this->random = $random;
         $this->doctrine = $doctrine;
         $this->security = $security;
         $this->factory = $factory;
         $this->calendar = $calendar;
+        $this->appStore = $appStore;
     }
 
     /**
@@ -90,5 +96,17 @@ class AccountManager
         $em->flush();
 
         return $account;
+    }
+
+    public function updateExpiry($id, $receipt)
+    {
+        $account = $this->checkAccount($id);
+
+        list($id, $purchased) = $this->appStore->verify($receipt);
+
+        if ($id == self::ID_SUBSCRIPTION_ONE_YEAR) {
+
+            $account->setExpiry($purchased);
+        }
     }
 }

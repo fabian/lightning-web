@@ -20,23 +20,19 @@ class AccountController
 
     protected $airship;
 
-    protected $appStore;
-
     protected $router;
 
     /**
      * @InjectParams({
      *     "manager" = @Inject("lightning.api_bundle.service.account_manager"),
      *     "airship" = @Inject("lightning.api_bundle.service.urban_airship"),
-     *     "appStore" = @Inject("lightning.api_bundle.service.app_store"),
      *     "router" = @Inject("router")
      * })
      */
-    public function __construct($manager, $airship, $appStore, $router)
+    public function __construct($manager, $airship, $router)
     {
         $this->manager = $manager;
         $this->airship = $airship;
-        $this->appStore = $appStore;
         $this->router = $router;
     }
 
@@ -94,9 +90,7 @@ class AccountController
      */
     public function receiptAction($id, Request $request)
     {
-        $account = $this->manager->checkAccount($id);
-
-        $this->appStore->verify($request->get('data'));
+        $this->manager->updateExpiry($id, $request->get('data'));
     }
 
     /**
