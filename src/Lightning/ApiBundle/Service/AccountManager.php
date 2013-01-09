@@ -77,6 +77,7 @@ class AccountManager
         $account = new Account();
         $account->setCreated($this->calendar->createDateTime('now'));
         $account->setModified($this->calendar->createDateTime('now'));
+        $account->setExpiry($this->calendar->createDateTime('2020-01-01 00:00:00'));
 
         // generate access code
         $account->setCode($this->random->code());

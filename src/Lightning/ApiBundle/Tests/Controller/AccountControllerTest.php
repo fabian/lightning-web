@@ -21,7 +21,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"id":1,"url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","account":"http:\/\/localhost\/accounts\/1?secret=123","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
+            '{"id":1,"expiry":"2012-02-29T12:00:00+0000","url":"http:\/\/localhost\/accounts\/1","short_url":"http:\/\/localhost\/1\/abc","account":"http:\/\/localhost\/accounts\/1?secret=123","lists_url":"http:\/\/localhost\/accounts\/1\/lists"}',
             $response->getContent()
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
