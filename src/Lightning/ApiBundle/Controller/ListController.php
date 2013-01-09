@@ -14,7 +14,7 @@ use Lightning\ApiBundle\Entity\AccountList;
 use Lightning\ApiBundle\Entity\ItemList;
 
 /**
- * Controller items.
+ * Controller for lists.
  */
 class ListController
 {
