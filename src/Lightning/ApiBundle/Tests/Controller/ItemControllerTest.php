@@ -351,7 +351,7 @@ class ItemControllerTest extends AbstractTest
         $this->client->request(
             'DELETE',
             '/items/1',
-            array(),
+            array('modified' => '2012-02-29T13:00:00+00:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -378,7 +378,7 @@ class ItemControllerTest extends AbstractTest
         $this->client->request(
             'DELETE',
             '/items/999',
-            array(),
+            array('modified' => '2012-02-29T13:00:00+00:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
@@ -409,7 +409,7 @@ class ItemControllerTest extends AbstractTest
         $this->client->request(
             'DELETE',
             '/items/1',
-            array(),
+            array('modified' => '2012-02-29T13:00:00+00:00'),
             array(),
             array(
                 'HTTP_ACCOUNT' => 'http://localhost/accounts/2?secret=123',

@@ -64,12 +64,8 @@ class ItemManager
 
     public function updateItem($itemId, $modified, $value, $done)
     {
-        $item = $this->checkItem($itemId);
-
-        $modified = new \DateTime($modified);
-        if ($modified < $item->getModified()) {
-            throw new HttpException(409, 'Conflict, list has later modification.');
-        }
+        $item = $this->checkItem($itemId, $modified);
+        $modified = $this->checkConflict($item, $modified);
 
         // log changes
         if ($item->getValue() != $value) {
@@ -89,13 +85,17 @@ class ItemManager
         return $item;
     }
 
-    public function deleteItem($itemId)
+    public function deleteItem($itemId, $modified)
     {
-        $item = $this->checkItem($itemId);
+        $item = $this->checkItem($itemId, $modified);
+        $modified = $this->checkConflict($item, $modified);
 
         $this->history->deleted($item);
 
         $item->setDeleted(true);
+
+        $item->setModified($modified);
+        $item->getList()->setModified($modified);
 
         $em = $this->doctrine->getManager();
         $em->flush();
@@ -110,6 +110,16 @@ class ItemManager
             ->findBy(array('list' => $list->getId(), 'deleted' => false));
 
         return $items;
+    }
+
+    public function checkConflict($item, $modified)
+    {
+        $modified = new \DateTime($modified);
+        if ($modified < $item->getModified()) {
+            throw new HttpException(409, 'Conflict, list has later modification.');
+        }
+
+        return $modified;
     }
 
     /**

@@ -106,7 +106,9 @@ class ItemController
      */
     public function deleteAction($id, Request $request)
     {
-        $this->manager->deleteItem($id);
+        $modified = $request->get('modified');
+
+        $this->manager->deleteItem($id, $modified);
     }
 
     /**
