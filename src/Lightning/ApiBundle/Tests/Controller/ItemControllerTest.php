@@ -372,6 +372,36 @@ class ItemControllerTest extends AbstractTest
         $this->assertEquals(204, $response->getStatusCode());
     }
 
+    public function testDeleteConflict()
+    {
+        $this->createItem($this->list);
+
+        $this->client->request(
+            'DELETE',
+            '/items/1',
+            array('modified' => '2012-02-01T12:00:00+02:00'),
+            array(),
+            array(
+                'HTTP_ACCOUNT' => 'http://localhost/accounts/1?secret=123',
+                'HTTP_ACCEPT' => 'application/json',
+            )
+        );
+
+        $item = $this->em
+            ->getRepository('LightningApiBundle:Item')
+            ->find(1);
+
+        $this->assertFalse($item->getDeleted());
+
+        $response = $this->client->getResponse();
+        $this->assertEquals(
+            '{"error":{"code":409,"message":"Conflict, list has later modification."}}',
+            trim($response->getContent())
+        );
+        $this->assertEquals('application/json', $response->headers->get('Content-Type'));
+        $this->assertEquals(409, $response->getStatusCode());
+    }
+
     public function testDeleteWrongId()
     {
         $this->createItem($this->list);
