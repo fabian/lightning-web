@@ -186,6 +186,7 @@ class ItemControllerTest extends AbstractTest
 
         $this->assertEquals('Coffee', $item->getValue());
         $this->assertTrue($item->getDone());
+        $this->assertEquals('2012-02-29T13:00:00+00:00', $item->getModified()->format('c'));
         $this->assertEquals('2012-02-29T13:00:00+00:00', $item->getList()->getModified()->format('c'));
 
         $logs = $this->em
