@@ -10,7 +10,6 @@ First checkout source code and install the required dependencies:
 
 ```
 git clone git://github.com/fabian/lightning-web.git lightning-web
-curl -s http://getcomposer.org/installer | php
 php composer.phar install --dev
 ```
 
