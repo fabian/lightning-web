@@ -18,6 +18,3 @@ notifications:
       - http://lightning.farnsworth.ch/deploy.php
     on_success: always
     on_failure: never
-
-after_success:
-  - curl -sL https://bit.ly/artifact-uploader | php
