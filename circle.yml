@@ -1,0 +1,15 @@
+machine:
+  post:
+    - apt-get install php5-xsl
+
+dependencies:
+  post:
+    - php composer.phar install --dev --prefer-source
+
+database:
+  post:
+    - mysql -e 'CREATE DATABASE lightning_test;'
+
+test:
+  override:
+    - vendor/bin/phpunit -c app/
