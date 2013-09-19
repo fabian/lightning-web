@@ -12,7 +12,7 @@ class WebController
     /**
      * @Route("/")
      * @Method("GET")
-     * @Template()
+     * @View()
      */
     public function indexAction()
     {

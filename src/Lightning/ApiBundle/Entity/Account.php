@@ -5,7 +5,7 @@ namespace Lightning\ApiBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
-use JMS\SerializerBundle\Annotation\Exclude;
+use JMS\Serializer\Annotation\Exclude;
 
 /**
  * Lightning\ApiBundle\Entity\Account

@@ -26,10 +26,14 @@ jms_di_extra:
 
 fos_rest:
     view:
+        view_response_listener: force
         formats:
             json: true
             xml: true
             rss: false
+    exception:
+        messages:
+            'Symfony\Component\HttpKernel\Exception\HttpException': true
 
 lightning_api:
     urbanairship_key: %urbanairship_key%
@@ -40,6 +44,7 @@ lightning_api:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 # Assetic Configuration
 assetic:
