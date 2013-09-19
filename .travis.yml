@@ -5,7 +5,7 @@ php:
 
 before_script:
   - mysql -e 'CREATE DATABASE lightning_test;'
-  - php composer.phar install --dev --prefer-source
+  - php composer.phar install --prefer-source
 
 script:
   - vendor/bin/phpunit -c app/ --coverage-text
