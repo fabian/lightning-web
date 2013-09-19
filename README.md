@@ -39,10 +39,3 @@ Make sure to follow the [PSR-2 coding guidelines](https://github.com/php-fig/fig
 ```
 vendor/bin/phpcs --standard=PSR2 src/
 ```
-
-For generating the API documentation execute:
-
-```
-vendor/bin/phpdoc.php -d src/ --template data/templates/responsive/ --title "Lightning API" -i Tests/ -t docs/
-open docs/index.html
-```
