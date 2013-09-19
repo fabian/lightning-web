@@ -1,5 +1,6 @@
 tools:
-  php_analyzer: true
-
-filter:
-    paths: [src/*]
+    php_analyzer: true
+    php_code_coverage:
+        test_command: vendor/bin/phpunit -c app/
+    php_loc:
+        excluded_dirs: [vendor]
