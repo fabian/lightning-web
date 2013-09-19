@@ -31,6 +31,8 @@ fos_rest:
             json: true
             xml: true
             rss: false
+    format_listener:
+        fallback_format: json
     exception:
         messages:
             'Symfony\Component\HttpKernel\Exception\HttpException': true
