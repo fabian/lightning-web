@@ -137,7 +137,7 @@ class AccessTokenControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":404,"message":"No token found for id 2."}}',
+            '{"status":"error","status_code":404,"status_text":"Not Found","current_content":"","message":"No token found for id 2."}',
             trim($response->getContent())
         );
         $this->assertEquals(404, $response->getStatusCode());

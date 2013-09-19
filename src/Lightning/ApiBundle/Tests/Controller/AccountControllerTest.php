@@ -68,7 +68,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":401,"message":"Account header not found."}}',
+            '{"status":"error","status_code":401,"status_text":"Unauthorized","current_content":"","message":"Account header not found."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -92,7 +92,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Account header authentication failed."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Account header authentication failed."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -117,7 +117,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Account 2 doesn\'t match authenticated account."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -223,7 +223,7 @@ class AccountControllerTest extends AbstractTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}', trim($response->getContent()));
+        $this->assertEquals('{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Account 2 doesn\'t match authenticated account."}', trim($response->getContent()));
         $this->assertEquals(403, $response->getStatusCode());
     }
 
@@ -244,7 +244,7 @@ class AccountControllerTest extends AbstractTest
         );
 
         $response = $this->client->getResponse();
-        $this->assertEquals('{"error":{"code":401,"message":"Account header not found."}}', trim($response->getContent()));
+        $this->assertEquals('{"status":"error","status_code":401,"status_text":"Unauthorized","current_content":"","message":"Account header not found."}', trim($response->getContent()));
         $this->assertEquals(401, $response->getStatusCode());
     }
 
@@ -302,7 +302,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":500,"message":"Internal error"}}',
+            '{"status":"error","status_code":500,"status_text":"Internal Server Error","current_content":"","message":""}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -327,7 +327,7 @@ class AccountControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Account 2 doesn\'t match authenticated account."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Account 2 doesn\'t match authenticated account."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));

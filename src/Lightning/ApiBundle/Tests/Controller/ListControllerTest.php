@@ -56,7 +56,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Authenticated account 2 has no access to list."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Authenticated account 2 has no access to list."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -108,7 +108,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Authenticated account 2 has no access to list."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Authenticated account 2 has no access to list."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -133,7 +133,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Authenticated account 2 is not owner of list."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Authenticated account 2 is not owner of list."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -158,7 +158,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":409,"message":"Conflict, list has later modification."}}',
+            '{"status":"error","status_code":409,"status_text":"Conflict","current_content":"","message":"Conflict, list has later modification."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -211,7 +211,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Authenticated account 2 has no access to list."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Authenticated account 2 has no access to list."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
@@ -236,7 +236,7 @@ class ListControllerTest extends AbstractTest
 
         $response = $this->client->getResponse();
         $this->assertEquals(
-            '{"error":{"code":403,"message":"Authenticated account 2 is not owner of list."}}',
+            '{"status":"error","status_code":403,"status_text":"Forbidden","current_content":"","message":"Authenticated account 2 is not owner of list."}',
             trim($response->getContent())
         );
         $this->assertEquals('application/json', $response->headers->get('Content-Type'));
