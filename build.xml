@@ -33,4 +33,8 @@
             <arg name="env" value="${symfony.env}" />
         </SymfonyConsole>
     </target>
+
+    <target name="server">
+        <SymfonyConsole command="server:run" />
+    </target>
 </project>
