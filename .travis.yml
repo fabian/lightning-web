@@ -13,10 +13,3 @@ script:
 
 after_failure:
   - cat app/logs/test.log
-
-notifications:
-  webhooks:
-    urls:
-      - http://lightning.farnsworth.ch/deploy.php
-    on_success: always
-    on_failure: never
