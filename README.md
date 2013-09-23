@@ -10,7 +10,9 @@ First checkout source code and install the required dependencies:
 
 ```
 git clone git://github.com/fabian/lightning-web.git lightning-web
+cp app/config/parameters.yml.dist app/config/parameters.yml
 php composer.phar install --dev
+vendor/bin/phing setup
 ```
 
 Then create the database and the tables:
