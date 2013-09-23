@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a3127de68d4611333c8065d6e13596d2",
+    "hash": "928a63ef5594cfe477b73f71897dd4eb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1559,12 +1559,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leafo/lessphp.git",
-                "reference": "887e3c3593122931647bd3e8fad78d932b7b80e0"
+                "reference": "6eee2d0f0dd49a288e17a2e7e6ea71ccc026042a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leafo/lessphp/zipball/887e3c3593122931647bd3e8fad78d932b7b80e0",
-                "reference": "887e3c3593122931647bd3e8fad78d932b7b80e0",
+                "url": "https://api.github.com/repos/leafo/lessphp/zipball/6eee2d0f0dd49a288e17a2e7e6ea71ccc026042a",
+                "reference": "6eee2d0f0dd49a288e17a2e7e6ea71ccc026042a",
                 "shasum": ""
             },
             "type": "library",
@@ -1592,7 +1592,7 @@
             ],
             "description": "lessphp is a compiler for LESS written in PHP.",
             "homepage": "http://leafo.net/lessphp/",
-            "time": "2013-09-19 18:36:39"
+            "time": "2013-09-20 21:39:29"
         },
         {
             "name": "monolog/monolog",
@@ -1655,6 +1655,58 @@
                 "psr-3"
             ],
             "time": "2013-07-28 22:38:30"
+        },
+        {
+            "name": "phing/phing",
+            "version": "2.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phingofficial/phing.git",
+                "reference": "3f7d71bf561bafea39087250f777b349438cc32e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phingofficial/phing/zipball/3f7d71bf561bafea39087250f777b349438cc32e",
+                "reference": "3f7d71bf561bafea39087250f777b349438cc32e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "bin": [
+                "bin/phing"
+            ],
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "classes/phing/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "include-path": [
+                "classes"
+            ],
+            "license": [
+                "LGPL3"
+            ],
+            "authors": [
+                {
+                    "name": "Michiel Rook",
+                    "email": "mrook@php.net"
+                },
+                {
+                    "name": "Phing Community",
+                    "homepage": "http://www.phing.info/trac/wiki/Development/Contributors"
+                }
+            ],
+            "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
+            "homepage": "http://www.phing.info/",
+            "keywords": [
+                "build",
+                "task",
+                "tool"
+            ],
+            "time": "2013-08-26 21:13:03"
         },
         {
             "name": "phpcollection/phpcollection",
@@ -1941,12 +1993,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonatajQueryBundle.git",
-                "reference": "53824cb936041e55401de587879628b0c4f46d9b"
+                "reference": "2f0e2be2ac090365abeabf3ed08ca820df465828"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonatajQueryBundle/zipball/53824cb936041e55401de587879628b0c4f46d9b",
-                "reference": "53824cb936041e55401de587879628b0c4f46d9b",
+                "url": "https://api.github.com/repos/sonata-project/SonatajQueryBundle/zipball/2f0e2be2ac090365abeabf3ed08ca820df465828",
+                "reference": "2f0e2be2ac090365abeabf3ed08ca820df465828",
                 "shasum": ""
             },
             "require": {
@@ -1990,7 +2042,7 @@
                 "jquery",
                 "sonata"
             ],
-            "time": "2013-09-14 14:42:01"
+            "time": "2013-09-20 09:56:31"
         },
         {
             "name": "swiftmailer/swiftmailer",

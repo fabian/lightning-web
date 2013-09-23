@@ -26,7 +26,8 @@
         "doctrine/migrations": "dev-master",
         "kriswallsmith/buzz": "dev-master",
         "jms/twig-js-bundle": "dev-master",
-        "jms/twig-js": "dev-master"
+        "jms/twig-js": "dev-master",
+        "phing/phing": "2.6.*"
     },
     "scripts": {
         "post-install-cmd": [
