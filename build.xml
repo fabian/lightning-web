@@ -3,16 +3,21 @@
 
     <property name="dir.app" value="${project.basedir}/app" />
     <property name="dir.src" value="${project.basedir}/src" />
+    <property name="symfony.env" value="dev" />
 
     <fileset id="sourcecode" dir="${dir.src}">
         <include name="**/*.php" />
     </fileset>
 
-    <target name="setup">
+    <target name="install-dependencies">
         <composer command="install">
             <arg value="--prefer-source" />
             <arg value="--no-interaction" />
         </composer>
+    </target>
+
+    <target name="setup">
+        <copy file="app/config/parameters.yml.dist" tofile="app/config/parameters.yml" overwrite="false" />
     </target>
 
     <target name="test" description="Executes unit tests.">
@@ -20,5 +25,11 @@
             <arg value="-c" />
             <arg value="${dir.app}" />
         </exec>
+    </target>
+
+    <target name="cc" description="Clear caches.">
+        <SymfonyConsole command="cache:clear">
+            <arg name="env" value="${symfony.env}" />
+        </SymfonyConsole>
     </target>
 </project>
