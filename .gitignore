@@ -11,3 +11,5 @@ data/
 docs/
 vendor
 bin
+
+/app/config/parameters.yml
