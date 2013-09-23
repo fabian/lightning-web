@@ -2,7 +2,6 @@
 
 namespace Lightning\ApiBundle\Tests\Service;
 
-use JMS\DiExtraBundle\Annotation\Service;
 use Lightning\ApiBundle\Service\Calendar;
 
 class CalendarTest extends \PHPUnit_Framework_TestCase

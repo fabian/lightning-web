@@ -2,7 +2,6 @@
 
 namespace Lightning\ApiBundle\Tests\Service;
 
-use JMS\DiExtraBundle\Annotation\Service;
 use Lightning\ApiBundle\Service\Random;
 
 class RandomTest extends \PHPUnit_Framework_TestCase

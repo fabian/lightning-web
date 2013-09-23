@@ -5,7 +5,6 @@ namespace Lightning\ApiBundle\Tests\Service;
 use Buzz\Client\ClientInterface;
 use Buzz\Message\Request;
 use Buzz\Message\Response;
-use JMS\DiExtraBundle\Annotation\Service;
 use Lightning\ApiBundle\Service\History;
 use Lightning\ApiBundle\Entity\Log;
 use Lightning\ApiBundle\Tests\AbstractTest;
