@@ -11,6 +11,9 @@ script:
   - vendor/bin/phpunit -c app/ --coverage-text
   - vendor/bin/phpcs --standard=PSR2 -n src/
 
+after_failure:
+  - cat app/logs/test.log
+
 notifications:
   webhooks:
     urls:
