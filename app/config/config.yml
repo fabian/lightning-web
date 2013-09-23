@@ -32,6 +32,7 @@ fos_rest:
             xml: true
             rss: false
     format_listener:
+        default_priorities: [json, html, '*/*']
         fallback_format: json
     exception:
         messages:
