@@ -18,6 +18,7 @@
 
     <target name="setup">
         <copy file="app/config/parameters.yml.dist" tofile="app/config/parameters.yml" overwrite="false" />
+        <copy file="web/.htaccess.dist" tofile="web/.htaccess" overwrite="false" />
     </target>
 
     <target name="test" description="Executes unit tests.">

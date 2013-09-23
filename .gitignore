@@ -13,3 +13,4 @@ vendor
 bin
 
 /app/config/parameters.yml
+/web/.htaccess
