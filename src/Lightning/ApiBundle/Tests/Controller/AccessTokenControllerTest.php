@@ -24,9 +24,7 @@ class AccessTokenControllerTest extends AbstractTest
     {
         $this->createAccount();
 
-        $random = $this->getMockBuilder('Lightning\ApiBundle\Service\Random')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $random = $this->getMock('Lightning\ApiBundle\Service\Random');
         $random->expects($this->any())
             ->method('challenge')
             ->will($this->returnValue('9876'));
