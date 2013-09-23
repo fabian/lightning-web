@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Lightning" basedir="." default="setup">
+
+    <property name="dir.app" value="${project.basedir}/app" />
+    <property name="dir.src" value="${project.basedir}/src" />
+
+    <fileset id="sourcecode" dir="${dir.src}">
+        <include name="**/*.php" />
+    </fileset>
+
+    <target name="setup">
+        <composer command="install">
+            <arg value="--prefer-source" />
+            <arg value="--no-interaction" />
+        </composer>
+    </target>
+
+    <target name="test" description="Executes unit tests.">
+        <exec executable="vendor/bin/phpunit" passthru="true" checkreturn="true">
+            <arg value="-c" />
+            <arg value="${dir.app}" />
+        </exec>
+    </target>
+</project>
